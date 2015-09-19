@@ -52,6 +52,7 @@
                 android:maxLines="1"
                 android:text="肯德基"
                 android:textColor="@color/black_color"
+                android:textStyle="bold"
                 android:textSize="18sp" />
 
             <TextView
@@ -73,8 +74,7 @@
             android:paddingBottom="5dip"
             android:paddingTop="5dip"
             android:text="20元代金券一张，可叠加.20元代金券一张，可叠加20元代金券可叠加20元代金可叠加20元代金券可叠加20元代金可叠加20元代金券可叠加20元代金"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
