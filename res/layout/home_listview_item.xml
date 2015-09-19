@@ -14,13 +14,14 @@
         android:paddingLeft="10dip"
         android:text="热门商品"
         android:textColor="@color/black_color"
+        android:textStyle="bold"
         android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/tag_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dip"
+        android:paddingTop="7dip"
         android:orientation="vertical" >
 
         <View

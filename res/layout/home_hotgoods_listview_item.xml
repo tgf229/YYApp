@@ -36,7 +36,7 @@
         android:layout_toRightOf="@id/img_layout"
         android:orientation="vertical"
         android:paddingLeft="9dip"
-        android:paddingTop="5dip" >
+        android:paddingTop="7dip" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +52,6 @@
                 android:maxLines="1"
                 android:text="肯德基"
                 android:textColor="@color/black_color"
-                android:textStyle="bold"
                 android:textSize="18sp" />
 
             <TextView

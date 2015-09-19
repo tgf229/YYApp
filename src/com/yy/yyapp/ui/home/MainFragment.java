@@ -25,17 +25,22 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yy.yyapp.R;
+import com.yy.yyapp.bean.home.HomeIconBean;
+import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.bean.home.HotGoods;
-import com.yy.yyapp.bean.home.LoopHomeBean;
+import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.home.adapter.FreshNewsAdapter;
-import com.yy.yyapp.ui.home.adapter.HomeImagePagerAdapter;
+import com.yy.yyapp.ui.home.adapter.HomeBannerPagerAdapter;
+import com.yy.yyapp.ui.home.adapter.HomeIconPagerAdapter;
+import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.view.MyImageView;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -66,19 +71,30 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
      * 滑动的图片
      */
     private ViewPager banner_Pager;
+
+    private ViewPager icon_Pager;
     
     /**
      * 广告位的默认图片
      */
     private MyImageView default_img;
     
-    private ArrayList<LoopHomeBean> businessPlans;
+    private LinearLayout icon_default_img;
     
-    private HomeImagePagerAdapter circleImagePagerAdapter;
+    private ArrayList<HomeBannerBean> bannerList;
+    
+    private ArrayList<HomeIconBean> iconList = new ArrayList<HomeIconBean>();
+    private ArrayList<HomeIconPageBean> iconPageList;
+    
+    private HomeBannerPagerAdapter homeBannerPagerAdapter;
+    
+    private HomeIconPagerAdapter homeIconPagerAdapter;
     
     private CirclePageIndicator banner_indicator;
     
-    private List<Map<String, List<HotGoods>>> freshNewsList = new ArrayList<Map<String,List<HotGoods>>>();
+    private CirclePageIndicator icon_indicator;
+    
+    private List<Map<String, List<HotGoods>>> freshNewsList = new ArrayList<Map<String, List<HotGoods>>>();
     
     private FreshNewsAdapter freshNewsAdapter;
     
@@ -93,6 +109,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
      */
     private final int SKIP_TIME = 5 * 1000;
     
+    private View footView;
+    
     private Handler handler = new Handler()
     {
         @Override
@@ -101,8 +119,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             if (msg.what == 0)
             {
                 int postion = banner_Pager.getCurrentItem() + 1;
-                if (null != businessPlans && businessPlans.size() > 0)
-                    banner_Pager.setCurrentItem(postion % businessPlans.size(), true);
+                if (null != bannerList && bannerList.size() > 0)
+                    banner_Pager.setCurrentItem(postion % bannerList.size(), true);
                 handler.sendEmptyMessageDelayed(0, SKIP_TIME);
             }
         }
@@ -130,10 +148,11 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             @Override
             public void run()
             {
+                showBanner();
+                showIcon();
                 showTagContent();
             }
         }, 2000);
-        
     }
     
     private void init()
@@ -151,33 +170,26 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         banner_Pager.setVisibility(View.VISIBLE);
         default_img = (MyImageView)listview_head.findViewById(R.id.default_load_img);
         default_img.setVisibility(View.VISIBLE);
-        businessPlans = new ArrayList<LoopHomeBean>();
-        circleImagePagerAdapter = new HomeImagePagerAdapter(getActivity(), businessPlans);
-        banner_Pager.setAdapter(circleImagePagerAdapter);
+        bannerList = new ArrayList<HomeBannerBean>();
+        homeBannerPagerAdapter = new HomeBannerPagerAdapter(getActivity(), bannerList);
+        banner_Pager.setAdapter(homeBannerPagerAdapter);
         banner_indicator = (CirclePageIndicator)listview_head.findViewById(R.id.circleindicator);
         banner_indicator.setViewPager(banner_Pager);
         handler.sendEmptyMessageDelayed(0, SKIP_TIME);
         
-        icon1 = (Button)listview_head.findViewById(R.id.icon1);
-        icon1.setOnClickListener(this);
-        icon2 = (Button)listview_head.findViewById(R.id.icon2);
-        icon2.setOnClickListener(this);
-        icon3 = (Button)listview_head.findViewById(R.id.icon3);
-        icon3.setOnClickListener(this);
-        icon4 = (Button)listview_head.findViewById(R.id.icon4);
-        icon4.setOnClickListener(this);
-        icon5 = (Button)listview_head.findViewById(R.id.icon5);
-        icon5.setOnClickListener(this);
-        icon6 = (Button)listview_head.findViewById(R.id.icon6);
-        icon6.setOnClickListener(this);
-        icon7 = (Button)listview_head.findViewById(R.id.icon7);
-        icon7.setOnClickListener(this);
-        icon8 = (Button)listview_head.findViewById(R.id.icon8);
-        icon8.setOnClickListener(this);
+        icon_Pager = (ViewPager)listview_head.findViewById(R.id.icon_circlepager);
+        icon_Pager.setVisibility(View.VISIBLE);
+        icon_default_img = (LinearLayout)listview_head.findViewById(R.id.icon_default_load_img);
+        icon_default_img.setVisibility(View.VISIBLE);
+        iconPageList = new ArrayList<HomeIconPageBean>();
+        homeIconPagerAdapter = new HomeIconPagerAdapter(getActivity(), iconPageList);
+        icon_Pager.setAdapter(homeIconPagerAdapter);
+        icon_indicator = (CirclePageIndicator)listview_head.findViewById(R.id.icon_circleindicator);
+        icon_indicator.setViewPager(icon_Pager);
         
         for (String str : homeTag)
         {
-            HashMap<String, List<HotGoods>> map = new HashMap<String,List<HotGoods>>();
+            HashMap<String, List<HotGoods>> map = new HashMap<String, List<HotGoods>>();
             map.put(str, null);
             freshNewsList.add(map);
         }
@@ -188,9 +200,103 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         freshNewsListView.setAdapter(freshNewsAdapter);
         //解决listview和scrollview抢焦点问题
         //                freshNewsListView2.setFocusable(false);
+        
+        footView = LayoutInflater.from(getActivity()).inflate(R.layout.end_tips_layout, null);
+        footView.setVisibility(View.VISIBLE);
+        freshNewsListView.addFooterView(footView);
     }
     
-    public void showTagContent()
+    private void showBanner()
+    {
+        bannerList.clear();
+        
+        HomeBannerBean b = new HomeBannerBean();
+        b.setId("1");
+        b.setName("a");
+        b.setDesc("AA");
+        b.setImageUrl("http://img.zcool.cn/community/01a87a5530a8cd0000003cceec7ce8.jpg");
+        bannerList.add(b);
+        HomeBannerBean b1 = new HomeBannerBean();
+        b1.setId("1");
+        b1.setName("a");
+        b1.setDesc("AA");
+        b1.setImageUrl("http://img.zcool.cn/community/01d2055530a8db0000003cce2db55e.jpg");
+        bannerList.add(b1);
+        
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = width * 200 / 640;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+        banner_Pager.setLayoutParams(params);
+        
+        banner_indicator.setVisibility(View.VISIBLE);
+        banner_Pager.setVisibility(View.VISIBLE);
+        default_img.setVisibility(View.GONE);
+        
+        homeBannerPagerAdapter.notifyDataSetChanged();
+        banner_Pager.setCurrentItem(0);
+        banner_indicator.notifyDataSetChanged();
+    }
+    
+    private void showIcon()
+    {
+        iconPageList.clear();
+        
+        HomeIconBean icon1 = new HomeIconBean();
+        icon1.setName("测试按钮");
+        HomeIconBean icon2 = new HomeIconBean();
+        icon2.setName("测试按钮");
+        HomeIconBean icon3 = new HomeIconBean();
+        icon3.setName("测试按钮");
+        HomeIconBean icon4 = new HomeIconBean();
+        icon4.setName("测试按钮");
+        HomeIconBean icon5 = new HomeIconBean();
+        icon5.setName("测试按钮");
+        HomeIconBean icon6 = new HomeIconBean();
+        icon6.setName("测试按钮");
+        HomeIconBean icon7 = new HomeIconBean();
+        icon7.setName("测试按钮");
+        HomeIconBean icon8 = new HomeIconBean();
+        icon8.setName("测试按钮");
+        HomeIconBean icon9 = new HomeIconBean();
+        icon9.setName("测试按钮");
+        iconList.add(icon9);
+        iconList.add(icon8);
+        iconList.add(icon7);
+        iconList.add(icon6);
+        iconList.add(icon5);
+        iconList.add(icon4);
+        iconList.add(icon1);
+        iconList.add(icon2);
+        iconList.add(icon3);
+        
+        if(GeneralUtils.isNotNullOrZeroSize(iconList))
+        {
+            int size = iconList.size();
+            int page = (size-1)/8 + 1;
+            for(int i=0; i<page; i++)
+            {
+                HomeIconPageBean pageBean = new HomeIconPageBean();
+                pageBean.setList(iconList.subList(i*8, size>(i+1)*8 ? (i+1)*8:size));
+                iconPageList.add(pageBean);
+            }
+        }
+        
+        int width = getResources().getDisplayMetrics().widthPixels;
+//        int height = width * 300 / 640;
+        int height = icon_default_img.getHeight();
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
+        icon_Pager.setLayoutParams(params);
+        
+        icon_indicator.setVisibility(View.VISIBLE);
+        icon_Pager.setVisibility(View.VISIBLE);
+        icon_default_img.setVisibility(View.GONE);
+        
+        homeIconPagerAdapter.notifyDataSetChanged();
+        icon_Pager.setCurrentItem(0);
+        icon_indicator.notifyDataSetChanged();
+    }
+
+    private void showTagContent()
     {
         freshNewsList.clear();
         
@@ -218,7 +324,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         
         for (String str : homeTag)
         {
-            HashMap<String, List<HotGoods>> map = new HashMap<String,List<HotGoods>>();
+            HashMap<String, List<HotGoods>> map = new HashMap<String, List<HotGoods>>();
             map.put(str, list);
             freshNewsList.add(map);
         }
@@ -226,14 +332,14 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         freshNewsAdapter.notifyDataSetChanged();
         
         //待删除
-        handler.postDelayed(new Runnable()
+        handler1.postDelayed(new Runnable()
         {
             @Override
             public void run()
             {
-                mPullToRefreshView.onHeaderRefreshComplete();                
+                mPullToRefreshView.onHeaderRefreshComplete();
             }
-        }, 3000);
+        }, 2000);
         
     }
     

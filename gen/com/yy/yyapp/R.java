@@ -435,26 +435,25 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int icon7=0x7f020017;
         public static final int icon8=0x7f020018;
         public static final int line_grey=0x7f020019;
-        public static final int select_down=0x7f02001a;
+        public static final int loading_welcome=0x7f02001a;
         public static final int start_logo=0x7f02001b;
-        public static final int test2=0x7f02001c;
-        public static final int test3=0x7f02001d;
-        public static final int vpi__tab_indicator=0x7f02001e;
-        public static final int vpi__tab_selected_focused_holo=0x7f02001f;
-        public static final int vpi__tab_selected_holo=0x7f020020;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020021;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020022;
-        public static final int vpi__tab_unselected_holo=0x7f020023;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f020024;
+        public static final int test3=0x7f02001c;
+        public static final int vpi__tab_indicator=0x7f02001d;
+        public static final int vpi__tab_selected_focused_holo=0x7f02001e;
+        public static final int vpi__tab_selected_holo=0x7f02001f;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020020;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020021;
+        public static final int vpi__tab_unselected_holo=0x7f020022;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020023;
     }
     public static final class id {
-        public static final int action_settings=0x7f040032;
+        public static final int action_settings=0x7f040036;
         public static final int bottom=0x7f040003;
         public static final int circleindicator=0x7f040018;
         public static final int circlepager=0x7f040017;
         public static final int content=0x7f040005;
         public static final int default_load_img=0x7f040016;
-        public static final int distance=0x7f040024;
+        public static final int distance=0x7f040027;
         public static final int fresh_news_listview=0x7f040015;
         public static final int home_main_pull_refresh_view=0x7f040014;
         public static final int home_tabbar_business=0x7f04000c;
@@ -469,31 +468,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int home_tabbar_user=0x7f04000f;
         public static final int home_tabbar_user_img=0x7f040010;
         public static final int home_tabbar_user_txt=0x7f040011;
-        public static final int icon1=0x7f040019;
-        public static final int icon2=0x7f04001a;
-        public static final int icon3=0x7f04001b;
-        public static final int icon4=0x7f04001c;
-        public static final int icon5=0x7f04001d;
-        public static final int icon6=0x7f04001e;
-        public static final int icon7=0x7f04001f;
-        public static final int icon8=0x7f040020;
-        public static final int img=0x7f040022;
-        public static final int img_layout=0x7f040021;
-        public static final int iv_banner=0x7f04002a;
-        public static final int name=0x7f040023;
+        public static final int icon1=0x7f04001a;
+        public static final int icon2=0x7f04001b;
+        public static final int icon3=0x7f04001c;
+        public static final int icon4=0x7f04001d;
+        public static final int icon5=0x7f04001e;
+        public static final int icon6=0x7f04001f;
+        public static final int icon7=0x7f040020;
+        public static final int icon8=0x7f040021;
+        public static final int icon_circleindicator=0x7f040023;
+        public static final int icon_circlepager=0x7f040022;
+        public static final int icon_default_load_img=0x7f040019;
+        public static final int img=0x7f040025;
+        public static final int img_layout=0x7f040024;
+        public static final int iv_banner=0x7f04002d;
+        public static final int loading_welcome_iv=0x7f040035;
+        public static final int name=0x7f040026;
         public static final int none=0x7f040000;
-        public static final int price=0x7f040025;
-        public static final int priceTag=0x7f040026;
-        public static final int pull_to_load_image=0x7f04002d;
-        public static final int pull_to_load_progress=0x7f04002c;
-        public static final int pull_to_load_text=0x7f04002e;
-        public static final int pull_to_refresh_header=0x7f04002b;
-        public static final int pull_to_refresh_image=0x7f040030;
-        public static final int pull_to_refresh_progress=0x7f04002f;
-        public static final int pull_to_refresh_text=0x7f040031;
-        public static final int sold=0x7f040027;
-        public static final int tag_content=0x7f040029;
-        public static final int tag_title=0x7f040028;
+        public static final int price=0x7f040028;
+        public static final int priceTag=0x7f040029;
+        public static final int pull_to_load_image=0x7f040030;
+        public static final int pull_to_load_progress=0x7f04002f;
+        public static final int pull_to_load_text=0x7f040031;
+        public static final int pull_to_refresh_header=0x7f04002e;
+        public static final int pull_to_refresh_image=0x7f040033;
+        public static final int pull_to_refresh_progress=0x7f040032;
+        public static final int pull_to_refresh_text=0x7f040034;
+        public static final int sold=0x7f04002a;
+        public static final int tag_content=0x7f04002c;
+        public static final int tag_title=0x7f04002b;
         public static final int title_bar=0x7f040012;
         public static final int title_name=0x7f040013;
         public static final int top=0x7f040004;
@@ -510,15 +513,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class layout {
         public static final int activity_home_fragment=0x7f030000;
         public static final int business_fragment=0x7f030001;
-        public static final int goods_fragment=0x7f030002;
-        public static final int home_fragment=0x7f030003;
-        public static final int home_fragment_listview_head=0x7f030004;
-        public static final int home_hotgoods_listview_item=0x7f030005;
-        public static final int home_listview_item=0x7f030006;
-        public static final int home_loop_advert_viewpager_item=0x7f030007;
-        public static final int refresh_footer=0x7f030008;
-        public static final int refresh_header=0x7f030009;
-        public static final int user_fragment=0x7f03000a;
+        public static final int end_tips_layout=0x7f030002;
+        public static final int goods_fragment=0x7f030003;
+        public static final int home_fragment=0x7f030004;
+        public static final int home_fragment_listview_head=0x7f030005;
+        public static final int home_hotgoods_listview_item=0x7f030006;
+        public static final int home_listview_item=0x7f030007;
+        public static final int home_loop_advert_viewpager_item=0x7f030008;
+        public static final int home_loop_icon_viewpager_item=0x7f030009;
+        public static final int refresh_footer=0x7f03000a;
+        public static final int refresh_header=0x7f03000b;
+        public static final int user_fragment=0x7f03000c;
+        public static final int welcome=0x7f03000d;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -554,11 +560,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
 
 
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
 
 
         
@@ -579,6 +587,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f090006;
+        public static final int ContentOverlay=0x7f09000a;
         public static final int TextAppearance_TabPageIndicator=0x7f090003;
         public static final int Theme_PageIndicatorDefaults=0x7f090000;
         public static final int Widget=0x7f090001;
