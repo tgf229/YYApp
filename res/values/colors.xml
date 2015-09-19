@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="toast_text_color">#606060</color>
+    <color name="white_color">#ffffff</color>
+    <color name="home_bg">#FBFBFB</color>
+    <color name="home_menu_normal">#000000</color>
+    <color name="home_menu_selected">#009999</color>
+    <color name="black_color">#000000</color>
+    <color name="property_bg">#f5f5f5</color>
+    <color name="property_repair_bg">#eeeeee</color>
+    <color name="text_color">#666666</color>
+    <color name="select_photo_text">#377bc9</color>
+    <color name="select_photo_cancel">#3f3f3f</color>
+    <color name="community_bg">#EEEEEE</color>
+    <color name="community_dynamic">#cc2a1e</color>
+    <color name="more">#666666</color>
+    <color name="community_come_from">#888888</color>
+    <color name="community_from">#576b95</color>
+    <color name="community_square_name">#384d78</color>
+    <color name="loading_failed_txt">#666D75</color>
+    <color name="gray_color">#cccccc</color>
+    <color name="person_input_hint">#888888</color>
+    <color name="person_input_text">#464646</color>
+    <color name="person_login_register">#a81005</color>
+    <color name="person_login_tourist">#2d69ac</color>
+    <color name="fresh_news_384d78">#384d78</color>
+    <color name="fresh_news_576b95">#576b95</color>
+    <color name="register_title_new">#cc2a1e</color>
+    <color name="account_manage_575757">#575757</color>
+    <color name="payment_ff6256">#ff6256</color>
+    <color name="payment_9ddb54">#9ddb54</color>
+    <color name="my_ticket_detail_dfe2e7">#dfe2e7</color>
+    <color name="my_ticket_detail_4a5f8b">#4a5f8b</color>
+    <color name="item_click_color">#f5f5f5</color>
+    <color name="community_topic_details">#FCFCFC</color>
+    <color name="community_comment_input">#666666</color>
+    <color name="community_create_confirm">#e1190b</color>
+    <color name="community_create_confirm_press">#cc170a</color>
+    <color name="person_register_bg">#eeeeee</color>
+    <color name="person_register_choise_title">#666666</color>
+    <color name="person_register_one_agree">#444444</color>
+    <color name="person_register_one_agreement">#cc2a1e</color>
+    <color name="person_center_edit_press">#3170ba</color>
+    <color name="person_center_edit">#3d8ce8</color>
+    <color name="person_info_edit_press">#e1190b</color>
+    <color name="person_info_edit">#cc170a</color>
+    <color name="person_center_no_house">#666666</color>
+    <color name="refresh">#666666</color>
+    <color name="circle_image_border">#ebebeb</color>
+    <!--
+    <color name="select_photo_text">#377bc9</color>
+    <color name="select_photo_cancel">#3f3f3f</color>
+    <color name="select_photo_text">#377bc9</color>
+    <color name="select_photo_cancel">#3f3f3f</color>
+    -->
+    <color name="house_user_info_normal">#558510</color>
+    <color name="select_house">#ad0d02</color>
+    <color name="community_bottom_color">#666666</color>
+    <color name="community_pop_color">#444444</color>
+    <color name="community_comment_message">#4a5f8b</color>
+    <color name="community_web_url">#597894</color>
+
+</resources>
