@@ -9,11 +9,13 @@
  */
 package com.yy.yyapp.ui.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yy.yyapp.R;
 import com.yy.yyapp.ui.base.BaseFragment;
@@ -31,6 +33,8 @@ public class UserFragment extends BaseFragment implements OnClickListener
 {
     private View view;
     
+    private TextView loginBtn, registerBtn;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -42,12 +46,30 @@ public class UserFragment extends BaseFragment implements OnClickListener
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+        init();
+    }
+    
+    private void init()
+    {
+        loginBtn = (TextView)view.findViewById(R.id.login_btn);
+        registerBtn = (TextView)view.findViewById(R.id.register_btn);
+        loginBtn.setOnClickListener(this);
+        registerBtn.setOnClickListener(this);
     }
     
     @Override
-    public void onClick(View arg0)
+    public void onClick(View v)
     {
-        
+        switch (v.getId())
+        {
+            case R.id.login_btn:
+                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.register_btn:
+                break;
+            default:
+                break;
+        }
     }
-    
 }

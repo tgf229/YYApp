@@ -18,6 +18,7 @@ import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.home.HotGoods;
 import com.yy.yyapp.callback.UICallBack;
+import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.util.GeneralUtils;
 
 public class FreshNewsAdapter extends BaseAdapter
@@ -102,13 +103,11 @@ public class FreshNewsAdapter extends BaseAdapter
                 itemViewHolder.sold.setText(goods.getSold());
                 ImageLoader.getInstance().displayImage(goods.getImg(),
                     itemViewHolder.img,
-                    YYApplication.setAllDisplayImageOptions(context,
-                        "default_pic",
-                        "default_pic",
-                        "default_pic"));
+                    YYApplication.setAllDisplayImageOptions(context, "default_pic", "default_pic", "default_pic"));
                 mHolder.content.addView(item);
             }
         }
+        
         return convertView;
     }
     

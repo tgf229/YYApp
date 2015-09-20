@@ -15,7 +15,7 @@
             android:id="@+id/default_load_img"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/start_logo" />
+            android:src="@drawable/default_banner" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/circlepager"
@@ -38,15 +38,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_color" >
-
-        <!--
-             <com.yy.yyapp.view.MyImageView
-            android:id="@+id/icon_default_load_img"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/start_logo" 
-            android:visibility="visible"/>
-        -->
 
         <LinearLayout
             android:id="@+id/icon_default_load_img"
@@ -217,151 +208,15 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <!--
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="7dip"
-        android:layout_marginRight="7dip"
-        android:orientation="horizontal" >
+        android:background="@color/white_color" >
 
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon1"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon1"
-                android:text="@string/icon1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon2"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon2"
-                android:text="@string/icon2" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon3"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon3"
-                android:text="@string/icon3" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon4"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon4"
-                android:text="@string/icon4" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dip"
-        android:layout_marginRight="7dip"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon5"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon5"
-                android:text="@string/icon5" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon6"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon6"
-                android:text="@string/icon6" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon7"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon7"
-                android:text="@string/icon7" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
-
-            <Button
-                android:id="@+id/icon8"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon8"
-                android:text="@string/icon8" />
-        </LinearLayout>
-    </LinearLayout>
-    -->
-    <!-- 新鲜事 -->
+        <com.amap.api.maps2d.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 
 </LinearLayout>

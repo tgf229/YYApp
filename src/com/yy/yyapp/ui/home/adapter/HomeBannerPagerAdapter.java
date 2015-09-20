@@ -119,10 +119,10 @@ public class HomeBannerPagerAdapter extends PagerAdapter implements IconPagerAda
     void setDisplayImageOptions()
     {
         
-        options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.start_logo) // 设置图片下载期间显示的图片  
-            .showImageForEmptyUri(R.drawable.start_logo)
+        options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.default_banner) // 设置图片下载期间显示的图片  
+            .showImageForEmptyUri(R.drawable.default_banner)
             // 设置图片Uri为空或是错误的时候显示的图片  
-            .showImageOnFail(R.drawable.start_logo)
+            .showImageOnFail(R.drawable.default_banner)
             // 设置图片加载或解码过程中发生错误显示的图片      
             .cacheInMemory(true)
             // 设置下载的图片是否缓存在内存中  

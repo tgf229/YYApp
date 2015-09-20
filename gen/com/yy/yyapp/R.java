@@ -304,22 +304,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_underline_indicator_fades=0x7f060004;
     }
     public static final class color {
-        public static final int account_manage_575757=0x7f05002b;
-        public static final int black_color=0x7f050016;
-        public static final int circle_image_border=0x7f05003f;
-        public static final int community_bg=0x7f05001c;
-        public static final int community_bottom_color=0x7f050042;
-        public static final int community_come_from=0x7f05001f;
-        public static final int community_comment_input=0x7f050032;
-        public static final int community_comment_message=0x7f050044;
-        public static final int community_create_confirm=0x7f050033;
-        public static final int community_create_confirm_press=0x7f050034;
-        public static final int community_dynamic=0x7f05001d;
-        public static final int community_from=0x7f050020;
-        public static final int community_pop_color=0x7f050043;
-        public static final int community_square_name=0x7f050021;
-        public static final int community_topic_details=0x7f050031;
-        public static final int community_web_url=0x7f050045;
+        public static final int account_manage_575757=0x7f05002c;
+        public static final int black_color=0x7f050017;
+        public static final int circle_image_border=0x7f050040;
+        public static final int community_bg=0x7f05001d;
+        public static final int community_bottom_color=0x7f050043;
+        public static final int community_come_from=0x7f050020;
+        public static final int community_comment_input=0x7f050033;
+        public static final int community_comment_message=0x7f050045;
+        public static final int community_create_confirm=0x7f050034;
+        public static final int community_create_confirm_press=0x7f050035;
+        public static final int community_dynamic=0x7f05001e;
+        public static final int community_from=0x7f050021;
+        public static final int community_pop_color=0x7f050044;
+        public static final int community_square_name=0x7f050022;
+        public static final int community_topic_details=0x7f050032;
+        public static final int community_web_url=0x7f050046;
         public static final int default_circle_indicator_fill_color=0x7f050008;
         public static final int default_circle_indicator_page_color=0x7f050009;
         public static final int default_circle_indicator_stroke_color=0x7f05000a;
@@ -329,12 +329,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_title_indicator_selected_color=0x7f05000e;
         public static final int default_title_indicator_text_color=0x7f05000f;
         public static final int default_underline_indicator_selected_color=0x7f050010;
-        public static final int fresh_news_384d78=0x7f050028;
-        public static final int fresh_news_576b95=0x7f050029;
-        public static final int gray_color=0x7f050023;
-        public static final int home_bg=0x7f050013;
-        public static final int home_menu_normal=0x7f050014;
-        public static final int home_menu_selected=0x7f050015;
+        public static final int fresh_news_384d78=0x7f050029;
+        public static final int fresh_news_576b95=0x7f05002a;
+        public static final int gray_color=0x7f050024;
+        public static final int home_bg=0x7f050014;
+        public static final int home_menu_normal=0x7f050015;
+        public static final int home_menu_selected=0x7f050016;
         /** 
     <color name="select_photo_text">#377bc9</color>
     <color name="select_photo_cancel">#3f3f3f</color>
@@ -343,35 +343,35 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
     
          */
-        public static final int house_user_info_normal=0x7f050040;
-        public static final int item_click_color=0x7f050030;
-        public static final int loading_failed_txt=0x7f050022;
-        public static final int more=0x7f05001e;
-        public static final int my_ticket_detail_4a5f8b=0x7f05002f;
-        public static final int my_ticket_detail_dfe2e7=0x7f05002e;
-        public static final int payment_9ddb54=0x7f05002d;
-        public static final int payment_ff6256=0x7f05002c;
-        public static final int person_center_edit=0x7f05003a;
-        public static final int person_center_edit_press=0x7f050039;
-        public static final int person_center_no_house=0x7f05003d;
-        public static final int person_info_edit=0x7f05003c;
-        public static final int person_info_edit_press=0x7f05003b;
-        public static final int person_input_hint=0x7f050024;
-        public static final int person_input_text=0x7f050025;
-        public static final int person_login_register=0x7f050026;
-        public static final int person_login_tourist=0x7f050027;
-        public static final int person_register_bg=0x7f050035;
-        public static final int person_register_choise_title=0x7f050036;
-        public static final int person_register_one_agree=0x7f050037;
-        public static final int person_register_one_agreement=0x7f050038;
-        public static final int property_bg=0x7f050017;
-        public static final int property_repair_bg=0x7f050018;
-        public static final int refresh=0x7f05003e;
-        public static final int register_title_new=0x7f05002a;
-        public static final int select_house=0x7f050041;
-        public static final int select_photo_cancel=0x7f05001b;
-        public static final int select_photo_text=0x7f05001a;
-        public static final int text_color=0x7f050019;
+        public static final int house_user_info_normal=0x7f050041;
+        public static final int item_click_color=0x7f050031;
+        public static final int loading_failed_txt=0x7f050023;
+        public static final int more=0x7f05001f;
+        public static final int my_ticket_detail_4a5f8b=0x7f050030;
+        public static final int my_ticket_detail_dfe2e7=0x7f05002f;
+        public static final int payment_9ddb54=0x7f05002e;
+        public static final int payment_ff6256=0x7f05002d;
+        public static final int person_center_edit=0x7f05003b;
+        public static final int person_center_edit_press=0x7f05003a;
+        public static final int person_center_no_house=0x7f05003e;
+        public static final int person_info_edit=0x7f05003d;
+        public static final int person_info_edit_press=0x7f05003c;
+        public static final int person_input_hint=0x7f050025;
+        public static final int person_input_text=0x7f050026;
+        public static final int person_login_register=0x7f050027;
+        public static final int person_login_tourist=0x7f050028;
+        public static final int person_register_bg=0x7f050036;
+        public static final int person_register_choise_title=0x7f050037;
+        public static final int person_register_one_agree=0x7f050038;
+        public static final int person_register_one_agreement=0x7f050039;
+        public static final int property_bg=0x7f050018;
+        public static final int property_repair_bg=0x7f050019;
+        public static final int refresh=0x7f05003f;
+        public static final int register_title_new=0x7f05002b;
+        public static final int select_house=0x7f050042;
+        public static final int select_photo_cancel=0x7f05001c;
+        public static final int select_photo_text=0x7f05001b;
+        public static final int text_color=0x7f05001a;
         public static final int toast_text_color=0x7f050011;
         public static final int vpi__background_holo_dark=0x7f050000;
         public static final int vpi__background_holo_light=0x7f050001;
@@ -381,9 +381,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__bright_foreground_holo_light=0x7f050003;
         public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050006;
         public static final int vpi__bright_foreground_inverse_holo_light=0x7f050007;
-        public static final int vpi__dark_theme=0x7f050046;
-        public static final int vpi__light_theme=0x7f050047;
+        public static final int vpi__dark_theme=0x7f050047;
+        public static final int vpi__light_theme=0x7f050048;
         public static final int white_color=0x7f050012;
+        public static final int yello_color=0x7f050013;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -418,44 +419,60 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int bottom5_n=0x7f020006;
         public static final int bottom5_p=0x7f020007;
         public static final int bottom_bg=0x7f020008;
-        public static final int default_pic=0x7f020009;
-        public static final int food_building=0x7f02000a;
-        public static final int home_icon_arrow=0x7f02000b;
-        public static final int home_icon_arrow_press=0x7f02000c;
-        public static final int home_title_arrow_selector=0x7f02000d;
-        public static final int ic_launcher=0x7f02000e;
-        public static final int ic_pulltorefresh_arrow=0x7f02000f;
-        public static final int ic_pulltorefresh_arrow_up=0x7f020010;
-        public static final int icon1=0x7f020011;
-        public static final int icon2=0x7f020012;
-        public static final int icon3=0x7f020013;
-        public static final int icon4=0x7f020014;
-        public static final int icon5=0x7f020015;
-        public static final int icon6=0x7f020016;
-        public static final int icon7=0x7f020017;
-        public static final int icon8=0x7f020018;
-        public static final int line_grey=0x7f020019;
-        public static final int loading_welcome=0x7f02001a;
-        public static final int start_logo=0x7f02001b;
-        public static final int test3=0x7f02001c;
-        public static final int vpi__tab_indicator=0x7f02001d;
-        public static final int vpi__tab_selected_focused_holo=0x7f02001e;
-        public static final int vpi__tab_selected_holo=0x7f02001f;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020020;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020021;
-        public static final int vpi__tab_unselected_holo=0x7f020022;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f020023;
+        public static final int building=0x7f020009;
+        public static final int default_banner=0x7f02000a;
+        public static final int default_pic=0x7f02000b;
+        public static final int home_icon_arrow=0x7f02000c;
+        public static final int home_icon_arrow_press=0x7f02000d;
+        public static final int home_title_arrow_selector=0x7f02000e;
+        public static final int ic_launcher=0x7f02000f;
+        public static final int ic_pulltorefresh_arrow=0x7f020010;
+        public static final int ic_pulltorefresh_arrow_up=0x7f020011;
+        public static final int icon1=0x7f020012;
+        public static final int icon2=0x7f020013;
+        public static final int icon3=0x7f020014;
+        public static final int icon4=0x7f020015;
+        public static final int icon5=0x7f020016;
+        public static final int icon6=0x7f020017;
+        public static final int icon7=0x7f020018;
+        public static final int icon8=0x7f020019;
+        public static final int line_grey=0x7f02001a;
+        public static final int loading_welcome=0x7f02001b;
+        public static final int location_marker=0x7f02001c;
+        public static final int login_btn=0x7f02001d;
+        public static final int person_login_password_bg=0x7f02001e;
+        public static final int person_login_password_left=0x7f02001f;
+        public static final int person_login_username_bg=0x7f020020;
+        public static final int person_login_username_left=0x7f020021;
+        public static final int title_back=0x7f020022;
+        public static final int user_banner=0x7f020023;
+        public static final int user_banner_login_icon=0x7f020024;
+        public static final int user_banner_register_icon=0x7f020025;
+        public static final int user_icon_arrow=0x7f020026;
+        public static final int user_icon_arrow_press=0x7f020027;
+        public static final int user_list_about=0x7f020028;
+        public static final int user_list_arrow_selector=0x7f020029;
+        public static final int user_list_card=0x7f02002a;
+        public static final int user_list_collect=0x7f02002b;
+        public static final int user_list_coupon=0x7f02002c;
+        public static final int vpi__tab_indicator=0x7f02002d;
+        public static final int vpi__tab_selected_focused_holo=0x7f02002e;
+        public static final int vpi__tab_selected_holo=0x7f02002f;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020030;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020031;
+        public static final int vpi__tab_unselected_holo=0x7f020032;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020033;
     }
     public static final class id {
-        public static final int action_settings=0x7f040036;
+        public static final int action_settings=0x7f040042;
         public static final int bottom=0x7f040003;
-        public static final int circleindicator=0x7f040018;
-        public static final int circlepager=0x7f040017;
+        public static final int circleindicator=0x7f04001e;
+        public static final int circlepager=0x7f04001d;
         public static final int content=0x7f040005;
-        public static final int default_load_img=0x7f040016;
-        public static final int distance=0x7f040027;
-        public static final int fresh_news_listview=0x7f040015;
-        public static final int home_main_pull_refresh_view=0x7f040014;
+        public static final int default_load_img=0x7f04001c;
+        public static final int distance=0x7f04002d;
+        public static final int fresh_news_listview=0x7f04001b;
+        public static final int home_main_pull_refresh_view=0x7f04001a;
         public static final int home_tabbar_business=0x7f04000c;
         public static final int home_tabbar_business_img=0x7f04000d;
         public static final int home_tabbar_business_txt=0x7f04000e;
@@ -468,37 +485,49 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int home_tabbar_user=0x7f04000f;
         public static final int home_tabbar_user_img=0x7f040010;
         public static final int home_tabbar_user_txt=0x7f040011;
-        public static final int icon1=0x7f04001a;
-        public static final int icon2=0x7f04001b;
-        public static final int icon3=0x7f04001c;
-        public static final int icon4=0x7f04001d;
-        public static final int icon5=0x7f04001e;
-        public static final int icon6=0x7f04001f;
-        public static final int icon7=0x7f040020;
-        public static final int icon8=0x7f040021;
-        public static final int icon_circleindicator=0x7f040023;
-        public static final int icon_circlepager=0x7f040022;
-        public static final int icon_default_load_img=0x7f040019;
-        public static final int img=0x7f040025;
-        public static final int img_layout=0x7f040024;
-        public static final int iv_banner=0x7f04002d;
-        public static final int loading_welcome_iv=0x7f040035;
-        public static final int name=0x7f040026;
+        public static final int icon1=0x7f040020;
+        public static final int icon2=0x7f040021;
+        public static final int icon3=0x7f040022;
+        public static final int icon4=0x7f040023;
+        public static final int icon5=0x7f040024;
+        public static final int icon6=0x7f040025;
+        public static final int icon7=0x7f040026;
+        public static final int icon8=0x7f040027;
+        public static final int icon_circleindicator=0x7f040029;
+        public static final int icon_circlepager=0x7f040028;
+        public static final int icon_default_load_img=0x7f04001f;
+        public static final int img=0x7f04002b;
+        public static final int img_layout=0x7f04002a;
+        public static final int iv_banner=0x7f040033;
+        public static final int loading_welcome_iv=0x7f040041;
+        public static final int login_btn=0x7f04003f;
+        public static final int map=0x7f040012;
+        public static final int name=0x7f04002c;
         public static final int none=0x7f040000;
-        public static final int price=0x7f040028;
-        public static final int priceTag=0x7f040029;
-        public static final int pull_to_load_image=0x7f040030;
-        public static final int pull_to_load_progress=0x7f04002f;
-        public static final int pull_to_load_text=0x7f040031;
-        public static final int pull_to_refresh_header=0x7f04002e;
-        public static final int pull_to_refresh_image=0x7f040033;
-        public static final int pull_to_refresh_progress=0x7f040032;
-        public static final int pull_to_refresh_text=0x7f040034;
-        public static final int sold=0x7f04002a;
-        public static final int tag_content=0x7f04002c;
-        public static final int tag_title=0x7f04002b;
-        public static final int title_bar=0x7f040012;
-        public static final int title_name=0x7f040013;
+        public static final int person_login_bt=0x7f040037;
+        public static final int person_login_forget_password_tv=0x7f040036;
+        public static final int person_login_password_et=0x7f040035;
+        public static final int person_login_username_et=0x7f040034;
+        public static final int price=0x7f04002e;
+        public static final int priceTag=0x7f04002f;
+        public static final int pull_to_load_image=0x7f04003a;
+        public static final int pull_to_load_progress=0x7f040039;
+        public static final int pull_to_load_text=0x7f04003b;
+        public static final int pull_to_refresh_header=0x7f040038;
+        public static final int pull_to_refresh_image=0x7f04003d;
+        public static final int pull_to_refresh_progress=0x7f04003c;
+        public static final int pull_to_refresh_text=0x7f04003e;
+        public static final int register_btn=0x7f040040;
+        public static final int sold=0x7f040030;
+        public static final int tag_content=0x7f040032;
+        public static final int tag_title=0x7f040031;
+        public static final int title_back_layout=0x7f040013;
+        public static final int title_bar=0x7f040019;
+        public static final int title_btn_back=0x7f040014;
+        public static final int title_btn_call=0x7f040018;
+        public static final int title_btn_down=0x7f040015;
+        public static final int title_call_layout=0x7f040017;
+        public static final int title_name=0x7f040016;
         public static final int top=0x7f040004;
         public static final int triangle=0x7f040001;
         public static final int underline=0x7f040002;
@@ -512,19 +541,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class layout {
         public static final int activity_home_fragment=0x7f030000;
-        public static final int business_fragment=0x7f030001;
-        public static final int end_tips_layout=0x7f030002;
-        public static final int goods_fragment=0x7f030003;
-        public static final int home_fragment=0x7f030004;
-        public static final int home_fragment_listview_head=0x7f030005;
-        public static final int home_hotgoods_listview_item=0x7f030006;
-        public static final int home_listview_item=0x7f030007;
-        public static final int home_loop_advert_viewpager_item=0x7f030008;
-        public static final int home_loop_icon_viewpager_item=0x7f030009;
-        public static final int refresh_footer=0x7f03000a;
-        public static final int refresh_header=0x7f03000b;
-        public static final int user_fragment=0x7f03000c;
-        public static final int welcome=0x7f03000d;
+        public static final int amap_activity=0x7f030001;
+        public static final int app_title=0x7f030002;
+        public static final int business_fragment=0x7f030003;
+        public static final int end_tips_layout=0x7f030004;
+        public static final int goods_fragment=0x7f030005;
+        public static final int home_fragment=0x7f030006;
+        public static final int home_fragment_listview_head=0x7f030007;
+        public static final int home_hotgoods_listview_item=0x7f030008;
+        public static final int home_listview_item=0x7f030009;
+        public static final int home_loop_advert_viewpager_item=0x7f03000a;
+        public static final int home_loop_icon_viewpager_item=0x7f03000b;
+        public static final int login=0x7f03000c;
+        public static final int refresh_footer=0x7f03000d;
+        public static final int refresh_header=0x7f03000e;
+        public static final int user_fragment=0x7f03000f;
+        public static final int welcome=0x7f030010;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -561,11 +593,23 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
 
 
+
+
+
+
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
+
+
+
+
 
 
 
@@ -596,6 +640,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int home_icon_style=0x7f090007;
         public static final int property_bottom_text=0x7f090009;
         public static final int property_top_text=0x7f090008;
+        public static final int title_back_layout=0x7f09000c;
+        public static final int title_btn_back=0x7f09000d;
+        public static final int title_btn_call=0x7f090010;
+        public static final int title_call_layout=0x7f09000f;
+        public static final int title_name=0x7f09000e;
+        public static final int title_relativelayout=0x7f09000b;
     }
     public static final class styleable {
         /** Attributes that can be used with a CirclePageIndicator.

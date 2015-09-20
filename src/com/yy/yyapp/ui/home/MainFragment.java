@@ -10,7 +10,6 @@
 package com.yy.yyapp.ui.home;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -32,10 +30,11 @@ import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yy.yyapp.R;
+import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.bean.home.HotGoods;
-import com.yy.yyapp.bean.home.HomeBannerBean;
+import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.home.adapter.FreshNewsAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeBannerPagerAdapter;
@@ -71,7 +70,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
      * 滑动的图片
      */
     private ViewPager banner_Pager;
-
+    
     private ViewPager icon_Pager;
     
     /**
@@ -84,6 +83,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     private ArrayList<HomeBannerBean> bannerList;
     
     private ArrayList<HomeIconBean> iconList = new ArrayList<HomeIconBean>();
+    
     private ArrayList<HomeIconPageBean> iconPageList;
     
     private HomeBannerPagerAdapter homeBannerPagerAdapter;
@@ -100,7 +100,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private Button icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8;
     
-    private String[] homeTag = new String[] {"热门现金券", "热门商家", "热门商品", "热门活动", "高德地图", "猜你喜欢"};
+    private String[] homeTag = new String[] {Constants.HOME_TAG_COUPON, Constants.HOME_TAG_BUSINESS,
+        Constants.HOME_TAG_GOODS, Constants.HOME_TAG_ACTIVE, Constants.HOME_TAG_PREFER};
     
     //    private List<String> homeTag = new ArrayList<String>();
     
@@ -143,6 +144,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     {
         super.onActivityCreated(savedInstanceState);
         init();
+        
         handler1.postDelayed(new Runnable()
         {
             @Override
@@ -201,6 +203,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         //解决listview和scrollview抢焦点问题
         //                freshNewsListView2.setFocusable(false);
         
+        //底部地图TAG
         footView = LayoutInflater.from(getActivity()).inflate(R.layout.end_tips_layout, null);
         footView.setVisibility(View.VISIBLE);
         freshNewsListView.addFooterView(footView);
@@ -269,20 +272,20 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         iconList.add(icon2);
         iconList.add(icon3);
         
-        if(GeneralUtils.isNotNullOrZeroSize(iconList))
+        if (GeneralUtils.isNotNullOrZeroSize(iconList))
         {
             int size = iconList.size();
-            int page = (size-1)/8 + 1;
-            for(int i=0; i<page; i++)
+            int page = (size - 1) / 8 + 1;
+            for (int i = 0; i < page; i++)
             {
                 HomeIconPageBean pageBean = new HomeIconPageBean();
-                pageBean.setList(iconList.subList(i*8, size>(i+1)*8 ? (i+1)*8:size));
+                pageBean.setList(iconList.subList(i * 8, size > (i + 1) * 8 ? (i + 1) * 8 : size));
                 iconPageList.add(pageBean);
             }
         }
         
         int width = getResources().getDisplayMetrics().widthPixels;
-//        int height = width * 300 / 640;
+        //        int height = width * 300 / 640;
         int height = icon_default_img.getHeight();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         icon_Pager.setLayoutParams(params);
@@ -295,7 +298,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         icon_Pager.setCurrentItem(0);
         icon_indicator.notifyDataSetChanged();
     }
-
+    
     private void showTagContent()
     {
         freshNewsList.clear();
@@ -353,5 +356,29 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     public void onHeaderRefresh(PullToRefreshView view)
     {
         showTagContent();
+    }
+    
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+    
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+    
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
     }
 }
