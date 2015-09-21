@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
-import com.yy.yyapp.bean.home.HotGoods;
+import com.yy.yyapp.bean.home.Guss;
 import com.yy.yyapp.callback.UICallBack;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.util.GeneralUtils;
@@ -25,11 +25,11 @@ public class FreshNewsAdapter extends BaseAdapter
 {
     private Context context;
     
-    private List<Map<String, List<HotGoods>>> mList;
+    private List<Map<String, List<Guss>>> mList;
     
     private UICallBack callBack;
     
-    public FreshNewsAdapter(Context context, List<Map<String, List<HotGoods>>> freshNewsList, UICallBack callBack)
+    public FreshNewsAdapter(Context context, List<Map<String, List<Guss>>> freshNewsList, UICallBack callBack)
     {
         this.context = context;
         this.mList = freshNewsList;
@@ -57,7 +57,7 @@ public class FreshNewsAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        final Map<String, List<HotGoods>> entity = mList.get(position);
+        final Map<String, List<Guss>> entity = mList.get(position);
         HolderView mHolder;
         if (convertView == null)
         {
@@ -75,13 +75,13 @@ public class FreshNewsAdapter extends BaseAdapter
         mHolder.title.setText(title);
         
         @SuppressWarnings("unchecked")
-        List<HotGoods> list = (List<HotGoods>)entity.get(title);
+        List<Guss> list = (List<Guss>)entity.get(title);
         
         if (GeneralUtils.isNotNullOrZeroSize(list))
         {
             mHolder.content.removeAllViews();
             
-            for (HotGoods goods : list)
+            for (Guss goods : list)
             {
                 View item = (View)LayoutInflater.from(context).inflate(R.layout.home_hotgoods_listview_item, null);
                 

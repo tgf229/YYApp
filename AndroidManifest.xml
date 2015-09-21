@@ -61,6 +61,13 @@
             android:name="com.yy.yyapp.ui.user.LoginActivity"
             android:label="@string/app_name" >
         </activity>
+        <!-- REGISTER 1 -->
+        <activity
+            android:name="com.yy.yyapp.ui.user.RegisterOneActivity"
+            android:label="@string/app_name" 
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+        </activity>
+        
     </application>
 
 </manifest>

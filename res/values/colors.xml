@@ -49,6 +49,7 @@
     <color name="person_center_no_house">#666666</color>
     <color name="refresh">#666666</color>
     <color name="circle_image_border">#ebebeb</color>
+    <color name="register1_blue">#6666FF</color>
     <!--
     <color name="select_photo_text">#377bc9</color>
     <color name="select_photo_cancel">#3f3f3f</color>

@@ -26,9 +26,9 @@ import android.widget.TextView;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.callback.UICallBack;
-import com.yy.yyapp.ui.business.BusinessFragment;
 import com.yy.yyapp.ui.goods.GoodsFragment;
 import com.yy.yyapp.ui.home.MainFragment;
+import com.yy.yyapp.ui.shop.ShopFragment;
 import com.yy.yyapp.ui.user.UserFragment;
 import com.yy.yyapp.util.ToastUtil;
 
@@ -152,7 +152,7 @@ public class HomeFragmentActivity extends FragmentActivity implements UICallBack
             setSelection(R.id.home_tabbar_business);
             if (mFragment == null)
             {
-                mFragment = new BusinessFragment();
+                mFragment = new ShopFragment();
             }
         }
         if (TextUtils.equals(tag, getString(R.string.home_tabbar_user)))

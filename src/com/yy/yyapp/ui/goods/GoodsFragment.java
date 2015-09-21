@@ -63,7 +63,7 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, Loca
         super.onActivityCreated(savedInstanceState);
         mapView = (MapView)view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
-        //init();
+        init();
     }
     
     @Override

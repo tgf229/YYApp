@@ -31,13 +31,13 @@
             android:textColor="@color/white_color"
             android:textSize="20sp" />
     </RelativeLayout>
-
+    
     <com.yy.yyapp.view.PullToRefreshView
         android:id="@+id/home_main_pull_refresh_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
+        
         <com.yy.yyapp.view.MyListView2
             android:id="@+id/fresh_news_listview"
             android:layout_width="fill_parent"

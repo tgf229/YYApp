@@ -31,5 +31,5 @@ public class Constants
     public static final String HOME_TAG_BUSINESS = "热门商家";
     public static final String HOME_TAG_GOODS = "热门商品";
     public static final String HOME_TAG_ACTIVE = "热门活动";
-    public static final String HOME_TAG_PREFER = "猜你喜欢";
+    public static final String HOME_TAG_GUSS = "猜你喜欢";
 }

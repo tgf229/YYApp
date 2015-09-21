@@ -24,7 +24,7 @@ import android.widget.TextView.BufferType;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
-import com.yy.yyapp.bean.home.HotGoods;
+import com.yy.yyapp.bean.home.Guss;
 import com.yy.yyapp.callback.UICallBack;
 import com.yy.yyapp.util.GeneralUtils;
 
@@ -32,11 +32,11 @@ public class HomeListViewAdapter extends BaseAdapter
 {
     private Context context;
     
-    private List<HotGoods> mList;
+    private List<Guss> mList;
     
     private UICallBack callBack;
     
-    public HomeListViewAdapter(Context context, List<HotGoods> mList, UICallBack callBack)
+    public HomeListViewAdapter(Context context, List<Guss> mList, UICallBack callBack)
     {
         this.context = context;
         this.mList = mList;
@@ -64,7 +64,7 @@ public class HomeListViewAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        final HotGoods entity = mList.get(position);
+        final Guss entity = mList.get(position);
         HolderView mHolder;
         if (convertView == null)
         {

@@ -67,6 +67,8 @@ public class UserFragment extends BaseFragment implements OnClickListener
                 startActivity(intent);
                 break;
             case R.id.register_btn:
+                Intent intent1 = new Intent(getActivity(),RegisterOneActivity.class);
+                startActivity(intent1);
                 break;
             default:
                 break;
