@@ -17,8 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dip"
-        android:paddingLeft="9dip" >
+        android:layout_marginTop="5dip">
 
         <ImageView
             android:id="@+id/img"
@@ -35,7 +34,6 @@
         android:layout_marginLeft="10dip"
         android:layout_toRightOf="@id/img_layout"
         android:orientation="vertical"
-        android:paddingLeft="9dip"
         android:paddingTop="7dip" >
 
         <LinearLayout

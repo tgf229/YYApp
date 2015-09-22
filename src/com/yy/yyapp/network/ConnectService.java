@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+
 import android.app.Activity;
 import android.content.Context;
 
@@ -62,7 +64,7 @@ public class ConnectService
         {
             // 封装输入参数
             NetWork netWork = new NetWork();
-            String url = URLUtil.SERVER + serviceName + "?encrypt=" + encrypt;// 加上具体的访问地址
+            String url = URLUtil.SERVER + serviceName;// 加上具体的访问地址
             netWork.startPost(url, param, new INetCallBack()
             {
                 @Override
@@ -78,6 +80,8 @@ public class ConnectService
 //                            }
                             CMLog.i("info", "result:" + result);
                         }
+                        JSONArray array = new JSONArray(result);
+                        result = array.getJSONObject(0).toString();
                         final T res = GsonHelper.toType(result, t);
                         ((Activity)context).runOnUiThread(new Runnable()
                         {

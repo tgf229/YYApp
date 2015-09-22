@@ -262,17 +262,18 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         LinearLayout.LayoutParams hotActiveParams = new LinearLayout.LayoutParams(displayWidth, hotActiveHeight);
         hotActivePicPager.setLayoutParams(hotActiveParams);
         
+        //MAP
+        mapView = (MapView)listview_head.findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);// 此方法必须重写
+        initMap();
+        
+        //GUESS
         for (String str : homeTag)
         {
             HashMap<String, List<Guss>> map = new HashMap<String, List<Guss>>();
             map.put(str, null);
             freshNewsList.add(map);
         }
-        
-        mapView = (MapView)listview_head.findViewById(R.id.map);
-        mapView.onCreate(savedInstanceState);// 此方法必须重写
-        initMap();
-        
         ListView freshNewsListView = (ListView)view.findViewById(R.id.fresh_news_listview);
         freshNewsListView.addHeaderView(listview_head);
         freshNewsAdapter = new FreshNewsAdapter(getActivity(), freshNewsList, this);
@@ -396,6 +397,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     private void showIcon()
     {
         iconPageList.clear();
+        iconList.clear();
         
         HomeIconBean icon1 = new HomeIconBean();
         icon1.setName("测试按钮");

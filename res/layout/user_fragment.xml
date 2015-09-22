@@ -34,9 +34,11 @@
             android:textColor="@color/white_color" />
 
         <LinearLayout
+            android:id="@+id/unlogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dip" >
+            android:paddingTop="10dip"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/login_btn"
@@ -50,6 +52,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
                 android:background="@drawable/user_banner_register_icon" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/inlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dip" >
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="退出登录"
+                android:textColor="@color/black_color"
+                android:background="@drawable/button_on" />
         </LinearLayout>
 
         <TextView

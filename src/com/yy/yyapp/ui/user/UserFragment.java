@@ -15,9 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yy.yyapp.R;
+import com.yy.yyapp.constant.Constants;
+import com.yy.yyapp.global.Global;
 import com.yy.yyapp.ui.base.BaseFragment;
 
 /**
@@ -33,7 +36,9 @@ public class UserFragment extends BaseFragment implements OnClickListener
 {
     private View view;
     
-    private TextView loginBtn, registerBtn;
+    private TextView loginBtn, registerBtn, logout;
+    
+    private LinearLayout unlogin, inlogin;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -49,12 +54,34 @@ public class UserFragment extends BaseFragment implements OnClickListener
         init();
     }
     
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+    
     private void init()
     {
         loginBtn = (TextView)view.findViewById(R.id.login_btn);
         registerBtn = (TextView)view.findViewById(R.id.register_btn);
+        logout = (TextView)view.findViewById(R.id.logout);
+        unlogin = (LinearLayout)view.findViewById(R.id.unlogin);
+        inlogin = (LinearLayout)view.findViewById(R.id.inlogin);
+        
+        if (Global.isLogin())
+        {
+            inlogin.setVisibility(View.VISIBLE);
+            unlogin.setVisibility(View.GONE);
+        }
+        else
+        {
+            inlogin.setVisibility(View.GONE);
+            unlogin.setVisibility(View.VISIBLE);
+        }
+        
         loginBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
+        logout.setOnClickListener(this);
     }
     
     @Override
@@ -63,12 +90,31 @@ public class UserFragment extends BaseFragment implements OnClickListener
         switch (v.getId())
         {
             case R.id.login_btn:
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivityForResult(intent, 1);
                 break;
             case R.id.register_btn:
-                Intent intent1 = new Intent(getActivity(),RegisterOneActivity.class);
+                Intent intent1 = new Intent(getActivity(), RegisterOneActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.logout:
+                inlogin.setVisibility(View.GONE);
+                unlogin.setVisibility(View.VISIBLE);
+                Global.logout();
+            default:
+                break;
+        }
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.LOGIN_SUCCESS_CODE:
+                inlogin.setVisibility(View.VISIBLE);
+                unlogin.setVisibility(View.GONE);
                 break;
             default:
                 break;

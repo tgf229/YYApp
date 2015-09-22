@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/home_bg"
+    android:background="@color/gray_color"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#F1F1F1">
+        android:background="#F1F1F1" >
 
         <com.yy.yyapp.view.MyImageView
             android:id="@+id/default_load_img"
@@ -212,7 +212,7 @@
         android:id="@+id/hot_coupon_content"
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="6dip"
         android:background="@color/white_color"
         android:orientation="vertical"
         android:paddingLeft="10dip"
@@ -307,12 +307,12 @@
         android:id="@+id/hot_shop_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="6dip"
         android:background="@color/white_color"
         android:orientation="vertical"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:paddingTop="10dip">
+        android:paddingTop="10dip" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -391,18 +391,18 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    
-        <LinearLayout
+
+    <LinearLayout
         android:id="@+id/hot_goods_content"
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="6dip"
         android:background="@color/white_color"
         android:orientation="vertical"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:paddingTop="10dip">
-        
+        android:paddingTop="10dip" >
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -487,12 +487,11 @@
         </LinearLayout>
     </LinearLayout>
 
-
- <LinearLayout
+    <LinearLayout
         android:id="@+id/hot_active_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="6dip"
         android:background="@color/white_color"
         android:orientation="vertical"
         android:paddingLeft="10dip"
@@ -563,16 +562,17 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
- 	
-     <RelativeLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:background="@color/white_color">
+        android:layout_marginTop="6dip"
+        android:background="@color/white_color" >
 
         <com.amap.api.maps2d.MapView
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </RelativeLayout>
- 
+
 </LinearLayout>

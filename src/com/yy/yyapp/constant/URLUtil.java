@@ -11,7 +11,11 @@ package com.yy.yyapp.constant;
  */
 public class URLUtil
 {
-    public static final String SERVER = "http://10.167.3.153:8081/x8-mobile-gw/";
+    public static final String SERVER = "http://123.57.160.38/app/AppAction?action=";
+    
+    public static final String REGISTER = "doRegister";
+    
+    public static final String LOGIN = "doLogin";
     
     //        public static final String SERVER = "http://10.167.130.240:8080/x8-mobile-gw/";
     //public static final String SERVER = "http://10.167.130.144:8080/p_gateway/";

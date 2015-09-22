@@ -21,6 +21,16 @@ public class Constants
      * sharedPreferences中保存用户的信息文件名
      */
     public static final String USER_INFO = "userInfo";
+    public static final String ENCRYPT_NONE = "none";
+    
+    public static final String DEFAULT_PWD = "888888";
+    
+    /**
+     *  成功码
+     */
+    public static final String SUCESS_CODE = "success";
+    
+    public static final int LOGIN_SUCCESS_CODE = 1001;
     
     /**
      * 请求失败展示信息
