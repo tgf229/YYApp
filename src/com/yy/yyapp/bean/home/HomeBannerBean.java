@@ -11,63 +11,39 @@ package com.yy.yyapp.bean.home;
  */
 public class HomeBannerBean
 {
-    /**
-     * 通告活动ID
-     */
-    private String id;
+    private String title;
     
-    /**
-     * 通告活动名称
-     */
-    private String name;
+    private String pic_url;
     
-    /**
-     * 通告活动描述
-     */
-    private String desc;
+    private String url;
     
-    /**
-     * 活动图片
-     */
-    private String imageUrl;
-
-    public String getId()
+    public String getTitle()
     {
-        return id;
+        return title;
     }
-
-    public void setId(String id)
+    
+    public void setTitle(String title)
     {
-        this.id = id;
+        this.title = title;
     }
-
-    public String getName()
+    
+    public String getPic_url()
     {
-        return name;
+        return pic_url;
     }
-
-    public void setName(String name)
+    
+    public void setPic_url(String pic_url)
     {
-        this.name = name;
+        this.pic_url = pic_url;
     }
-
-    public String getDesc()
+    
+    public String getUrl()
     {
-        return desc;
+        return url;
     }
-
-    public void setDesc(String desc)
+    
+    public void setUrl(String url)
     {
-        this.desc = desc;
-    }
-
-    public String getImageUrl()
-    {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl)
-    {
-        this.imageUrl = imageUrl;
+        this.url = url;
     }
 }

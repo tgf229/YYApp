@@ -114,6 +114,16 @@ public class Global
         SharePref.saveString(SharePref.USER_TYPE, userType);
     }
     
+    public static String getScore()
+    {
+        return SharePref.getString(SharePref.SCORE, "");
+    }
+    
+    public static void saveScore(String score)
+    {
+        SharePref.saveString(SharePref.SCORE, score);
+    }
+    
     /**
      * 
      * <保存登陆信息>
@@ -131,6 +141,7 @@ public class Global
         Global.saveUserEmail(userBean.getUser_email());
         Global.saveUserOrgId(userBean.getUser_org_id());
         Global.saveUserType(userBean.getUser_type());
+        Global.saveScore(userBean.getScore());
     }
     
     public static void logout()
@@ -145,6 +156,7 @@ public class Global
         Global.saveUserEmail("");
         Global.saveUserOrgId("");
         Global.saveUserType("");
+        Global.saveScore("");
     }
     
     /**

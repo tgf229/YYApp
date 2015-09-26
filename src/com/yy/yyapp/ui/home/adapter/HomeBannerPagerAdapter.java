@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.home.HomeBannerBean;
+import com.yy.yyapp.ui.WebviewActivity;
 import com.yy.yyapp.util.ToastUtil;
 
 /**
@@ -61,7 +62,7 @@ public class HomeBannerPagerAdapter extends PagerAdapter implements IconPagerAda
         View pageView = LayoutInflater.from(mContext).inflate(R.layout.home_loop_advert_viewpager_item, null);
         
         final ImageView adImageView = (ImageView)pageView.findViewById(R.id.iv_banner);
-        imageLoader.displayImage(mPaths.get(position).getImageUrl(), adImageView, options);
+        imageLoader.displayImage(mPaths.get(position).getPic_url(), adImageView, options);
         pageView.setOnClickListener(new OnClickListener()
         {
             
@@ -71,10 +72,11 @@ public class HomeBannerPagerAdapter extends PagerAdapter implements IconPagerAda
                 if (null != mPaths && null != mPaths.get(position))
                 {
                     
-//                    Intent intent = new Intent();
-//                    intent.setClass(mContext, AdvertiseDetailActivity.class);
-//                    intent.putExtra("id", mPaths.get(position).getId());
-//                    mContext.startActivity(intent);
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, WebviewActivity.class);
+                    intent.putExtra("title", mPaths.get(position).getTitle());
+                    intent.putExtra("url", mPaths.get(position).getUrl());
+                    mContext.startActivity(intent);
                 }
                 else
                 {

@@ -1,14 +1,17 @@
 package com.yy.yyapp.network;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 
+
 import android.app.Activity;
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.yy.yyapp.callback.INetCallBack;
 import com.yy.yyapp.callback.UICallBack;
 import com.yy.yyapp.constant.Constants;
@@ -58,7 +61,7 @@ public class ConnectService
      * @see [类、类#方法、类#成员]
      */
     public <T> void connectServiceReturnResponse(final Context context, Map<String, String> param,
-        final UICallBack callback, final Class<T> t, final String serviceName, final String encrypt)
+        final UICallBack callback, final String serviceName, final String encrypt)
     {
         try
         {
@@ -68,7 +71,7 @@ public class ConnectService
             netWork.startPost(url, param, new INetCallBack()
             {
                 @Override
-                public void onComplete(String result)
+                public void onComplete(final String result)
                 {
                     try
                     {
@@ -80,55 +83,56 @@ public class ConnectService
 //                            }
                             CMLog.i("info", "result:" + result);
                         }
-                        JSONArray array = new JSONArray(result);
-                        result = array.getJSONObject(0).toString();
-                        final T res = GsonHelper.toType(result, t);
+                        
+//                        result = array.getJSONObject(0).toString();
+//                        final T res = GsonHelper.toType(result,t);
+                        //final List<T> res = GsonHelper.toType(result, t);
                         ((Activity)context).runOnUiThread(new Runnable()
                         {
                             public void run()
                             {
-                                if (res != null)
+                                if (result != null)
                                 {
-                                    callback.netBack(res);
+                                    callback.netBack(serviceName,result);
                                 }
                                 else
                                 {
-                                    try
-                                    {
-                                        callback.netBack(t.newInstance());
-                                    }
-                                    catch (InstantiationException e)
-                                    {
-                                        e.printStackTrace();
-                                    }
-                                    catch (IllegalAccessException e)
-                                    {
-                                        e.printStackTrace();
-                                    }
+//                                    try
+//                                    {
+//                                        callback.netBack(t.newInstance());
+//                                    }
+//                                    catch (InstantiationException e)
+//                                    {
+//                                        e.printStackTrace();
+//                                    }
+//                                    catch (IllegalAccessException e)
+//                                    {
+//                                        e.printStackTrace();
+//                                    }
                                 }
                             }
                         });
                     }
                     catch (Exception e)
                     {
-                        ((Activity)context).runOnUiThread(new Runnable()
-                        {
-                            public void run()
-                            {
-                                try
-                                {
-                                    callback.netBack(t.newInstance());
-                                }
-                                catch (InstantiationException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                catch (IllegalAccessException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
+//                        ((Activity)context).runOnUiThread(new Runnable()
+//                        {
+//                            public void run()
+//                            {
+//                                try
+//                                {
+//                                    callback.netBack(t.newInstance());
+//                                }
+//                                catch (InstantiationException e)
+//                                {
+//                                    e.printStackTrace();
+//                                }
+//                                catch (IllegalAccessException e)
+//                                {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        });
                         e.printStackTrace();
                     }
                     
@@ -137,24 +141,24 @@ public class ConnectService
         }
         catch (Exception e)
         {
-            ((Activity)context).runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    try
-                    {
-                        callback.netBack(t.newInstance());
-                    }
-                    catch (InstantiationException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    catch (IllegalAccessException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
+//            ((Activity)context).runOnUiThread(new Runnable()
+//            {
+//                public void run()
+//                {
+//                    try
+//                    {
+//                        callback.netBack(t.newInstance());
+//                    }
+//                    catch (InstantiationException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                    catch (IllegalAccessException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
             e.printStackTrace();
         }
     }
@@ -168,105 +172,101 @@ public class ConnectService
      * @param t
      * @see [类、类#方法、类#成员]
      */
-    public <T> void connectServiceUploadFile(final Context context, Map<String, String> param,
-        Map<String, List<File>> fileParameters, final UICallBack callback, final Class<T> t, final String serviceName,
-        final String encrypt)
-    {
-        try
-        {
-            // 封装输入参数
-            NetWork netWork = new NetWork();
-            String url = URLUtil.SERVER + serviceName + "?encrypt=" + encrypt;// 加上具体的访问地址
-            netWork.startPost(url, param, fileParameters, new INetCallBack()
-            {
-                @Override
-                public void onComplete(String result)
-                {
-                    try
-                    {
-                        if (result != null && !"".equals(result.trim()))
-                        {
-//                            if (Constants.ENCRYPT_SIMPLE.equals(encrypt))
+//    public <T> void connectServiceUploadFile(final Context context, Map<String, String> param,
+//        Map<String, List<File>> fileParameters, final UICallBack callback, final Class<T> t, final String serviceName,
+//        final String encrypt)
+//    {
+//        try
+//        {
+//            // 封装输入参数
+//            NetWork netWork = new NetWork();
+//            String url = URLUtil.SERVER + serviceName + "?encrypt=" + encrypt;// 加上具体的访问地址
+//            netWork.startPost(url, param, fileParameters, new INetCallBack()
+//            {
+//                @Override
+//                public void onComplete(String result)
+//                {
+//                    try
+//                    {
+//                        if (result != null && !"".equals(result.trim()))
+//                        {
+//                            CMLog.i("info", "result:" + result);
+//                        }
+//                        final T res = GsonHelper.toType(result, t);
+//                        ((Activity)context).runOnUiThread(new Runnable()
+//                        {
+//                            public void run()
 //                            {
-//                                result = SecurityUtils.decode2Str(result, Global.getBaseKey());//解密
+//                                if (res != null)
+//                                {
+//                                    callback.netBack(serviceName,res);
+//                                }
+//                                else
+//                                {
+//                                    try
+//                                    {
+//                                        callback.netBack(serviceName,t.newInstance());
+//                                    }
+//                                    catch (InstantiationException e)
+//                                    {
+//                                        e.printStackTrace();
+//                                    }
+//                                    catch (IllegalAccessException e)
+//                                    {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
 //                            }
-                            CMLog.i("info", "result:" + result);
-                        }
-                        final T res = GsonHelper.toType(result, t);
-                        ((Activity)context).runOnUiThread(new Runnable()
-                        {
-                            public void run()
-                            {
-                                if (res != null)
-                                {
-                                    callback.netBack(res);
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        callback.netBack(t.newInstance());
-                                    }
-                                    catch (InstantiationException e)
-                                    {
-                                        e.printStackTrace();
-                                    }
-                                    catch (IllegalAccessException e)
-                                    {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        ((Activity)context).runOnUiThread(new Runnable()
-                        {
-                            public void run()
-                            {
-                                try
-                                {
-                                    callback.netBack(t.newInstance());
-                                }
-                                catch (InstantiationException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                catch (IllegalAccessException e)
-                                {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                        e.printStackTrace();
-                    }
-                    
-                }
-            });
-        }
-        catch (Exception e)
-        {
-            ((Activity)context).runOnUiThread(new Runnable()
-            {
-                public void run()
-                {
-                    try
-                    {
-                        callback.netBack(t.newInstance());
-                    }
-                    catch (InstantiationException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    catch (IllegalAccessException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            e.printStackTrace();
-        }
-    }
+//                        });
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        ((Activity)context).runOnUiThread(new Runnable()
+//                        {
+//                            public void run()
+//                            {
+//                                try
+//                                {
+//                                    callback.netBack(serviceName,t.newInstance());
+//                                }
+//                                catch (InstantiationException e)
+//                                {
+//                                    e.printStackTrace();
+//                                }
+//                                catch (IllegalAccessException e)
+//                                {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        });
+//                        e.printStackTrace();
+//                    }
+//                    
+//                }
+//            });
+//        }
+//        catch (Exception e)
+//        {
+//            ((Activity)context).runOnUiThread(new Runnable()
+//            {
+//                public void run()
+//                {
+//                    try
+//                    {
+//                        callback.netBack(serviceName,t.newInstance());
+//                    }
+//                    catch (InstantiationException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                    catch (IllegalAccessException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            e.printStackTrace();
+//        }
+//    }
     
 }

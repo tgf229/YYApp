@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -24,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,7 +40,6 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.LocationSource.OnLocationChangedListener;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -47,17 +48,25 @@ import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.active.ActiveBean;
 import com.yy.yyapp.bean.coupon.CouponBean;
+import com.yy.yyapp.bean.goods.GoodsBean;
+import com.yy.yyapp.bean.home.Guss;
 import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
-import com.yy.yyapp.bean.home.Guss;
 import com.yy.yyapp.bean.shop.ShopBean;
+import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
+import com.yy.yyapp.constant.URLUtil;
+import com.yy.yyapp.global.Global;
+import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.home.adapter.FreshNewsAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeBannerPagerAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeIconPagerAdapter;
+import com.yy.yyapp.ui.user.LoginActivity;
 import com.yy.yyapp.util.GeneralUtils;
+import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.MyImageView;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -99,7 +108,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
      */
     private MyImageView default_img;
     
-    private LinearLayout icon_default_img, hotCouponPager, hotShopPager, hotShopPicPager,hotGoodsPager,hotActivePager,hotActivePicPager;
+    private LinearLayout icon_default_img, hotCouponPager, hotShopPager, hotShopPicPager, hotGoodsPager,
+        hotActivePager, hotActivePicPager;
     
     private ArrayList<HomeBannerBean> bannerList;
     
@@ -121,7 +131,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private View listview_head;
     
-    private ImageView hotCoupon1, hotCoupon2, hotCoupon3, hotShop1, hotShop2, hotShop3,hotGoods1,hotGoods2,hotGoods3,hotActive1,hotActive2;
+    private ImageView hotCoupon1, hotCoupon2, hotCoupon3, hotShop1, hotShop2, hotShop3, hotGoods1, hotGoods2,
+        hotGoods3, hotActive1, hotActive2;
     
     private String[] homeTag = new String[] {Constants.HOME_TAG_GUSS};
     
@@ -178,13 +189,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         super.onActivityCreated(savedInstanceState);
         init(savedInstanceState);
         
+        reqIcon();
+        reqBanner();
+        
         handler1.postDelayed(new Runnable()
         {
             @Override
             public void run()
             {
-                showBanner();
-                showIcon();
+//                showBanner();
+                //                showIcon();
                 showHotCoupon();
                 showHotShop();
                 showHotGoods();
@@ -287,12 +301,97 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         freshNewsListView.addFooterView(footView);
     }
     
+    private void reqBanner()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            MainFragment.this,
+            URLUtil.BANNER,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    private void reqIcon()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            MainFragment.this,
+            URLUtil.ICON,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    @Override
+    public void netBack(String service, String res)
+    {
+        super.netBack(service, res);
+        if (URLUtil.BANNER.equals(service))
+        {
+            bannerList.clear();
+            
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                for (int i = 0; i < array.length(); i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    HomeBannerBean bean = new HomeBannerBean();
+                    bean.setPic_url(ob.getString("pic_url"));
+                    bean.setTitle(ob.getString("title"));
+                    bean.setUrl(ob.getString("url")); 
+//                    bean.setUrl("http://www.baidu.com"); 
+                    bannerList.add(bean);
+                }
+                showBanner();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (URLUtil.ICON.equals(service))
+        {
+            iconPageList.clear();
+            iconList.clear();
+            
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                for (int i = 0; i < array.length(); i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    HomeIconBean bean = new HomeIconBean();
+                    bean.setPic_name(ob.getString("pic_name"));
+                    bean.setPic_title(ob.getString("pic_title"));
+                    iconList.add(bean);
+                }
+                showIcon();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    
     private void showHotActive()
     {
-        ActiveBean  c1 = new ActiveBean();
+        ActiveBean c1 = new ActiveBean();
         c1.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
-        ShopBean c2 = new ShopBean();
-//        c2.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
+        ActiveBean c2 = new ActiveBean();
+        //        c2.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
         c2.setImgUrl("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
         
         imageLoader.displayImage(c1.getImgUrl(),
@@ -305,20 +404,20 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotGoods()
     {
-        CouponBean c1 = new CouponBean();
-        c1.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
-        CouponBean c2 = new CouponBean();
-        c2.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
-        CouponBean c3 = new CouponBean();
-        c3.setImgUrl("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
+        GoodsBean c1 = new GoodsBean();
+        c1.setProduct_pic_url("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
+        GoodsBean c2 = new GoodsBean();
+        c2.setProduct_pic_url("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
+        GoodsBean c3 = new GoodsBean();
+        c3.setProduct_pic_url("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
         
-        imageLoader.displayImage(c1.getImgUrl(),
+        imageLoader.displayImage(c1.getProduct_pic_url(),
             hotGoods1,
             YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c2.getImgUrl(),
+        imageLoader.displayImage(c2.getProduct_pic_url(),
             hotGoods2,
             YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c3.getImgUrl(),
+        imageLoader.displayImage(c3.getProduct_pic_url(),
             hotGoods3,
             YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
     }
@@ -326,19 +425,19 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     private void showHotShop()
     {
         ShopBean c1 = new ShopBean();
-        c1.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
+        c1.setOrg_pic_url("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
         ShopBean c2 = new ShopBean();
-        c2.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
+        c2.setOrg_pic_url("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
         ShopBean c3 = new ShopBean();
-        c3.setImgUrl("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
+        c3.setOrg_pic_url("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
         
-        imageLoader.displayImage(c1.getImgUrl(),
+        imageLoader.displayImage(c1.getOrg_pic_url(),
             hotShop1,
             YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c2.getImgUrl(),
+        imageLoader.displayImage(c2.getOrg_pic_url(),
             hotShop2,
             YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c3.getImgUrl(),
+        imageLoader.displayImage(c3.getOrg_pic_url(),
             hotShop3,
             YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
     }
@@ -365,26 +464,11 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showBanner()
     {
-        bannerList.clear();
-        
-        HomeBannerBean b = new HomeBannerBean();
-        b.setId("1");
-        b.setName("a");
-        b.setDesc("AA");
-        b.setImageUrl("http://files.18touch.com/uploads/2014/06/101_20140620151756383.jpg");
-        bannerList.add(b);
-        HomeBannerBean b1 = new HomeBannerBean();
-        b1.setId("1");
-        b1.setName("a");
-        b1.setDesc("AA");
-        b1.setImageUrl("http://img0.imgtn.bdimg.com/it/u=196414304,3042212512&fm=21&gp=0.jpg");
-        bannerList.add(b1);
-        
         //        int height = width * 200 / 640;
         int height = displayWidth / 2;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(displayWidth, height);
         banner_Pager.setLayoutParams(params);
-        
+ 
         banner_indicator.setVisibility(View.VISIBLE);
         banner_Pager.setVisibility(View.VISIBLE);
         default_img.setVisibility(View.GONE);
@@ -396,37 +480,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showIcon()
     {
-        iconPageList.clear();
-        iconList.clear();
-        
-        HomeIconBean icon1 = new HomeIconBean();
-        icon1.setName("测试按钮");
-        HomeIconBean icon2 = new HomeIconBean();
-        icon2.setName("测试按钮");
-        HomeIconBean icon3 = new HomeIconBean();
-        icon3.setName("测试按钮");
-        HomeIconBean icon4 = new HomeIconBean();
-        icon4.setName("测试按钮");
-        HomeIconBean icon5 = new HomeIconBean();
-        icon5.setName("测试按钮");
-        HomeIconBean icon6 = new HomeIconBean();
-        icon6.setName("测试按钮");
-        HomeIconBean icon7 = new HomeIconBean();
-        icon7.setName("测试按钮");
-        HomeIconBean icon8 = new HomeIconBean();
-        icon8.setName("测试按钮");
-        HomeIconBean icon9 = new HomeIconBean();
-        icon9.setName("测试按钮");
-        iconList.add(icon9);
-        iconList.add(icon8);
-        iconList.add(icon7);
-        iconList.add(icon6);
-        iconList.add(icon5);
-        iconList.add(icon4);
-        iconList.add(icon1);
-        iconList.add(icon2);
-        iconList.add(icon3);
-        
         if (GeneralUtils.isNotNullOrZeroSize(iconList))
         {
             int size = iconList.size();
@@ -508,8 +561,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     @Override
     public void onHeaderRefresh(PullToRefreshView view)
     {
-        showBanner();
-        showIcon();
+        reqBanner();
+        reqIcon();
         showHotCoupon();
         showHotShop();
         showHotGoods();
@@ -621,7 +674,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
              * API定位采用GPS和网络混合定位方式
              * ，第一个参数是定位provider，第二个参数时间最短是2000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
              */
-            mAMapLocationManager.requestLocationData(LocationProviderProxy.AMapNetwork, -1, 100, this);
+            mAMapLocationManager.requestLocationData(LocationProviderProxy.AMapNetwork, -1, 1000, this);
         }
         
     }

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white_color" >
+    android:background="@color/white_color"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,15 +17,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon1"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon1"
-                android:text="@string/icon1"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon1_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -34,16 +42,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon2"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon2"
-                android:text="@string/icon2"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon2_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color" 
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -51,15 +67,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon3"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon3"
-                android:text="@string/icon3"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon3_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -68,15 +92,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon4"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon4"
-                android:text="@string/icon4"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon4_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
@@ -93,15 +125,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon5"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon5"
-                android:text="@string/icon5"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon5_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -110,15 +150,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon6"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon6"
-                android:text="@string/icon6"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon6_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -127,15 +175,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon7"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon7"
-                android:text="@string/icon7"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon7_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -144,15 +200,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingBottom="7dip"
             android:paddingTop="8dip" >
 
-            <Button
+            <ImageView
                 android:id="@+id/icon8"
-                style="@style/home_icon_style"
-                android:drawableTop="@drawable/icon8"
-                android:text="@string/icon8"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:background="@drawable/default_icon"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/icon8_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_loading"
+                android:textColor="@color/black_color"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

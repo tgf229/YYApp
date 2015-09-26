@@ -6,7 +6,8 @@
     <color name="yello_color">#ff9900</color>
     <color name="home_bg">#FBFBFB</color>
     <color name="home_menu_normal">#000000</color>
-    <color name="home_menu_selected">#009999</color>
+    <!--  <color name="home_menu_selected">#009999</color>-->
+    <color name="home_menu_selected">#449bc6</color>
     <color name="black_color">#000000</color>
     <color name="property_bg">#f5f5f5</color>
     <color name="property_repair_bg">#eeeeee</color>
@@ -20,7 +21,7 @@
     <color name="community_from">#576b95</color>
     <color name="community_square_name">#384d78</color>
     <color name="loading_failed_txt">#666D75</color>
-    <color name="gray_color">#cccccc</color>
+    <color name="gray_color">#888888</color>
     <color name="person_input_hint">#888888</color>
     <color name="person_input_text">#464646</color>
     <color name="person_login_register">#a81005</color>
@@ -62,5 +63,9 @@
     <color name="community_pop_color">#444444</color>
     <color name="community_comment_message">#4a5f8b</color>
     <color name="community_web_url">#597894</color>
+    
+    <color name="result_view">#b0000000</color>
+      <color name="viewfinder_mask">#60000000</color>
+      <color name="possible_result_points">#c0ffff00</color> 
 
 </resources>

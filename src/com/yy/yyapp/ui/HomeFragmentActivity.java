@@ -333,7 +333,7 @@ public class HomeFragmentActivity extends FragmentActivity implements UICallBack
     }
     
     @Override
-    public void netBack(Object ob)
+    public void netBack(String service, String ob)
     {
         // TODO Auto-generated method stub
         

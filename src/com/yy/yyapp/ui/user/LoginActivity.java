@@ -9,10 +9,16 @@
  */
 package com.yy.yyapp.ui.user;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,11 +33,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yy.yyapp.R;
+import com.yy.yyapp.bean.BaseListBean;
 import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.network.GsonHelper;
+import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
@@ -113,6 +122,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         if (GeneralUtils.isNullOrZeroLenght(password))
         {
             pwdTxt.setText(Constants.DEFAULT_PWD);
+            password = pwdTxt.getText().toString().trim();
         }
         
         if (GeneralUtils.isNullOrZeroLenght(username) || GeneralUtils.isNullOrZeroLenght(password))
@@ -137,10 +147,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         Map<String, String> param = new HashMap<String, String>();
         param.put("user_mobile", username);
         param.put("user_password", password);
-        ConnectService.instance().connectServiceReturnResponse(LoginActivity.this,
-            param,
-            LoginActivity.this,
-            UserBean.class,
+        ConnectService.instance().connectServiceReturnResponse(LoginActivity.this, param, LoginActivity.this,
             URLUtil.LOGIN,
             Constants.ENCRYPT_NONE);
     }
@@ -166,23 +173,26 @@ public class LoginActivity extends BaseActivity implements OnClickListener
     }
     
     @Override
-    public void netBack(Object ob)
+    public void netBack(String service, String res)
     {
         
         if (dialog != null)
         {
             dialog.dismissDialog();
         }
-        if (ob instanceof UserBean)
+        if (URLUtil.LOGIN.equals(service))
         {
-            UserBean res = (UserBean)ob;
-            if (GeneralUtils.isNotNullOrZeroLenght(res.getResult()))
+            JSONArray array;
+            try
             {
-                if (Constants.SUCESS_CODE.equals(res.getResult()))
+                array = new JSONArray(res);
+                JSONObject bean = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(bean.getString("result")))
                 {
+                    UserBean user = NetResponse.loginResponse(this, bean);
                     Global.setIsLogin(true);
-                    Global.saveData(res, pwdTxt.getText().toString().trim());
-                    setResult(Constants.LOGIN_SUCCESS_CODE);
+                    Global.saveData(user, pwdTxt.getText().toString().trim());
+                    LoginActivity.this.setResult(Constants.LOGIN_SUCCESS_CODE);
                     finish();
                 }
                 else
@@ -190,10 +200,26 @@ public class LoginActivity extends BaseActivity implements OnClickListener
                     ToastUtil.makeText(this, "用户名或密码错误");
                 }
             }
-            else
+            catch (Exception e)
             {
+                e.printStackTrace();
                 ToastUtil.showError(this);
             }
+        }
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.LOGIN_SUCCESS_CODE:
+                setResult(Constants.LOGIN_SUCCESS_CODE);
+                LoginActivity.this.finish();
+                break;
+            default:
+                break;
         }
     }
 }

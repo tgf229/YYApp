@@ -1,5 +1,8 @@
 package com.yy.yyapp.ui.home.adapter;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.opengl.Visibility;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -15,11 +20,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
@@ -51,23 +58,34 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
     {
         View pageView = LayoutInflater.from(mContext).inflate(R.layout.home_loop_icon_viewpager_item, null);
         
-        Button icon1 = (Button)pageView.findViewById(R.id.icon1);
-        Button icon2 = (Button)pageView.findViewById(R.id.icon2);
-        Button icon3 = (Button)pageView.findViewById(R.id.icon3);
-        Button icon4 = (Button)pageView.findViewById(R.id.icon4);
-        Button icon5 = (Button)pageView.findViewById(R.id.icon5);
-        Button icon6 = (Button)pageView.findViewById(R.id.icon6);
-        Button icon7 = (Button)pageView.findViewById(R.id.icon7);
-        Button icon8 = (Button)pageView.findViewById(R.id.icon8);
-        Button[] btns = new Button[]{icon1,icon2,icon3,icon4,icon5,icon6,icon7,icon8};
+        ImageView icon1 = (ImageView)pageView.findViewById(R.id.icon1);
+        ImageView icon2 = (ImageView)pageView.findViewById(R.id.icon2);
+        ImageView icon3 = (ImageView)pageView.findViewById(R.id.icon3);
+        ImageView icon4 = (ImageView)pageView.findViewById(R.id.icon4);
+        ImageView icon5 = (ImageView)pageView.findViewById(R.id.icon5);
+        ImageView icon6 = (ImageView)pageView.findViewById(R.id.icon6);
+        ImageView icon7 = (ImageView)pageView.findViewById(R.id.icon7);
+        ImageView icon8 = (ImageView)pageView.findViewById(R.id.icon8);
+        TextView icon1_text = (TextView)pageView.findViewById(R.id.icon1_text);
+        TextView icon2_text = (TextView)pageView.findViewById(R.id.icon2_text);
+        TextView icon3_text = (TextView)pageView.findViewById(R.id.icon3_text);
+        TextView icon4_text = (TextView)pageView.findViewById(R.id.icon4_text);
+        TextView icon5_text = (TextView)pageView.findViewById(R.id.icon5_text);
+        TextView icon6_text = (TextView)pageView.findViewById(R.id.icon6_text);
+        TextView icon7_text = (TextView)pageView.findViewById(R.id.icon7_text);
+        TextView icon8_text = (TextView)pageView.findViewById(R.id.icon8_text);
+        ImageView[] btns = new ImageView[] {icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8};
+        TextView[] btns_text = new TextView[] {icon1_text, icon2_text, icon3_text, icon4_text, icon5_text, icon6_text, icon7_text, icon8_text};
         
         List<HomeIconBean> list = mPaths.get(position).getList();
-        for(int i=0; i<list.size(); i++)
+        for (int i = 0; i < list.size(); i++)
         {
-            Drawable drawable=mContext.getResources().getDrawable(R.drawable.icon1); 
-            btns[i].setCompoundDrawablesRelativeWithIntrinsicBounds(null,drawable,null,null);
-            btns[i].setText(list.get(i).getName());
+            ImageLoader.getInstance().displayImage(list.get(i).getPic_name(),
+                btns[i],
+                YYApplication.setAllDisplayImageOptions(mContext, "default_icon", "default_icon", "default_icon"));
+            btns_text[i].setText(list.get(i).getPic_title());
             btns[i].setVisibility(View.VISIBLE);
+            btns_text[i].setVisibility(View.VISIBLE);
         }
         container.addView(pageView, 0);
         return pageView;
@@ -122,10 +140,10 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
     @Override
     public int getItemPosition(Object object)
     {
-        if(count > 0)//null != mPaths && mPaths.size() == 0)
+        if (count > 0)//null != mPaths && mPaths.size() == 0)
         {
             count--;
-            return  POSITION_NONE;
+            return POSITION_NONE;
         }
         return super.getItemPosition(object);
     }

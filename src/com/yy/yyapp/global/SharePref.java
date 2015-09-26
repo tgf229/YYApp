@@ -64,6 +64,8 @@ public class SharePref
      */
     public static final String USER_TYPE = "user_type";
     
+    public static final String SCORE = "score";
+    
     public static final String LOGIN_TYPE = "login_type";
     
     

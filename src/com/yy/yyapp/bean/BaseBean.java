@@ -9,6 +9,7 @@
  */
 package com.yy.yyapp.bean;
 
+
 /**
  * <一句话功能简述>
  * <功能详细描述>
@@ -21,7 +22,7 @@ package com.yy.yyapp.bean;
 public class BaseBean
 {
     private String result;
-
+    
     public String getResult()
     {
         return result;

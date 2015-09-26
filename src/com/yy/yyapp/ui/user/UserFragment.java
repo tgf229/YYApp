@@ -36,7 +36,7 @@ public class UserFragment extends BaseFragment implements OnClickListener
 {
     private View view;
     
-    private TextView loginBtn, registerBtn, logout;
+    private TextView loginBtn, registerBtn, logout,tips;
     
     private LinearLayout unlogin, inlogin;
     
@@ -67,6 +67,7 @@ public class UserFragment extends BaseFragment implements OnClickListener
         logout = (TextView)view.findViewById(R.id.logout);
         unlogin = (LinearLayout)view.findViewById(R.id.unlogin);
         inlogin = (LinearLayout)view.findViewById(R.id.inlogin);
+        tips = (TextView)view.findViewById(R.id.tips);
         
         if (Global.isLogin())
         {
@@ -95,11 +96,12 @@ public class UserFragment extends BaseFragment implements OnClickListener
                 break;
             case R.id.register_btn:
                 Intent intent1 = new Intent(getActivity(), RegisterOneActivity.class);
-                startActivity(intent1);
+                startActivityForResult(intent1,2);
                 break;
             case R.id.logout:
                 inlogin.setVisibility(View.GONE);
                 unlogin.setVisibility(View.VISIBLE);
+                tips.setVisibility(View.VISIBLE);
                 Global.logout();
             default:
                 break;
@@ -115,6 +117,7 @@ public class UserFragment extends BaseFragment implements OnClickListener
             case Constants.LOGIN_SUCCESS_CODE:
                 inlogin.setVisibility(View.VISIBLE);
                 unlogin.setVisibility(View.GONE);
+                tips.setVisibility(View.GONE);
                 break;
             default:
                 break;

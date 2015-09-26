@@ -44,6 +44,18 @@ public class UserBean extends BaseBean
     
     private String user_password;
     
+    private String score;
+    
+    public String getScore()
+    {
+        return score;
+    }
+
+    public void setScore(String score)
+    {
+        this.score = score;
+    }
+
     public String getUser_password()
     {
         return user_password;

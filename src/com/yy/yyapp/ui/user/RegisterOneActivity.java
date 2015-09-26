@@ -14,6 +14,10 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yy.yyapp.R;
-import com.yy.yyapp.bean.BaseBean;
+import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
+import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
@@ -147,7 +153,6 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         ConnectService.instance().connectServiceReturnResponse(RegisterOneActivity.this,
             param,
             RegisterOneActivity.this,
-            BaseBean.class,
             URLUtil.REGISTER,
             Constants.ENCRYPT_NONE);
     }
@@ -168,33 +173,83 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         }
     }
     
-    @Override
-    public void netBack(Object ob)
+    private void reqLogin()
     {
-        if (dialog != null)
+        String phone = phoneTxt.getText().toString().trim();
+        String pwd = pwdTxt.getText().toString().trim();
+        
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("user_mobile", phone);
+        param.put("user_password", pwd);
+        ConnectService.instance()
+            .connectServiceReturnResponse(this, param, this, URLUtil.LOGIN, Constants.ENCRYPT_NONE);
+    }
+    
+    @Override
+    public void netBack(String service, String res)
+    {
+        if (URLUtil.REGISTER.equals(service))
         {
-            dialog.dismissDialog();
-        }
-        if (ob instanceof BaseBean)
-        {
-            BaseBean res = (BaseBean)ob;
-            if (GeneralUtils.isNotNullOrZeroLenght(res.getResult()))
+            JSONArray array;
+            try
             {
-                if (Constants.SUCESS_CODE.equals(res.getResult()))
+                array = new JSONArray(res);
+                JSONObject bean = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(bean.getString("result")))
                 {
-                    ToastUtil.makeText(this, "恭喜您，注册成功");
-                    
-                    //执行自动登录 ============TODO===========
-                    
+                    reqLogin();
+                }
+                else
+                {
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.showError(this);
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
+                ToastUtil.showError(this);
+            }
+        }
+        if (URLUtil.LOGIN.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject bean = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(bean.getString("result")))
+                {
+                    UserBean user = NetResponse.loginResponse(this, bean);
+                    Global.setIsLogin(true);
+                    Global.saveData(user, pwdTxt.getText().toString().trim());
+                    RegisterOneActivity.this.setResult(Constants.LOGIN_SUCCESS_CODE);
                     finish();
                 }
                 else
                 {
-                    ToastUtil.showError(this);
+                    ToastUtil.makeText(this, "自动登录失败");
                 }
             }
-            else
+            catch (Exception e)
             {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
                 ToastUtil.showError(this);
             }
         }

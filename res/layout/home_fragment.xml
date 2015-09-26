@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dip"
+        android:layout_height="44dip"
         android:background="@color/home_menu_selected"
         android:orientation="horizontal" >
 

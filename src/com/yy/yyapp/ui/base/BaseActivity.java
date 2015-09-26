@@ -24,7 +24,7 @@ public class BaseActivity extends Activity implements UICallBack
     
     
     @Override
-    public void netBack(Object ob)
+    public void netBack(String service,String res)
     {
         
     }

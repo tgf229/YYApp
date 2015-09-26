@@ -11,26 +11,23 @@ package com.yy.yyapp.bean.home;
  */
 public class HomeIconBean
 {
-    private String name;
-    private String imageUrl;
-
-    public String getName()
+    private String pic_name;//img
+    private String pic_title; 
+    
+    public String getPic_name()
     {
-        return name;
+        return pic_name;
     }
-
-    public void setName(String name)
+    public void setPic_name(String pic_name)
     {
-        this.name = name;
+        this.pic_name = pic_name;
     }
-
-    public String getImageUrl()
+    public String getPic_title()
     {
-        return imageUrl;
+        return pic_title;
     }
-
-    public void setImageUrl(String imageUrl)
+    public void setPic_title(String pic_title)
     {
-        this.imageUrl = imageUrl;
+        this.pic_title = pic_title;
     }
 }

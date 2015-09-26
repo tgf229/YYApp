@@ -17,6 +17,18 @@ public class URLUtil
     
     public static final String LOGIN = "doLogin";
     
+    public static final String BANNER = "getHomepageScrollPics";
+    
+    public static final String ICON = "getIconScrollPics";
+    
+    public static final String PRODUCT_LIST = "getProducts";
+    
+    public static final String PRODUCT_DETAIL = "getProductDetail";
+    
+    public static final String SHOP_LIST = "getOrg";
+    
+    public static final String SHOP_DETAIL = "getOrgDetail";
+    
     //        public static final String SERVER = "http://10.167.130.240:8080/x8-mobile-gw/";
     //public static final String SERVER = "http://10.167.130.144:8080/p_gateway/";
 }

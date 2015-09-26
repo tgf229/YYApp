@@ -28,5 +28,9 @@
     <string name="icon6">返现宝</string>
     <string name="icon7">玩游戏</string>
     <string name="icon8">看电影</string>
+    
+     <string name="icon_loading">加载中</string>
+     
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
 
 </resources>

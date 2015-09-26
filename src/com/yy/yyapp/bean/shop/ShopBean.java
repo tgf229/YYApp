@@ -20,15 +20,111 @@ package com.yy.yyapp.bean.shop;
  */
 public class ShopBean
 {
-    private String imgUrl;
+    private String org_id;
     
-    public String getImgUrl()
+    private String org_name;
+    
+    private String org_addr;
+    
+    private String org_position;
+    
+    private String org_pic_url;
+    
+    private String org_content;
+    
+    private String org_type;
+    
+    private String org_city;
+    
+    private String org_tel;
+    
+    public String getOrg_tel()
     {
-        return imgUrl;
+        return org_tel;
+    }
+
+    public void setOrg_tel(String org_tel)
+    {
+        this.org_tel = org_tel;
+    }
+
+    public String getOrg_city()
+    {
+        return org_city;
+    }
+
+    public void setOrg_city(String org_city)
+    {
+        this.org_city = org_city;
+    }
+
+    public String getOrg_id()
+    {
+        return org_id;
     }
     
-    public void setImgUrl(String imgUrl)
+    public void setOrg_id(String org_id)
     {
-        this.imgUrl = imgUrl;
+        this.org_id = org_id;
+    }
+    
+    public String getOrg_name()
+    {
+        return org_name;
+    }
+    
+    public void setOrg_name(String org_name)
+    {
+        this.org_name = org_name;
+    }
+    
+    public String getOrg_addr()
+    {
+        return org_addr;
+    }
+    
+    public void setOrg_addr(String org_addr)
+    {
+        this.org_addr = org_addr;
+    }
+    
+    public String getOrg_position()
+    {
+        return org_position;
+    }
+    
+    public void setOrg_position(String org_position)
+    {
+        this.org_position = org_position;
+    }
+    
+    public String getOrg_pic_url()
+    {
+        return org_pic_url;
+    }
+    
+    public void setOrg_pic_url(String org_pic_url)
+    {
+        this.org_pic_url = org_pic_url;
+    }
+    
+    public String getOrg_content()
+    {
+        return org_content;
+    }
+    
+    public void setOrg_content(String org_content)
+    {
+        this.org_content = org_content;
+    }
+    
+    public String getOrg_type()
+    {
+        return org_type;
+    }
+    
+    public void setOrg_type(String org_type)
+    {
+        this.org_type = org_type;
     }
 }

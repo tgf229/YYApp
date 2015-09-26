@@ -2,5 +2,5 @@ package com.yy.yyapp.callback;
 
 public interface UICallBack
 {
-    void netBack(Object ob);
+    void netBack(String service, String ob);
 }
