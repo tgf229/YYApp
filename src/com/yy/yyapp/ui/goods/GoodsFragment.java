@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -26,10 +27,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.goods.GoodsBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
@@ -97,6 +100,8 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
      */
     private int page = 0;
     
+    private ImageView scan;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -117,6 +122,8 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         loadingLayout = (LinearLayout)view.findViewById(R.id.loading_layout);
         loadingLayout.setVisibility(View.VISIBLE);
         
+        scan = (ImageView)view.findViewById(R.id.scan);
+        
         mPullToRefreshView = (PullToRefreshView)view.findViewById(R.id.home_main_pull_refresh_view);
         mPullToRefreshView.setOnHeaderRefreshListener(this);
         
@@ -130,6 +137,7 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         
         goodsListView.addFooterView(loadingFooterView);
         loadingMore.setVisibility(View.GONE);
+        scan.setOnClickListener(this);
     }
     
     private void initData()
@@ -235,8 +243,18 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
     }
     
     @Override
-    public void onClick(View arg0)
+    public void onClick(View v)
     {
+        switch (v.getId())
+        {
+            case R.id.scan:
+                Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
+                startActivityForResult(intent, 0);
+                break;
+            
+            default:
+                break;
+        }
     }
     
     @Override

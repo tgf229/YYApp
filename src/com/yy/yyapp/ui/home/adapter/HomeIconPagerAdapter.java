@@ -1,24 +1,17 @@
 package com.yy.yyapp.ui.home.adapter;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
-import android.os.Handler;
-import android.os.Message;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,9 +20,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
-import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
+import com.yy.yyapp.constant.Constants;
+import com.yy.yyapp.ui.home.LocationActivity;
 
 @SuppressLint("NewApi")
 public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapter
@@ -84,11 +78,28 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
                 btns[i],
                 YYApplication.setAllDisplayImageOptions(mContext, "default_icon", "default_icon", "default_icon"));
             btns_text[i].setText(list.get(i).getPic_title());
+            bindClick(list.get(i).getPic_title(),btns[i]);
             btns[i].setVisibility(View.VISIBLE);
             btns_text[i].setVisibility(View.VISIBLE);
         }
         container.addView(pageView, 0);
         return pageView;
+    }
+    
+    private void bindClick(String title, ImageView btn)
+    {
+        if(Constants.ICON_LOCATION.equals(title))
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(mContext,LocationActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
+        }
     }
     
     @Override

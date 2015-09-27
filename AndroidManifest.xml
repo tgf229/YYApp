@@ -87,6 +87,14 @@
         <activity
             android:name="com.yy.yyapp.ui.WebviewActivity">
         </activity>
+        <!-- ACTIVE -->
+        <activity
+            android:name="com.yy.yyapp.ui.active.ActiveActivity">
+        </activity>
+         <!-- MAP -->
+        <activity
+            android:name="com.yy.yyapp.ui.home.LocationActivity">
+        </activity>
     </application>
 
 </manifest>

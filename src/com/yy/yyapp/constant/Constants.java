@@ -7,6 +7,18 @@ public class Constants
      */
     public static final int GUIDE_VERSION_CODE = 1;
     
+    public static final String ICON_COUPON = "现金券";
+    public static final String ICON_CARD= "会员卡";
+    public static final String ICON_LOCATION= "我在哪";
+    public static final String ICON_SERVICE= "服务";
+    public static final String ICON_HOUSE= "智能家居";
+    public static final String ICON_MONEY= "返现宝";
+    public static final String ICON_BUSINESS= "商圈";
+    public static final String ICON_MOVIE= "看电影";
+    public static final String ICON_GAME= "玩游戏";
+    public static final String ICON_OLD= "养老";
+    public static final String ICON_MEDICAL= "医疗";
+    
     /**
      * 推出应用
      */

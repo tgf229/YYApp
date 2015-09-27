@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_color"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dip"
+        android:background="@color/home_menu_selected"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/title_back_layout"
+            style="@style/title_back_layout"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/title_btn_back"
+                style="@style/title_btn_back"
+                android:clickable="false" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dip"
+            android:layout_marginRight="50dip"
+            android:background="@drawable/goods_search_input"
+            android:drawableLeft="@drawable/goods_search_icon"
+            android:drawablePadding="5dip"
+            android:focusable="true"
+            android:gravity="left|center"
+            android:hint="搜索精选活动"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="10dip"
+            android:singleLine="true"
+            android:textColor="#959494"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/loading_layout"
+        layout="@layout/loading_layout" />
+
+    <com.yy.yyapp.view.PullToRefreshView
+        android:id="@+id/home_main_pull_refresh_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <com.yy.yyapp.view.MyListView2
+            android:id="@+id/active_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/gray_color"
+            android:dividerHeight="1dp"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            android:visibility="gone" >
+        </com.yy.yyapp.view.MyListView2>
+    </com.yy.yyapp.view.PullToRefreshView>
+
+</LinearLayout>
