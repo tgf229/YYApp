@@ -55,23 +55,22 @@ import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.bean.shop.ShopBean;
-import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
-import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.active.ActiveActivity;
+import com.yy.yyapp.ui.active.ActiveDetailActivity;
 import com.yy.yyapp.ui.base.BaseFragment;
+import com.yy.yyapp.ui.coupon.CouponActivity;
+import com.yy.yyapp.ui.coupon.CouponDetailActivity;
 import com.yy.yyapp.ui.goods.ProductDetailActivity;
 import com.yy.yyapp.ui.home.adapter.FreshNewsAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeBannerPagerAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeIconPagerAdapter;
 import com.yy.yyapp.ui.shop.ShopDetailActivity;
-import com.yy.yyapp.ui.user.LoginActivity;
 import com.yy.yyapp.util.GeneralUtils;
-import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.MyImageView;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -92,7 +91,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private RelativeLayout titleBar;
     
-    private TextView titleName,hot_shop_more,hot_goods_more,hot_active_more;
+    private TextView titleName, hot_shop_more, hot_goods_more, hot_active_more, hot_coupon_more;
     
     private int displayWidth;
     
@@ -124,7 +123,13 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private ArrayList<GoodsBean> hotProductList;
     
+    private ArrayList<GoodsBean> gussList;
+    
+    private ArrayList<CouponBean> hotCouponList;
+    
     private ArrayList<ShopBean> hotShopList;
+    
+    private ArrayList<ActiveBean> hotActiveList;
     
     private HomeBannerPagerAdapter homeBannerPagerAdapter;
     
@@ -134,7 +139,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private CirclePageIndicator icon_indicator;
     
-    private List<Map<String, List<Guss>>> freshNewsList = new ArrayList<Map<String, List<Guss>>>();
+    private List<Map<String, List<GoodsBean>>> freshNewsList = new ArrayList<Map<String, List<GoodsBean>>>();
     
     private FreshNewsAdapter freshNewsAdapter;
     
@@ -202,21 +207,9 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         reqBanner();
         reqHotGoods();
         reqHotShop();
-        
-        handler1.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                //                showBanner();
-                //                showIcon();
-                showHotCoupon();
-//                showHotShop();
-                //               
-                showHotActive();
-                showGuss();
-            }
-        }, 2000);
+        reqHotActive();
+        reqHotCoupon();
+        reqGuss();
     }
     
     private void init(Bundle savedInstanceState)
@@ -261,6 +254,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         hotCoupon1 = (ImageView)listview_head.findViewById(R.id.hot_coupon_pic1);
         hotCoupon2 = (ImageView)listview_head.findViewById(R.id.hot_coupon_pic2);
         hotCoupon3 = (ImageView)listview_head.findViewById(R.id.hot_coupon_pic3);
+        hot_coupon_more = (TextView)listview_head.findViewById(R.id.hot_coupon_more);
+        hot_coupon_more.setOnClickListener(this);
         
         //HOTSHOP
         hotShopPager = (LinearLayout)listview_head.findViewById(R.id.hot_shop_content);
@@ -301,7 +296,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         //GUESS
         for (String str : homeTag)
         {
-            HashMap<String, List<Guss>> map = new HashMap<String, List<Guss>>();
+            HashMap<String, List<GoodsBean>> map = new HashMap<String, List<GoodsBean>>();
             map.put(str, null);
             freshNewsList.add(map);
         }
@@ -355,7 +350,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        param.put("is_recomment", "Y");
+        param.put("is_recomment", "推荐商品");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             this,
@@ -370,11 +365,56 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        param.put("is_recomment", "Y");
+        param.put("is_recomment", "推荐商家");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             this,
             URLUtil.SHOP_LIST,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    private void reqHotActive()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("is_recomment", "推荐活动");
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.ACTIVE_LIST,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    private void reqHotCoupon()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("is_recomment", "推荐现金券");
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.COUPON_LIST,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    private void reqGuss()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("is_recomment", "推荐商品");
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.GUSS_LIST,
             Constants.ENCRYPT_NONE);
     }
     
@@ -425,6 +465,65 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     iconList.add(bean);
                 }
                 showIcon();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (URLUtil.COUPON_LIST.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                hotCouponList = new ArrayList<CouponBean>();
+                array = new JSONArray(res);
+                for (int i = 0; i < (array.length() > 3 ? 3 : array.length()); i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    {
+                        break;
+                    }
+                    CouponBean bean = new CouponBean();
+                    bean.setTicket_id(ob.getString("ticket_id"));
+                    bean.setTicket_pic_url(ob.getString("ticket_pic_url"));
+                    hotCouponList.add(bean);
+                }
+                showHotCoupon();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (URLUtil.GUSS_LIST.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                gussList = new ArrayList<GoodsBean>();
+                array = new JSONArray(res);
+                for (int i = 0; i < (array.length() > 4 ? 4 : array.length()); i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    {
+                        break;
+                    }
+                    GoodsBean bean = new GoodsBean();
+                    bean.setProduct_id(ob.getString("product_id"));
+                    bean.setProduct_name(ob.getString("product_name"));
+                    bean.setProduct_pic_url(ob.getString("product_pic_url"));
+                    bean.setProduct_type(ob.getString("product_type"));
+                    bean.setProduct_content(ob.getString("product_content"));
+                    bean.setProduct_price(ob.getString("product_price"));
+                    bean.setActivity_price(ob.getString("activity_price"));
+                    bean.setProduct_org_id(ob.getString("org_id"));
+                    bean.setView_count(ob.getString("view_count"));
+                    gussList.add(bean);
+                }
+                showGuss();
             }
             catch (Exception e)
             {
@@ -483,22 +582,59 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 e.printStackTrace();
             }
         }
+        if (URLUtil.ACTIVE_LIST.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                hotActiveList = new ArrayList<ActiveBean>();
+                array = new JSONArray(res);
+                for (int i = 0; i < (array.length() > 2 ? 2 : array.length()); i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    {
+                        break;
+                    }
+                    ActiveBean bean = new ActiveBean();
+                    bean.setActivity_id(ob.getString("activity_id"));
+                    bean.setActivity_pic_url(ob.getString("activity_pic_url"));
+                    hotActiveList.add(bean);
+                }
+                showHotActive();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
     
     private void showHotActive()
     {
-        ActiveBean c1 = new ActiveBean();
-        c1.setActivity_pic_url("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
-        ActiveBean c2 = new ActiveBean();
-        //        c2.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
-        c2.setActivity_pic_url("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
-        
-        imageLoader.displayImage(c1.getActivity_pic_url(),
-            hotActive1,
-            YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c2.getActivity_pic_url(),
-            hotActive2,
-            YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
+        for (int i = 0; i < hotActiveList.size(); i++)
+        {
+            if (i == 0)
+            {
+                imageLoader.displayImage(hotActiveList.get(i).getActivity_pic_url(),
+                    hotActive1,
+                    YYApplication.setAllDisplayImageOptions(getActivity(),
+                        "default_banner",
+                        "default_banner",
+                        "default_banner"));
+                hotActive1.setOnClickListener(this);
+            }
+            else
+            {
+                imageLoader.displayImage(hotActiveList.get(i).getActivity_pic_url(),
+                    hotActive2,
+                    YYApplication.setAllDisplayImageOptions(getActivity(),
+                        "default_banner",
+                        "default_banner",
+                        "default_banner"));
+                hotActive2.setOnClickListener(this);
+            }
+        }
     }
     
     private void showHotGoods()
@@ -546,7 +682,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             {
                 imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
                     hotShop1,
-                    YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
+                    YYApplication.setAllDisplayImageOptions(getActivity(),
+                        "default_banner",
+                        "default_banner",
+                        "default_banner"));
                 hotShop1.setOnClickListener(this);
             }
             else if (i == 1)
@@ -574,22 +713,40 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotCoupon()
     {
-        CouponBean c1 = new CouponBean();
-        c1.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072951317.jpg");
-        CouponBean c2 = new CouponBean();
-        c2.setImgUrl("http://www.qqzhuangban.com/uploadfile/2014/07/1/20140720035655174.jpg");
-        CouponBean c3 = new CouponBean();
-        c3.setImgUrl("http://img.zcool.cn/community/01ebc9559a18e832f87598b54416f9.jpg");
         
-        imageLoader.displayImage(c1.getImgUrl(),
-            hotCoupon1,
-            YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c2.getImgUrl(),
-            hotCoupon2,
-            YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
-        imageLoader.displayImage(c3.getImgUrl(),
-            hotCoupon3,
-            YYApplication.setAllDisplayImageOptions(getActivity(), "default_banner", "default_banner", "default_banner"));
+        for (int i = 0; i < hotCouponList.size(); i++)
+        {
+            if (i == 0)
+            {
+                imageLoader.displayImage(hotCouponList.get(i).getTicket_pic_url(),
+                    hotCoupon1,
+                    YYApplication.setAllDisplayImageOptions(getActivity(),
+                        "default_banner",
+                        "default_banner",
+                        "default_banner"));
+                hotCoupon1.setOnClickListener(this);
+            }
+            else if (i == 1)
+            {
+                imageLoader.displayImage(hotCouponList.get(i).getTicket_pic_url(),
+                    hotCoupon2,
+                    YYApplication.setAllDisplayImageOptions(getActivity(),
+                        "default_banner",
+                        "default_banner",
+                        "default_banner"));
+                hotCoupon2.setOnClickListener(this);
+            }
+            else
+            {
+                imageLoader.displayImage(hotCouponList.get(i).getTicket_pic_url(),
+                    hotCoupon3,
+                    YYApplication.setAllDisplayImageOptions(getActivity(),
+                        "default_banner",
+                        "default_banner",
+                        "default_banner"));
+                hotCoupon3.setOnClickListener(this);
+            }
+        }
     }
     
     private void showBanner()
@@ -639,47 +796,15 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     {
         freshNewsList.clear();
         
-        List<Guss> list = new ArrayList<Guss>();
-        Guss g = new Guss();
-        g.setId("1");
-        g.setDistance("<500m");
-        g.setContent("六鲜特色面5选1，免费wifi，免预约");
-        g.setImg("http://imgsrc.baidu.com/forum/w%3D580/sign=9d1f50f9252dd42a5f0901a3333a5b2f/5726b9dda144ad3413b78217d0a20cf431ad851f.jpg");
-        g.setName("[营苑北路/墨香路]上海");
-        g.setPrice("￥13");
-        g.setPriceTag("￥16");
-        g.setSold("已售181");
-        list.add(g);
-        Guss g1 = new Guss();
-        g1.setId("1");
-        g1.setDistance("<5000m");
-        g1.setContent("六鲜特色面5选1，免费wifi，免预约六鲜特色面5选1，免费wifi，免预约");
-        g1.setImg("http://imgsrc.baidu.com/forum/w%3D580/sign=8ddfbab3632762d0803ea4b790ed0849/341a90096b63f6244f533c938744ebf81a4ca31d.jpg");
-        g1.setName("[营苑北路/墨香路]上海阿姨奶茶");
-        g1.setPrice("￥13.5");
-        g1.setPriceTag("￥16");
-        g1.setSold("已售18121");
-        list.add(g1);
-        
         for (String str : homeTag)
         {
-            HashMap<String, List<Guss>> map = new HashMap<String, List<Guss>>();
-            map.put(str, list);
+            HashMap<String, List<GoodsBean>> map = new HashMap<String, List<GoodsBean>>();
+            map.put(str, gussList);
             freshNewsList.add(map);
         }
         
         freshNewsAdapter.notifyDataSetChanged();
-        
-        //待删除
-        handler1.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                mPullToRefreshView.onHeaderRefreshComplete();
-            }
-        }, 2000);
-        
+        mPullToRefreshView.onHeaderRefreshComplete();
     }
     
     @Override
@@ -688,32 +813,32 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         switch (v.getId())
         {
             case R.id.hot_goods_pic1:
-                Intent intent = new Intent(getActivity(),ProductDetailActivity.class);
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                 intent.putExtra("id", hotProductList.get(0).getProduct_id());
                 getActivity().startActivity(intent);
                 break;
             case R.id.hot_goods_pic2:
-                Intent intent1 = new Intent(getActivity(),ProductDetailActivity.class);
+                Intent intent1 = new Intent(getActivity(), ProductDetailActivity.class);
                 intent1.putExtra("id", hotProductList.get(1).getProduct_id());
                 getActivity().startActivity(intent1);
                 break;
             case R.id.hot_goods_pic3:
-                Intent intent2 = new Intent(getActivity(),ProductDetailActivity.class);
+                Intent intent2 = new Intent(getActivity(), ProductDetailActivity.class);
                 intent2.putExtra("id", hotProductList.get(2).getProduct_id());
                 getActivity().startActivity(intent2);
                 break;
             case R.id.hot_shop_pic1:
-                Intent shopIntent = new Intent(getActivity(),ShopDetailActivity.class);
+                Intent shopIntent = new Intent(getActivity(), ShopDetailActivity.class);
                 shopIntent.putExtra("id", hotShopList.get(0).getOrg_id());
                 getActivity().startActivity(shopIntent);
                 break;
             case R.id.hot_shop_pic2:
-                Intent shopIntent2 = new Intent(getActivity(),ShopDetailActivity.class);
+                Intent shopIntent2 = new Intent(getActivity(), ShopDetailActivity.class);
                 shopIntent2.putExtra("id", hotShopList.get(1).getOrg_id());
                 getActivity().startActivity(shopIntent2);
                 break;
             case R.id.hot_shop_pic3:
-                Intent shopIntent3 = new Intent(getActivity(),ShopDetailActivity.class);
+                Intent shopIntent3 = new Intent(getActivity(), ShopDetailActivity.class);
                 shopIntent3.putExtra("id", hotShopList.get(2).getOrg_id());
                 getActivity().startActivity(shopIntent3);
                 break;
@@ -724,8 +849,38 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 ((HomeFragmentActivity)getActivity()).setTabSelection(getString(R.string.home_tabbar_goods));
                 break;
             case R.id.hot_active_more:
-                Intent activeIntent = new Intent(getActivity(),ActiveActivity.class);
+                Intent activeIntent = new Intent(getActivity(), ActiveActivity.class);
                 getActivity().startActivity(activeIntent);
+                break;
+            case R.id.hot_coupon_more:
+                Intent couponIntent = new Intent(getActivity(), CouponActivity.class);
+                getActivity().startActivity(couponIntent);
+                break;
+            case R.id.hot_active_pic1:
+                Intent activeIntent1 = new Intent(getActivity(), ActiveDetailActivity.class);
+                activeIntent1.putExtra("id", hotActiveList.get(0).getActivity_id());
+                getActivity().startActivity(activeIntent1);
+                break;
+            case R.id.hot_active_pic2:
+                Intent activeIntent2 = new Intent(getActivity(), ActiveDetailActivity.class);
+                activeIntent2.putExtra("id", hotActiveList.get(1).getActivity_id());
+                getActivity().startActivity(activeIntent2);
+                break;
+            
+            case R.id.hot_coupon_pic1:
+                Intent couponIntent1 = new Intent(getActivity(), CouponDetailActivity.class);
+                couponIntent1.putExtra("id", hotCouponList.get(0).getTicket_id());
+                getActivity().startActivity(couponIntent1);
+                break;
+            case R.id.hot_coupon_pic2:
+                Intent couponIntent2 = new Intent(getActivity(), CouponDetailActivity.class);
+                couponIntent2.putExtra("id", hotCouponList.get(1).getTicket_id());
+                getActivity().startActivity(couponIntent2);
+                break;
+            case R.id.hot_coupon_pic3:
+                Intent couponIntent3 = new Intent(getActivity(), CouponDetailActivity.class);
+                couponIntent3.putExtra("id", hotCouponList.get(2).getTicket_id());
+                getActivity().startActivity(couponIntent3);
                 break;
             default:
                 break;
@@ -737,11 +892,11 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     {
         reqBanner();
         reqIcon();
-        showHotCoupon();
+        reqHotCoupon();
         reqHotShop();
         reqHotGoods();
-        showHotActive();
-        showGuss();
+        reqHotActive();
+        reqGuss();
     }
     
     @Override

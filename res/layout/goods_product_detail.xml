@@ -61,7 +61,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_below="@id/price"
                         android:layout_marginTop="5dip"
-                        android:text="原价 ￥450.00"
+                        android:text="市场价：￥  450"
                         android:textSize="12sp" />
                 </RelativeLayout>
             </LinearLayout>
@@ -82,7 +82,7 @@
                     android:id="@+id/ins_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商品介绍"
+                    android:text="商品详情"
                     android:textColor="@color/black_color"
                     android:textSize="18sp" />
 
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
-                android:text="商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍13213213213213"
+                android:text="XXXXXXXXXXXXXXXXX"
                 android:textColor="@color/gray_color"
                 android:textSize="14sp" />
         </LinearLayout>

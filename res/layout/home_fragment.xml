@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dip"
             android:background="@null"
-            android:drawableRight="@drawable/home_title_arrow_selector"
+            android:drawableRight="@drawable/home_icon_arrow"
             android:text="南京"
             android:textColor="@color/white_color"
             android:textSize="18sp" />

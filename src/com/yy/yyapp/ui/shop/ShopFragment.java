@@ -19,15 +19,19 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -41,7 +45,9 @@ import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseFragment;
+import com.yy.yyapp.ui.goods.ProductTypeActivity;
 import com.yy.yyapp.ui.shop.adapter.ShopListAdapter;
+import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -99,12 +105,15 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
      */
     private int page = 0;
     
-    private ImageView scan;
+    private ImageView scan, shop_type;
     
-    private Handler handler = new Handler()
-    {
-        
-    };
+    private EditText edit;
+    
+    private String type = null;
+    
+    private String keyword = null;
+    
+    private boolean isSearching = false;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -127,6 +136,42 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         loadingLayout.setVisibility(View.VISIBLE);
         
         scan = (ImageView)view.findViewById(R.id.scan);
+        edit = (EditText)view.findViewById(R.id.edit);
+        edit.setOnKeyListener(new OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (keyCode == KeyEvent.KEYCODE_DEL)
+                {
+                    edit.setText("");
+                }
+                else if (keyCode == KeyEvent.KEYCODE_ENTER)
+                {
+                    if (!isSearching)
+                    {
+                        isSearching = true;
+                        if (GeneralUtils.isNotNullOrZeroLenght(edit.getText().toString().trim()))
+                        {
+                            keyword = edit.getText().toString().trim();
+                        }
+                        else
+                        {
+                            keyword = null;
+                        }
+                        page = 0;
+                        shopList.clear();
+                        anyMore = true;
+                        reqList();
+                        hideSoftInput();
+                    }
+                }
+                return true;
+            }
+        });
+        
+        shop_type = (ImageView)view.findViewById(R.id.shop_type);
+        shop_type.setOnClickListener(this);
         
         mPullToRefreshView = (PullToRefreshView)view.findViewById(R.id.home_main_pull_refresh_view);
         mPullToRefreshView.setOnHeaderRefreshListener(this);
@@ -180,8 +225,15 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        param.put("is_recomment", "N");
         param.put("page_no", String.valueOf(page));
+        if (GeneralUtils.isNotNullOrZeroLenght(type))
+        {
+            param.put("org_type", type);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(keyword))
+        {
+            param.put("org_name", keyword);
+        }
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             ShopFragment.this,
@@ -208,7 +260,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                 for (int i = 0; i < array.length(); i++)
                 {
                     JSONObject ob = array.getJSONObject(i);
-                    if(!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
                     {
                         break;
                     }
@@ -236,6 +288,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showList()
     {
+        isSearching = false;
         isRefreshing = false;
         
         shopListAdapter.notifyDataSetChanged();
@@ -255,7 +308,10 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                 Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
                 startActivityForResult(intent, 0);
                 break;
-            
+            case R.id.shop_type:
+                Intent intent1 = new Intent(getActivity(), ShopTypeActivity.class);
+                startActivityForResult(intent1, 0);
+                break;
             default:
                 break;
         }
@@ -271,17 +327,40 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     }
     
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-        case 0:
-            if(resultCode == 1001){
+        switch (resultCode)
+        {
+            case 1001:
                 Bundle bundle = data.getExtras();
                 String star = bundle.getString("result");
                 System.out.println(star);
                 
-            }
-            break;
+                break;
+            case Constants.TYPE_SUCCESS_CODE:
+                type = data.getStringExtra("type");
+                page = 0;
+                shopList.clear();
+                anyMore = true;
+                reqList();
+                break;
         }
-    }   
+    }
+    
+    /**
+     * 隐藏软键盘
+     * 
+     * <功能详细描述>
+     * @see [类、类#方法、类#成员]
+     */
+    private void hideSoftInput()
+    {
+        if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null)
+        {
+            ((InputMethodManager)getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus()
+                .getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 }

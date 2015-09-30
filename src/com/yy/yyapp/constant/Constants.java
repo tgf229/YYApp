@@ -43,6 +43,7 @@ public class Constants
     public static final String SUCESS_CODE = "success";
     
     public static final int LOGIN_SUCCESS_CODE = 1001;
+    public static final int TYPE_SUCCESS_CODE = 1002;
     
     /**
      * 请求失败展示信息

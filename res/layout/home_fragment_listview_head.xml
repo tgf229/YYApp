@@ -312,7 +312,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
                 <View
@@ -329,9 +329,9 @@
                     <ImageView
                         android:id="@+id/hot_coupon_pic2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/default_banner" />
 
                     <View
@@ -342,9 +342,9 @@
                     <ImageView
                         android:id="@+id/hot_coupon_pic3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/default_banner" />
                 </LinearLayout>
             </LinearLayout>
@@ -408,7 +408,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
                 <View
@@ -421,7 +421,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
                 <View
@@ -434,7 +434,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
             </LinearLayout>
         </LinearLayout>
@@ -496,7 +496,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
                 <View
@@ -513,9 +513,9 @@
                     <ImageView
                         android:id="@+id/hot_goods_pic2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/default_banner" />
 
                     <View
@@ -526,9 +526,9 @@
                     <ImageView
                         android:id="@+id/hot_goods_pic3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:scaleType="center"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/default_banner" />
                 </LinearLayout>
             </LinearLayout>
@@ -592,7 +592,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
                 <View
@@ -605,7 +605,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:scaleType="center"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
             </LinearLayout>
         </LinearLayout>

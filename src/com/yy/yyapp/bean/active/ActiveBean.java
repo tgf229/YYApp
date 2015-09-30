@@ -26,6 +26,15 @@ public class ActiveBean
     private String activity_position;
     private String activity_time;
     private String activity_pic_url;
+    private String activity_content;
+    public String getActivity_content()
+    {
+        return activity_content;
+    }
+    public void setActivity_content(String activity_content)
+    {
+        this.activity_content = activity_content;
+    }
     public String getActivity_id()
     {
         return activity_id;

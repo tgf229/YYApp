@@ -73,7 +73,8 @@
         </activity>
         <!-- PRODUCT DETAIL -->
          <activity
-            android:name="com.yy.yyapp.ui.goods.ProductDetailActivity">
+            android:name="com.yy.yyapp.ui.goods.ProductDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <!-- SHOP DETAIL -->
          <activity
@@ -91,9 +92,29 @@
         <activity
             android:name="com.yy.yyapp.ui.active.ActiveActivity">
         </activity>
+        <!-- ACTIVE DETAIL -->
+        <activity
+            android:name="com.yy.yyapp.ui.active.ActiveDetailActivity">
+        </activity>
+        <!-- COUPON -->
+        <activity
+            android:name="com.yy.yyapp.ui.coupon.CouponActivity">
+        </activity>
+        <!-- COUPON DETAIL -->
+        <activity
+            android:name="com.yy.yyapp.ui.coupon.CouponDetailActivity">
+        </activity>
          <!-- MAP -->
         <activity
             android:name="com.yy.yyapp.ui.home.LocationActivity">
+        </activity>
+        <!-- PRODUCT TYPE -->
+        <activity
+            android:name="com.yy.yyapp.ui.goods.ProductTypeActivity">
+        </activity>
+        <!-- SHOP TYPE -->
+        <activity
+            android:name="com.yy.yyapp.ui.shop.ShopTypeActivity">
         </activity>
     </application>
 

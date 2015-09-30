@@ -19,6 +19,7 @@ import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.active.ActiveBean;
 import com.yy.yyapp.bean.goods.GoodsBean;
 import com.yy.yyapp.callback.UICallBack;
+import com.yy.yyapp.ui.active.ActiveDetailActivity;
 import com.yy.yyapp.ui.goods.ProductDetailActivity;
 import com.yy.yyapp.util.GeneralUtils;
 
@@ -82,17 +83,17 @@ public class ActiveListAdapter extends BaseAdapter
         ImageLoader.getInstance().displayImage(entity.getActivity_pic_url(),
             mHolder.img,
             YYApplication.setAllDisplayImageOptions(context, "default_pic", "default_pic", "default_pic"));
-//        convertView.setOnClickListener(new OnClickListener()
-//        {
-//            
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Intent intent = new Intent(context, ProductDetailActivity.class);
-//                intent.putExtra("id", entity.getProduct_id());
-//                context.startActivity(intent);
-//            }
-//        });
+        convertView.setOnClickListener(new OnClickListener()
+        {
+            
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context, ActiveDetailActivity.class);
+                intent.putExtra("id", entity.getActivity_id());
+                context.startActivity(intent);
+            }
+        });
         return convertView;
     }
     

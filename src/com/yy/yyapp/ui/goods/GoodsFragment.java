@@ -20,13 +20,16 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,14 +38,13 @@ import android.widget.RelativeLayout;
 import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.goods.GoodsBean;
-import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.goods.adapter.GoodsListAdapter;
-import com.yy.yyapp.ui.home.MainFragment;
+import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -100,7 +102,15 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
      */
     private int page = 0;
     
-    private ImageView scan;
+    private ImageView scan, goods_type;
+    
+    private EditText edit;
+    
+    private String keyword = null;
+    
+    private String type = null;
+    
+    private boolean isSearching = false;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -123,6 +133,40 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         loadingLayout.setVisibility(View.VISIBLE);
         
         scan = (ImageView)view.findViewById(R.id.scan);
+        goods_type = (ImageView)view.findViewById(R.id.goods_type);
+        edit = (EditText)view.findViewById(R.id.edit);
+        edit.setOnKeyListener(new OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (keyCode == KeyEvent.KEYCODE_DEL)
+                {
+                    edit.setText("");
+                }
+                else if (keyCode == KeyEvent.KEYCODE_ENTER)
+                {
+                    if (!isSearching)
+                    {
+                        isSearching = true;
+                        if (GeneralUtils.isNotNullOrZeroLenght(edit.getText().toString().trim()))
+                        {
+                            keyword = edit.getText().toString().trim();
+                        }
+                        else
+                        {
+                            keyword = null;
+                        }
+                        page = 0;
+                        goodsList.clear();
+                        anyMore = true;
+                        reqList();
+                        hideSoftInput();
+                    }
+                }
+                return true;
+            }
+        });
         
         mPullToRefreshView = (PullToRefreshView)view.findViewById(R.id.home_main_pull_refresh_view);
         mPullToRefreshView.setOnHeaderRefreshListener(this);
@@ -138,6 +182,7 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         goodsListView.addFooterView(loadingFooterView);
         loadingMore.setVisibility(View.GONE);
         scan.setOnClickListener(this);
+        goods_type.setOnClickListener(this);
     }
     
     private void initData()
@@ -175,8 +220,15 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         {
             param.put("user_id", Global.getUserId());
         }
-        param.put("is_recomment", "N");
         param.put("page_no", String.valueOf(page));
+        if (GeneralUtils.isNotNullOrZeroLenght(keyword))
+        {
+            param.put("product_name", keyword);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(type))
+        {
+            param.put("product_type", type);
+        }
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             GoodsFragment.this,
@@ -194,14 +246,14 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
             try
             {
                 array = new JSONArray(res);
-                if(array.length() < 10)
+                if (array.length() < 10)
                 {
                     anyMore = false;
                 }
                 for (int i = 0; i < array.length(); i++)
                 {
                     JSONObject ob = array.getJSONObject(i);
-                    if(!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
                     {
                         break;
                     }
@@ -229,6 +281,7 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
     
     private void showList()
     {
+        isSearching = false;
         isRefreshing = false;
         
         mPullToRefreshView.setVisibility(View.VISIBLE);
@@ -251,7 +304,10 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                 Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
                 startActivityForResult(intent, 0);
                 break;
-            
+            case R.id.goods_type:
+                Intent intent1 = new Intent(getActivity(), ProductTypeActivity.class);
+                startActivityForResult(intent1, 0);
+                break;
             default:
                 break;
         }
@@ -264,5 +320,39 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         goodsList.clear();
         anyMore = true;
         reqList();
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.TYPE_SUCCESS_CODE:
+                type = data.getStringExtra("type");
+                page = 0;
+                goodsList.clear();
+                anyMore = true;
+                reqList();
+                break;
+            default:
+                break;
+        }
+    }
+    
+    /**
+     * 隐藏软键盘
+     * 
+     * <功能详细描述>
+     * @see [类、类#方法、类#成员]
+     */
+    private void hideSoftInput()
+    {
+        if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null)
+        {
+            ((InputMethodManager)getActivity().getSystemService(getActivity().INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus()
+                .getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

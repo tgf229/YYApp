@@ -25,9 +25,24 @@ public class URLUtil
     
     public static final String PRODUCT_DETAIL = "getProductDetail";
     
+    public static final String PRODUCT_TYPE = "getProductTypes";
+    
+    public static final String GUSS_LIST = "getHotProducts";
+    
     public static final String SHOP_LIST = "getOrg";
     
     public static final String SHOP_DETAIL = "getOrgDetail";
+    
+    public static final String SHOP_TYPE = "getOrgTypes";
+    
+    public static final String ACTIVE_LIST = "getActivitys";
+    
+    public static final String ACTIVE_DETAIL = "getActivityDetail";
+    
+    public static final String COUPON_LIST = "getCashtickets";
+    
+    public static final String COUPON_DETAIL = "getCashticketbyId";
+    
     
     //        public static final String SERVER = "http://10.167.130.240:8080/x8-mobile-gw/";
     //public static final String SERVER = "http://10.167.130.144:8080/p_gateway/";

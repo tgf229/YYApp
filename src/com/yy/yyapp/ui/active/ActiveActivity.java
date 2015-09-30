@@ -20,11 +20,15 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -38,6 +42,7 @@ import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.active.adapter.ActiveListAdapter;
 import com.yy.yyapp.ui.base.BaseActivity;
+import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -73,7 +78,7 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
     /**
      * 加载布局
      */
-    private LinearLayout loadingMore,title_back_layout;
+    private LinearLayout loadingMore, title_back_layout;
     
     /**
      * 结束标志
@@ -95,10 +100,11 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
      */
     private int page = 0;
     
-    private Handler handler = new Handler()
-    {
-        
-    };
+    private EditText edit;
+    
+    private String keyword;
+    
+    private boolean isSearching = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -107,8 +113,6 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
         setContentView(R.layout.active_list);
         init();
         initData();
-        //TODO
-        showList();
     }
     
     private void init()
@@ -120,12 +124,47 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
         mPullToRefreshView.setOnHeaderRefreshListener(this);
         title_back_layout = (LinearLayout)findViewById(R.id.title_back_layout);
         
+        edit = (EditText)findViewById(R.id.edit);
+        edit.setOnKeyListener(new OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if(keyCode == KeyEvent.KEYCODE_DEL) { 
+                    edit.setText("");
+                }
+                else if(keyCode == KeyEvent.KEYCODE_ENTER)
+                {
+                    if(!isSearching)
+                    {
+                        isSearching = true;
+                        if(GeneralUtils.isNotNullOrZeroLenght(edit.getText().toString().trim()))
+                        {
+                            keyword = edit.getText().toString().trim();
+                        }
+                        else
+                        {
+                            keyword = null;
+                        }
+                        page = 0;
+                        activeList.clear();
+                        anyMore = true;
+                        reqList();
+                        hideSoftInput();
+                    }
+                }
+                else if(keyCode == KeyEvent.KEYCODE_BACK) { 
+                    ActiveActivity.this.finish();
+                }
+                    
+                return true;
+            }
+        });
         
         activeList = new ArrayList<ActiveBean>();
         activeListView = (ListView)findViewById(R.id.active_listview);
         loadingFooterView =
-            ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.loading,
-                null);
+            ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.loading, null);
         endTips = (RelativeLayout)loadingFooterView.findViewById(R.id.end_tips);
         loadingMore = (LinearLayout)loadingFooterView.findViewById(R.id.loading_more);
         
@@ -147,8 +186,7 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
                     loadingMore.setVisibility(View.VISIBLE);
                     isRefreshing = true;
                     page++;
-//                    reqList();
-                    showList();
+                    reqList();
                 }
             }
             
@@ -160,104 +198,84 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
         });
         activeListAdapter = new ActiveListAdapter(this, activeList, this);
         activeListView.setAdapter(activeListAdapter);
-//        reqList();
+                reqList();
     }
     
-//    private void reqList()
-//    {
-//        Map<String, String> param = new HashMap<String, String>();
-//        if (Global.isLogin())
-//        {
-//            param.put("user_id", Global.getUserId());
-//        }
-//        param.put("is_recomment", "N");
-//        param.put("page_no", String.valueOf(page));
-//        ConnectService.instance().connectServiceReturnResponse(getActivity(),
-//            param,
-//            ActiveActivity.this,
-//            URLUtil.PRODUCT_LIST,
-//            Constants.ENCRYPT_NONE);
-//    }
+    private void reqList()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("page_no", String.valueOf(page));
+        if (GeneralUtils.isNotNullOrZeroLenght(keyword))
+        {
+            param.put("activity_title", keyword);
+        }
+        ConnectService.instance().connectServiceReturnResponse(this,
+            param,
+            ActiveActivity.this,
+            URLUtil.ACTIVE_LIST,
+            Constants.ENCRYPT_NONE);
+    }
     
-//    @Override
-//    public void netBack(String service, String res)
-//    {
-//        super.netBack(service, res);
-//        if (URLUtil.PRODUCT_LIST.equals(service))
-//        {
-//            JSONArray array;
-//            try
-//            {
-//                array = new JSONArray(res);
-//                if(array.length() < 10)
-//                {
-//                    anyMore = false;
-//                }
-//                for (int i = 0; i < array.length(); i++)
-//                {
-//                    JSONObject ob = array.getJSONObject(i);
-//                    if(!Constants.SUCESS_CODE.equals(ob.get("result")))
-//                    {
-//                        break;
-//                    }
-//                    GoodsBean bean = new GoodsBean();
-//                    bean.setProduct_id(ob.getString("product_id"));
-//                    bean.setProduct_name(ob.getString("product_name"));
-//                    bean.setProduct_pic_url(ob.getString("product_pic_url"));
-//                    bean.setProduct_type(ob.getString("product_type"));
-//                    bean.setProduct_content(ob.getString("product_content"));
-//                    bean.setProduct_price(ob.getString("product_price"));
-//                    bean.setActivity_price(ob.getString("activity_price"));
-//                    bean.setProduct_org_id(ob.getString("org_id"));
-//                    bean.setView_count(ob.getString("view_count"));
-//                    goodsList.add(bean);
-//                }
-//                showList();
-//            }
-//            catch (Exception e)
-//            {
-//                e.printStackTrace();
-//                ToastUtil.showError(getActivity());
-//            }
-//        }
-//    }
+    @Override
+    public void netBack(String service, String res)
+    {
+        super.netBack(service, res);
+        if (URLUtil.ACTIVE_LIST.equals(service))
+        {
+                JSONArray array;
+                try
+                {
+                    array = new JSONArray(res);
+                    if (array.length() < 10)
+                    {
+                        anyMore = false;
+                    }
+                    for (int i = 0; i < array.length(); i++)
+                    {
+                        JSONObject ob = array.getJSONObject(i);
+                        if (!Constants.SUCESS_CODE.equals(ob.get("result")))
+                        {
+                            break;
+                        }
+                        ActiveBean bean = new ActiveBean();
+                        bean.setActivity_id(ob.getString("activity_id"));
+                        bean.setActivity_title(ob.getString("activity_title"));
+                        bean.setActivity_addr(ob.getString("activity_addr"));
+                        bean.setActivity_time(ob.getString("activity_time"));
+                        bean.setActivity_pic_url(ob.getString("activity_pic_url"));
+                        activeList.add(bean);
+                    }
+                    showList();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    ToastUtil.showError(this);
+                }
+            }
+    }
     
     private void showList()
     {
-        handler.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                ActiveBean a = new ActiveBean();
-                a.setActivity_title("Moden House盛大开业");
-                a.setActivity_time("活动时间：2015-9-27");
-                a.setActivity_addr("活动描述：XXXXXXXXXXXXXXXXXXXXXXXX");
-                a.setActivity_pic_url("http://www.qqzhuangban.com/uploadfile/2014/08/1/20140817072946568.jpg");
-                activeList.add(a);
-                ActiveBean a1 = new ActiveBean();
-                a1.setActivity_title("楚翘城盛大开业");
-                a1.setActivity_time("活动时间：2015-9-27");
-                a1.setActivity_addr("活动描述：XXXXXXXXXXXXXXXXXXXXXXXX");
-                a1.setActivity_pic_url("http://img0.imgtn.bdimg.com/it/u=1613242593,801606177&fm=21&gp=0.jpg");
-                activeList.add(a1);
-                
-                isRefreshing = false;
-                mPullToRefreshView.setVisibility(View.VISIBLE);
-                activeListView.setVisibility(View.VISIBLE);
-                loadingLayout.setVisibility(View.GONE);
-                loadingMore.setVisibility(View.GONE);
-                activeListAdapter.notifyDataSetChanged();
-                mPullToRefreshView.onHeaderRefreshComplete();                
-            }
-        }, 2000);
+        isSearching = false;
+        isRefreshing = false;
+        mPullToRefreshView.setVisibility(View.VISIBLE);
+        activeListView.setVisibility(View.VISIBLE);
+        loadingLayout.setVisibility(View.GONE);
+        loadingMore.setVisibility(View.GONE);
+        activeListAdapter.notifyDataSetChanged();
+        mPullToRefreshView.onHeaderRefreshComplete();
     }
     
     @Override
     public void onClick(View v)
     {
         switch (v.getId())
-        {       
+        {
             case R.id.title_back_layout:
                 finish();
                 break;
@@ -273,7 +291,21 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
         page = 0;
         activeList.clear();
         anyMore = true;
-//        reqList();
-        showList();
+                reqList();
+    }
+    
+    /**
+     * 隐藏软键盘
+     * 
+     * <功能详细描述>
+     * @see [类、类#方法、类#成员]
+     */
+    private void hideSoftInput()
+    {
+        if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null)
+        {
+            ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }
