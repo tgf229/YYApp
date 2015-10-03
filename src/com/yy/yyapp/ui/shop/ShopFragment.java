@@ -20,15 +20,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.EditText;
@@ -40,14 +38,17 @@ import android.widget.RelativeLayout;
 import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.shop.ShopBean;
+import com.yy.yyapp.callback.DialogCallBack;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseFragment;
-import com.yy.yyapp.ui.goods.ProductTypeActivity;
 import com.yy.yyapp.ui.shop.adapter.ShopListAdapter;
+import com.yy.yyapp.ui.user.LoginActivity;
+import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
+import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -114,6 +115,8 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     private String keyword = null;
     
     private boolean isSearching = false;
+    
+    private NetLoadingDailog dialog;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -241,14 +244,27 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
             Constants.ENCRYPT_NONE);
     }
     
+    private void bind(String org_id)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("org_id", org_id);
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.BIND,
+            Constants.ENCRYPT_NONE);
+    }
+    
     @Override
     public void netBack(String service, String res)
     {
         super.netBack(service, res);
         if (URLUtil.SHOP_LIST.equals(service))
         {
-            //shopList.clear();
-            
             JSONArray array;
             try
             {
@@ -284,6 +300,42 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                 ToastUtil.showError(getActivity());
             }
         }
+        if (URLUtil.BIND.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+//                    ShopBean bean = new ShopBean();
+//                    bean.setOrg_id(ob.getString("org_id"));
+//                    bean.setOrg_name(ob.getString("org_name"));
+//                    bean.setOrg_pic_url(ob.getString("org_pic_url"));
+//                    bean.setOrg_content(ob.getString("org_content"));
+//                    bean.setOrg_addr(ob.getString("org_addr"));
+//                    bean.setOrg_city(ob.getString("org_city"));
+//                    bean.setOrg_position(ob.getString("org_position"));
+//                    bean.setOrg_tel(ob.getString("org_tel"));
+//                    
+//                    showDetail(bean);
+                }
+                else
+                {
+                    ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+            }
+        }
     }
     
     private void showList()
@@ -305,8 +357,15 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         switch (v.getId())
         {
             case R.id.scan:
-                Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
-                startActivityForResult(intent, 0);
+                if(Global.isLogin())
+                {
+                    Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
+                    startActivityForResult(intent, 0);
+                }
+                else
+                {
+                    goToLogin();
+                }
                 break;
             case R.id.shop_type:
                 Intent intent1 = new Intent(getActivity(), ShopTypeActivity.class);
@@ -315,6 +374,19 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
             default:
                 break;
         }
+    }
+    
+    private void goToLogin()
+    {
+        DialogUtil.loginTwoButtonDialog(getActivity(), new DialogCallBack()
+        {
+            @Override
+            public void dialogBack()
+            {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                getActivity().startActivity(i);
+            }
+        });
     }
     
     @Override
@@ -335,7 +407,16 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
             case 1001:
                 Bundle bundle = data.getExtras();
                 String star = bundle.getString("result");
-                System.out.println(star);
+                if(GeneralUtils.isNotNullOrZeroLenght(star))
+                {
+                    dialog = new NetLoadingDailog(getActivity());
+                    dialog.loading();
+                    bind(star.trim());
+                }
+                else
+                {
+                    ToastUtil.makeText(getActivity(), "很抱歉，未扫描到信息");
+                }
                 
                 break;
             case Constants.TYPE_SUCCESS_CODE:

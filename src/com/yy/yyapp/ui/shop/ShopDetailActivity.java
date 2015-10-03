@@ -165,7 +165,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                     bean.setOrg_addr(ob.getString("org_addr"));
                     bean.setOrg_city(ob.getString("org_city"));
                     bean.setOrg_position(ob.getString("org_position"));
-                    //bean.setOrg_tel(ob.getString("org_tel"));   接口还没返回  TODO
+                    bean.setOrg_tel(ob.getString("org_tel"));
                     
                     showDetail(bean);
                 }

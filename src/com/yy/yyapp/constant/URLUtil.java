@@ -33,6 +33,8 @@ public class URLUtil
     
     public static final String SHOP_DETAIL = "getOrgDetail";
     
+    public static final String BIND = "bindingUser";
+    
     public static final String SHOP_TYPE = "getOrgTypes";
     
     public static final String ACTIVE_LIST = "getActivitys";

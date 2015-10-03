@@ -25,7 +25,6 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.LocationSource.OnLocationChangedListener;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.yy.yyapp.R;
@@ -77,6 +76,8 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
             aMap = mapView.getMap();
             setUpMap();
         }
+        
+        back.setOnClickListener(this);
     }
     
     
@@ -192,7 +193,7 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
              * API定位采用GPS和网络混合定位方式
              * ，第一个参数是定位provider，第二个参数时间最短是2000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
              */
-            mAMapLocationManager.requestLocationData(LocationProviderProxy.AMapNetwork, 2000, 10, this);
+            mAMapLocationManager.requestLocationData(LocationProviderProxy.AMapNetwork, -1, 1000, this);
         }
     }
     

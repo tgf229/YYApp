@@ -23,6 +23,7 @@ import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.constant.Constants;
+import com.yy.yyapp.ui.coupon.CouponActivity;
 import com.yy.yyapp.ui.home.LocationActivity;
 
 @SuppressLint("NewApi")
@@ -88,7 +89,19 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
     
     private void bindClick(String title, ImageView btn)
     {
-        if(Constants.ICON_LOCATION.equals(title))
+        if(Constants.ICON_COUPON.equals(title))
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(mContext,CouponActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
+        }
+        else if(Constants.ICON_LOCATION.equals(title))
         {
             btn.setOnClickListener(new OnClickListener()
             {

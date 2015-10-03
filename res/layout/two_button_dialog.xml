@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="106dp"
+        android:background="@drawable/dialog_bg"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:id="@+id/dialog_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dip"
+            android:text="温馨提示"
+            android:textColor="@color/black_color"
+            android:textSize="16sp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/dialog_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="11dip"
+            android:layout_weight="1.0"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="您还没有登录哦,快去登录吧!"
+            android:textColor="@color/black_color"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="44dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/dialog_cancel_bt"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1.0"
+            android:background="@color/home_menu_selected"
+            android:text="取消"
+            android:textColor="@color/white_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/dialog_confirm_bt"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1.0"
+            android:background="@color/home_menu_selected"
+            android:text="确定"
+            android:textColor="@color/white_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
