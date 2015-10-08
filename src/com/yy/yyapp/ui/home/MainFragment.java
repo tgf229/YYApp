@@ -17,7 +17,10 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,9 +43,15 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMap.OnMapClickListener;
+import com.amap.api.maps2d.AMap.OnMarkerClickListener;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -50,7 +60,6 @@ import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.active.ActiveBean;
 import com.yy.yyapp.bean.coupon.CouponBean;
 import com.yy.yyapp.bean.goods.GoodsBean;
-import com.yy.yyapp.bean.home.Guss;
 import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
@@ -85,9 +94,16 @@ import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
  * @since  [产品/模块版本]
  */
 public class MainFragment extends BaseFragment implements OnClickListener, OnHeaderRefreshListener, LocationSource,
-    AMapLocationListener
+    AMapLocationListener,OnMarkerClickListener
 {
     private View view;
+    
+    private Button city;
+    
+    //TODO =========================
+    private String cityTxt = "南京";
+    
+    private String circle = null;
     
     private RelativeLayout titleBar;
     
@@ -143,6 +159,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private FreshNewsAdapter freshNewsAdapter;
     
+    private TitleBroard titleBroard;
+    
     private View listview_head;
     
     private ImageView hotCoupon1, hotCoupon2, hotCoupon3, hotShop1, hotShop2, hotShop3, hotGoods1, hotGoods2,
@@ -156,6 +174,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
      * 跳转时间
      */
     private final int SKIP_TIME = 5 * 1000;
+    
+    private MarkerOptions markerOption;
+    
+    private Marker marker2;// 有跳动效果的marker对象
     
     private View footView;
     
@@ -203,6 +225,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         super.onActivityCreated(savedInstanceState);
         init(savedInstanceState);
         
+        registreBroadcast();
+        
         reqIcon();
         reqBanner();
         reqHotGoods();
@@ -218,9 +242,19 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         mPullToRefreshView.setOnHeaderRefreshListener(this);
         titleBar = (RelativeLayout)view.findViewById(R.id.title_bar);
         titleName = (TextView)view.findViewById(R.id.title_name);
-        titleName.setText(getString(R.string.app_title));
+        city = (Button)view.findViewById(R.id.city);
+        city.setText(cityTxt);
+        if (Global.isLogin() && GeneralUtils.isNotNullOrZeroLenght(Global.getOrgName()))
+        {
+            titleName.setText(Global.getOrgName());
+        }
+        else
+        {
+            titleName.setText("首页");
+        }
         titleBar.setClickable(false);
         titleBar.setOnClickListener(this);
+        city.setOnClickListener(this);
         
         listview_head = LayoutInflater.from(getActivity()).inflate(R.layout.home_fragment_listview_head, null);
         //BANNER
@@ -573,6 +607,9 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     ShopBean bean = new ShopBean();
                     bean.setOrg_id(ob.getString("org_id"));
                     bean.setOrg_pic_url(ob.getString("org_pic_url"));
+                    bean.setOrg_name(ob.getString("org_name"));
+                    bean.setOrg_addr(ob.getString("org_addr"));
+                    bean.setOrg_position(ob.getString("org_position"));
                     hotShopList.add(bean);
                 }
                 showHotShop();
@@ -709,6 +746,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 hotShop3.setOnClickListener(this);
             }
         }
+        addMarkersToMap();
     }
     
     private void showHotCoupon()
@@ -812,6 +850,11 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     {
         switch (v.getId())
         {
+            case R.id.city:
+                Intent cIntent = new Intent(getActivity(), CityActivity.class);
+                cIntent.putExtra("city", cityTxt);
+                getActivity().startActivityForResult(cIntent, 0);
+                break;
             case R.id.hot_goods_pic1:
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                 intent.putExtra("id", hotProductList.get(0).getProduct_id());
@@ -866,7 +909,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 activeIntent2.putExtra("id", hotActiveList.get(1).getActivity_id());
                 getActivity().startActivity(activeIntent2);
                 break;
-            
             case R.id.hot_coupon_pic1:
                 Intent couponIntent1 = new Intent(getActivity(), CouponDetailActivity.class);
                 couponIntent1.putExtra("id", hotCouponList.get(0).getTicket_id());
@@ -933,11 +975,24 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             aMap = mapView.getMap();
             setUpMap();
+            aMap.setOnMapClickListener(new OnMapClickListener()
+            {
+                @Override
+                public void onMapClick(LatLng arg0)
+                {
+                    Intent intent = new Intent(getActivity(),MapActivity.class);
+                    intent.putExtra("list", hotShopList);
+                    getActivity().startActivity(intent);
+                }
+            });
         }
     }
     
     private void setUpMap()
     {
+        LatLng marker1 = new LatLng(32.041544, 118.767413);
+        aMap.moveCamera(CameraUpdateFactory.changeLatLng(marker1)); 
+        
         // 自定义系统定位小蓝点
         MyLocationStyle myLocationStyle = new MyLocationStyle();
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
@@ -950,6 +1005,33 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // aMap.setMyLocationType()
+    }
+    
+    private void addMarkersToMap()
+    {
+        aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
+        
+        for (ShopBean bean : hotShopList)
+        {
+            if (GeneralUtils.isNotNullOrZeroLenght(bean.getOrg_position()))
+            {
+                markerOption = new MarkerOptions();
+                String lng = bean.getOrg_position().split(",")[0];
+                String lat = bean.getOrg_position().split(",")[1];
+                markerOption.position(new LatLng(Double.valueOf(lat), Double.valueOf(lng)));
+                markerOption.title(bean.getOrg_name()).snippet(bean.getOrg_addr());
+                markerOption.draggable(true);
+                markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_point));
+                marker2 = aMap.addMarker(markerOption);
+            }
+        }
+    }
+    
+    @Override
+    public boolean onMarkerClick(Marker arg0)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
     
     @Override
@@ -1018,5 +1100,48 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             mAMapLocationManager.destroy();
         }
         mAMapLocationManager = null;
+    }
+    
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.CITY_SUCCESS_CODE:
+                cityTxt = data.getStringExtra("city");
+                city.setText(cityTxt);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    private void registreBroadcast()
+    {
+        IntentFilter loginFilter = new IntentFilter();
+        loginFilter.addAction(Constants.BIND_TITLE_BROADCAST);
+        titleBroard = new TitleBroard();
+        getActivity().registerReceiver(titleBroard, loginFilter);
+    }
+    
+    class TitleBroard extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            if (Constants.BIND_TITLE_BROADCAST.equals(intent.getAction()))
+            {
+                if(GeneralUtils.isNullOrZeroLenght(Global.getOrgName()))
+                {
+                    titleName.setText("首页");
+                }
+                else
+                {
+                    titleName.setText(Global.getOrgName());
+                }
+            }
+        }
     }
 }

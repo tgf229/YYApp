@@ -19,6 +19,10 @@ public class Constants
     public static final String ICON_OLD= "养老";
     public static final String ICON_MEDICAL= "医疗";
     
+    public static final String PAGE_LOAD_BROADCAST = "PAGE_LOAD_BROADCAST";
+    public static final String BIND_TITLE_BROADCAST = "BIND_TITLE_BROADCAST";
+    
+    
     /**
      * 推出应用
      */
@@ -44,6 +48,9 @@ public class Constants
     
     public static final int LOGIN_SUCCESS_CODE = 1001;
     public static final int TYPE_SUCCESS_CODE = 1002;
+    public static final int CITY_SUCCESS_CODE = 1003;
+    public static final int SCAN_SUCCESS_CODE = 1004;
+    public static final int CIRCLE_SUCCESS_CODE = 1005;
     
     /**
      * 请求失败展示信息

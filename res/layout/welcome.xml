@@ -11,5 +11,30 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/loading_welcome"/>
+    
+    <RelativeLayout
+        android:id="@+id/circlepager_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/circlepager"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/circleindicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="10dip"
+            android:paddingLeft="5dip"
+            android:visibility="gone"
+            app:fillColor="#ea563c"
+            app:pageColor="#939393"
+            app:strokeWidth="0dp" />
+    </RelativeLayout>
 
 </LinearLayout>

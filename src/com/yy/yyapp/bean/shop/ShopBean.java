@@ -9,6 +9,8 @@
  */
 package com.yy.yyapp.bean.shop;
 
+import java.io.Serializable;
+
 /**
  * <一句话功能简述>
  * <功能详细描述>
@@ -18,7 +20,7 @@ package com.yy.yyapp.bean.shop;
  * @see  [相关类/方法]
  * @since  [产品/模块版本]
  */
-public class ShopBean
+public class ShopBean implements Serializable
 {
     private String org_id;
     
@@ -38,26 +40,50 @@ public class ShopBean
     
     private String org_tel;
     
+    private String org_wifiname;
+    
+    private String org_wifipwd;
+    
+    public String getOrg_wifiname()
+    {
+        return org_wifiname;
+    }
+    
+    public void setOrg_wifiname(String org_wifiname)
+    {
+        this.org_wifiname = org_wifiname;
+    }
+    
+    public String getOrg_wifipwd()
+    {
+        return org_wifipwd;
+    }
+    
+    public void setOrg_wifipwd(String org_wifipwd)
+    {
+        this.org_wifipwd = org_wifipwd;
+    }
+    
     public String getOrg_tel()
     {
         return org_tel;
     }
-
+    
     public void setOrg_tel(String org_tel)
     {
         this.org_tel = org_tel;
     }
-
+    
     public String getOrg_city()
     {
         return org_city;
     }
-
+    
     public void setOrg_city(String org_city)
     {
         this.org_city = org_city;
     }
-
+    
     public String getOrg_id()
     {
         return org_id;

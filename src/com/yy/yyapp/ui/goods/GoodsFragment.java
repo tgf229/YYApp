@@ -37,14 +37,20 @@ import android.widget.RelativeLayout;
 
 import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.goods.GoodsBean;
+import com.yy.yyapp.bean.shop.ShopBean;
+import com.yy.yyapp.callback.DialogCallBack;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.goods.adapter.GoodsListAdapter;
+import com.yy.yyapp.ui.user.LoginActivity;
+import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
+import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -111,6 +117,12 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
     private String type = null;
     
     private boolean isSearching = false;
+    
+    private NetLoadingDailog dialog;
+    
+    private String org_id;
+    
+    private int num = 0;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -236,6 +248,42 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
             Constants.ENCRYPT_NONE);
     }
     
+    private void bind()
+    {
+        num = num+1;
+        if(num <= 1)
+        {
+            dialog = new NetLoadingDailog(getActivity());
+            dialog.loading();
+            Map<String, String> param = new HashMap<String, String>();
+            if (Global.isLogin())
+            {
+                param.put("user_id", Global.getUserId());
+            }
+            param.put("org_id", org_id);
+            ConnectService.instance().connectServiceReturnResponse(getActivity(),
+                param,
+                this,
+                URLUtil.BIND,
+                Constants.ENCRYPT_NONE);
+        }
+    }
+    
+    private void reqDetail()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("org_id", org_id);
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.SHOP_DETAIL,
+            Constants.ENCRYPT_NONE);
+    }
+    
     @Override
     public void netBack(String service, String res)
     {
@@ -277,6 +325,68 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                 ToastUtil.showError(getActivity());
             }
         }
+        if (URLUtil.BIND.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    reqDetail();
+                    num = 0;
+                }
+                else
+                {
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
+                ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+            }
+        }
+        if (URLUtil.SHOP_DETAIL.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Global.saveUserOrgId(ob.getString("org_id"));
+                    Global.saveOrgName(ob.getString("org_name"));
+                    
+                    Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    ToastUtil.makeText(getActivity(), "恭喜您，扫码绑定成功");
+                }
+                else
+                {
+                    ToastUtil.showError(getActivity());
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(getActivity());
+            }
+        }
     }
     
     private void showList()
@@ -295,14 +405,34 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         mPullToRefreshView.onHeaderRefreshComplete();
     }
     
+    private void goToLogin()
+    {
+        DialogUtil.loginTwoButtonDialog(getActivity(), new DialogCallBack()
+        {
+            @Override
+            public void dialogBack()
+            {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                getActivity().startActivity(i);
+            }
+        });
+    }
+    
     @Override
     public void onClick(View v)
     {
         switch (v.getId())
         {
             case R.id.scan:
-                Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
-                startActivityForResult(intent, 0);
+                if(Global.isLogin())
+                {
+                    Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
+                    startActivityForResult(intent, 0);
+                }
+                else
+                {
+                    goToLogin();
+                }
                 break;
             case R.id.goods_type:
                 Intent intent1 = new Intent(getActivity(), ProductTypeActivity.class);
@@ -334,6 +464,19 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                 goodsList.clear();
                 anyMore = true;
                 reqList();
+                break;
+            case Constants.SCAN_SUCCESS_CODE:
+                Bundle bundle = data.getExtras();
+                String star = bundle.getString("result");
+                if(GeneralUtils.isNotNullOrZeroLenght(star))
+                {
+                    org_id = star.trim();
+                    bind();
+                }
+                else
+                {
+                    ToastUtil.makeText(getActivity(), "很抱歉，未扫描到信息");
+                }
                 break;
             default:
                 break;

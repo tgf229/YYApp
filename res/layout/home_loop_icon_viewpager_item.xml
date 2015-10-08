@@ -18,13 +18,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon1"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -43,13 +42,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon2"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -68,13 +66,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon3"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -93,13 +90,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon4"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -126,13 +122,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon5"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -151,13 +146,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon6"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -176,13 +170,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon7"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 
@@ -201,13 +194,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="7dip"
-            android:paddingTop="8dip" >
+            android:paddingTop="12dip" >
 
             <ImageView
                 android:id="@+id/icon8"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:background="@drawable/default_icon"
                 android:visibility="gone" />
 

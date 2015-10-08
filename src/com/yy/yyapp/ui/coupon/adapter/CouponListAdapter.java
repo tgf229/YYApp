@@ -67,6 +67,8 @@ public class CouponListAdapter extends BaseAdapter
             mHolder.brand = (TextView)convertView.findViewById(R.id.brand);
             mHolder.price = (TextView)convertView.findViewById(R.id.price);
             mHolder.number = (TextView)convertView.findViewById(R.id.number);
+            mHolder.limit =  (TextView)convertView.findViewById(R.id.limit);
+            
             
             convertView.setTag(mHolder);
         }
@@ -92,9 +94,17 @@ public class CouponListAdapter extends BaseAdapter
         { 
             mHolder.price.setText("");
         }
+        if(GeneralUtils.isNotNullOrZeroLenght(entity.getTicket_limit()))
+        {
+            mHolder.limit.setText("已领"+entity.getTicket_limit()+"张");
+        }
+        else
+        { 
+            mHolder.limit.setText("");
+        }
         if(GeneralUtils.isNotNullOrZeroLenght(entity.getTicket_number()))
         {
-            mHolder.number.setText("发行数量："+entity.getTicket_number());
+            mHolder.number.setText("总计"+entity.getTicket_number()+"张");
         }
         else
         { 
@@ -125,6 +135,6 @@ public class CouponListAdapter extends BaseAdapter
         TextView name;
         TextView brand;
         TextView price;
-        TextView number;
+        TextView number,limit;
     }
 }

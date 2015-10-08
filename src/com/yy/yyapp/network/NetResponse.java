@@ -44,6 +44,7 @@ public class NetResponse
             user.setUser_email((String)bean.get("user_email"));
             user.setUser_org_id((String)bean.get("user_org_id"));
             user.setUser_type((String)bean.get("user_type"));
+            user.setTotal_user((String)bean.get("total_user"));
             return user;
         }
         catch (JSONException e)

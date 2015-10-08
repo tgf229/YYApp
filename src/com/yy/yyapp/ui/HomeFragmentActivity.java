@@ -9,6 +9,7 @@
  */
 package com.yy.yyapp.ui;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.callback.UICallBack;
+import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.ui.goods.GoodsFragment;
 import com.yy.yyapp.ui.home.MainFragment;
 import com.yy.yyapp.ui.shop.ShopFragment;
@@ -62,6 +64,8 @@ public class HomeFragmentActivity extends FragmentActivity implements UICallBack
      * 上次退出时间
      */
     private long downTime;
+
+    public String circle = null;
     
     @Override
     protected void onCreate(Bundle arg0)
@@ -337,5 +341,22 @@ public class HomeFragmentActivity extends FragmentActivity implements UICallBack
     {
         // TODO Auto-generated method stub
         
+    }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.CIRCLE_SUCCESS_CODE:
+                circle = data.getStringExtra("circle");
+                setTabSelection(getString(R.string.home_tabbar_business));
+                break;
+            default:
+                /*在这里，我们通过碎片管理器中的Tag，就是每个碎片的名称，来获取对应的fragment*/
+                Fragment f = fragmentManager.findFragmentByTag(curFragmentTag);
+                /*然后在碎片中调用重写的onActivityResult方法*/
+                f.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
     }
 }

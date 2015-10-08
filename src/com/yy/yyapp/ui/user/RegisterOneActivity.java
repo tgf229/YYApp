@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
@@ -52,7 +54,7 @@ import com.yy.yyapp.util.ToastUtil;
  */
 public class RegisterOneActivity extends BaseActivity implements OnClickListener
 {
-    private LinearLayout back;
+    private LinearLayout back,scan;
     
     private TextView title;
     
@@ -66,6 +68,8 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
      * 加载框
      */
     private NetLoadingDailog dialog;
+    
+    private String scanResult;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -83,6 +87,8 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         phoneTxt = (EditText)findViewById(R.id.phone_txt);
         pwdTxt = (EditText)findViewById(R.id.pwd_txt);
         confirmBtn = (Button)findViewById(R.id.confirm_btn);
+        scan = (LinearLayout)findViewById(R.id.scan);
+        
         dialog = new NetLoadingDailog(this);
         
         //自动弹出软键盘
@@ -112,8 +118,8 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                 isUserTouchPwd = true;
             }
         });
-        
         back.setOnClickListener(this);
+        scan.setOnClickListener(this);
         confirmBtn.setOnClickListener(this);
     }
     
@@ -150,6 +156,10 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         Map<String, String> param = new HashMap<String, String>();
         param.put("user_mobile", phone);
         param.put("user_password", pwd);
+        if(GeneralUtils.isNotNullOrZeroLenght(scanResult))
+        {
+            param.put("user_org_id", scanResult);
+        }
         ConnectService.instance().connectServiceReturnResponse(RegisterOneActivity.this,
             param,
             RegisterOneActivity.this,
@@ -168,6 +178,34 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
             case R.id.confirm_btn:
                 reqRegister();
                 break;
+            case R.id.scan:
+                Intent intent = new Intent(this, MipcaActivityCapture.class);
+                startActivityForResult(intent, 0);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.SCAN_SUCCESS_CODE:
+                Bundle bundle = data.getExtras();
+                String star = bundle.getString("result");
+                if(GeneralUtils.isNotNullOrZeroLenght(star))
+                {
+                    scanResult = star.trim();
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "很抱歉，未扫描到信息");
+                }
+                break;
+                
             default:
                 break;
         }

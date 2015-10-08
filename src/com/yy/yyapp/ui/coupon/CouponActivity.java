@@ -254,6 +254,7 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
                     bean.setTicket_brand(ob.getString("ticket_brand"));
                     bean.setTicket_money(ob.getString("ticket_money"));
                     bean.setTicket_number(ob.getString("ticket_number"));
+                    bean.setTicket_limit(ob.getString("ticket_limit"));
                     couponList.add(bean);
                 }
                 showList();

@@ -62,7 +62,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     
     private String org_id;
     
-    private Button address;
+    private Button address,wifi;
     
     private MyImageView img;
     
@@ -70,9 +70,9 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     
     private List<GoodsBean> hotProductList;
     
-    private LinearLayout hotProductLayout;
+    private LinearLayout hotProductLayout,wifiLayout;
     
-    private RelativeLayout hotProductLayoutTitle,call_layout;
+    private RelativeLayout hotProductLayoutTitle, call_layout;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -98,6 +98,9 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         back = (LinearLayout)findViewById(R.id.title_back_layout);
         title = (TextView)findViewById(R.id.title_name);
         title.setText("商家详情");
+        
+        wifiLayout = (LinearLayout)findViewById(R.id.wifiLayout);
+        wifi = (Button)findViewById(R.id.wifi);
         
         address = (Button)findViewById(R.id.address);
         img = (MyImageView)findViewById(R.id.img);
@@ -166,7 +169,8 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                     bean.setOrg_city(ob.getString("org_city"));
                     bean.setOrg_position(ob.getString("org_position"));
                     bean.setOrg_tel(ob.getString("org_tel"));
-                    
+                    bean.setOrg_wifiname(ob.getString("org_wifiname"));
+                    bean.setOrg_wifipwd(ob.getString("org_wifipwd"));
                     showDetail(bean);
                 }
                 else
@@ -190,7 +194,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                 for (int i = 0; i < (array.length() > 3 ? 3 : array.length()); i++)
                 {
                     JSONObject ob = array.getJSONObject(i);
-                    if(!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
                     {
                         break;
                     }
@@ -218,60 +222,149 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         address.setText(bean.getOrg_addr());
         content.setText(bean.getOrg_content());
         title.setText(bean.getOrg_name());
+        if(GeneralUtils.isNotNullOrZeroLenght(bean.getOrg_wifiname()))
+        {
+            wifi.setText("本店提供免费wifi："+bean.getOrg_wifiname()+"  密码："+bean.getOrg_wifipwd());
+            wifiLayout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            wifiLayout.setVisibility(View.GONE);
+        }
         call_layout.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View arg0)
             {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + bean.getOrg_tel()));
-                startActivity(intent);                
+                startActivity(intent);
             }
         });
     }
     
     private void showHotProduct()
     {
-        hotProductLayout.removeAllViews();
-        
-        if(GeneralUtils.isNullOrZeroSize(hotProductList))
+        if (GeneralUtils.isNullOrZeroSize(hotProductList))
         {
             hotProductLayoutTitle.setVisibility(View.GONE);
             hotProductLayout.setVisibility(View.GONE);
         }
         else
         {
-            for (final GoodsBean g : hotProductList)
+            ImageView pic1 = (ImageView)findViewById(R.id.hot_product_pic1);
+            TextView name1 = (TextView)findViewById(R.id.hot_product_name1);
+            ImageView pic2 = (ImageView)findViewById(R.id.hot_product_pic2);
+            TextView name2 = (TextView)findViewById(R.id.hot_product_name2);
+            ImageView pic3 = (ImageView)findViewById(R.id.hot_product_pic3);
+            TextView name3 = (TextView)findViewById(R.id.hot_product_name3);
+            pic1.setVisibility(View.GONE);
+            name1.setVisibility(View.GONE);
+            pic2.setVisibility(View.GONE);
+            name2.setVisibility(View.GONE);
+            pic3.setVisibility(View.GONE);
+            name3.setVisibility(View.GONE);
+            for (int i = 0; i < hotProductList.size(); i++)
             {
-                View item = (View)LayoutInflater.from(this).inflate(R.layout.shop_detail_hot_product_item, null);
-                ImageView pic = (ImageView)item.findViewById(R.id.hot_product_pic);
-                TextView name = (TextView)item.findViewById(R.id.hot_product_name);
-                
-                ImageLoader.getInstance().displayImage(g.getProduct_pic_url(),
-                    pic,
-                    YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
-                if (GeneralUtils.isNotNullOrZeroLenght(g.getProduct_name()))
+                if (i == 0)
                 {
-                    if(g.getProduct_name().length() > 11)
+                    ImageLoader.getInstance().displayImage(hotProductList.get(i).getProduct_pic_url(),
+                        pic1,
+                        YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
+                    if (GeneralUtils.isNotNullOrZeroLenght(hotProductList.get(i).getProduct_name()))
                     {
-                        name.setText(g.getProduct_name().substring(0, 10)+"...");
+                        name1.setText(hotProductList.get(i).getProduct_name());
                     }
-                    else
+                    pic1.setOnClickListener(new OnClickListener()
                     {
-                        name.setText(g.getProduct_name());
-                    }
+                        @Override
+                        public void onClick(View arg0)
+                        {
+                            Intent intent = new Intent(ShopDetailActivity.this, ProductDetailActivity.class);
+                            intent.putExtra("id", hotProductList.get(0).getProduct_id());
+                            startActivity(intent);
+                        }
+                    });
+                    pic1.setVisibility(View.VISIBLE);
+                    name1.setVisibility(View.VISIBLE);
                 }
-                item.setOnClickListener(new OnClickListener()
+                else if (i == 1)
                 {
-                    @Override
-                    public void onClick(View arg0)
+                    ImageLoader.getInstance().displayImage(hotProductList.get(i).getProduct_pic_url(),
+                        pic2,
+                        YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
+                    if (GeneralUtils.isNotNullOrZeroLenght(hotProductList.get(i).getProduct_name()))
                     {
-                        Intent intent = new Intent(ShopDetailActivity.this,ProductDetailActivity.class);
-                        intent.putExtra("id", g.getProduct_id());
-                        startActivity(intent);
+                        name2.setText(hotProductList.get(i).getProduct_name());
                     }
-                });
-                hotProductLayout.addView(item);
+                    pic2.setOnClickListener(new OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View arg0)
+                        {
+                            Intent intent = new Intent(ShopDetailActivity.this, ProductDetailActivity.class);
+                            intent.putExtra("id", hotProductList.get(1).getProduct_id());
+                            startActivity(intent);
+                        }
+                    });
+                    pic2.setVisibility(View.VISIBLE);
+                    name2.setVisibility(View.VISIBLE);
+                }
+                else if (i == 2)
+                {
+                    ImageLoader.getInstance().displayImage(hotProductList.get(i).getProduct_pic_url(),
+                        pic3,
+                        YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
+                    if (GeneralUtils.isNotNullOrZeroLenght(hotProductList.get(i).getProduct_name()))
+                    {
+                        name3.setText(hotProductList.get(i).getProduct_name());
+                    }
+                    pic3.setOnClickListener(new OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View arg0)
+                        {
+                            Intent intent = new Intent(ShopDetailActivity.this, ProductDetailActivity.class);
+                            intent.putExtra("id", hotProductList.get(2).getProduct_id());
+                            startActivity(intent);
+                        }
+                    });
+                    pic3.setVisibility(View.VISIBLE);
+                    name3.setVisibility(View.VISIBLE);
+                }
             }
+            //            for (final GoodsBean g : hotProductList)
+            //            {
+            //                
+            //                View item = (View)LayoutInflater.from(this).inflate(R.layout.shop_detail_hot_product_item, null);
+            //                ImageView pic = (ImageView)item.findViewById(R.id.hot_product_pic);
+            //                TextView name = (TextView)item.findViewById(R.id.hot_product_name);
+            //                
+            //                ImageLoader.getInstance().displayImage(g.getProduct_pic_url(),
+            //                    pic,
+            //                    YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
+            //                if (GeneralUtils.isNotNullOrZeroLenght(g.getProduct_name()))
+            //                {
+            //                    if(g.getProduct_name().length() > 11)
+            //                    {
+            //                        name.setText(g.getProduct_name().substring(0, 10)+"...");
+            //                    }
+            //                    else
+            //                    {
+            //                        name.setText(g.getProduct_name());
+            //                    }
+            //                }
+            //                item.setOnClickListener(new OnClickListener()
+            //                {
+            //                    @Override
+            //                    public void onClick(View arg0)
+            //                    {
+            //                        Intent intent = new Intent(ShopDetailActivity.this,ProductDetailActivity.class);
+            //                        intent.putExtra("id", g.getProduct_id());
+            //                        startActivity(intent);
+            //                    }
+            //                });
+            //                hotProductLayout.addView(item);
+            //            }
         }
     }
     

@@ -13,13 +13,14 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dip"
+            android:paddingLeft="15dip"
+            android:paddingRight="10dp"
             android:background="@null"
             android:drawableRight="@drawable/home_icon_arrow"
-            android:text="南京"
             android:textColor="@color/white_color"
             android:textSize="18sp" />
 

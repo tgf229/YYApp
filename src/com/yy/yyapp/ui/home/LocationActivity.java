@@ -11,10 +11,15 @@ package com.yy.yyapp.ui.home;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,9 +28,15 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMap.OnMarkerClickListener;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.Projection;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.yy.yyapp.R;
 
@@ -51,7 +62,7 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
     private LinearLayout back;
     
     private TextView title;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -87,6 +98,9 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
     */
     private void setUpMap()
     {
+        LatLng marker1 = new LatLng(32.041544, 118.767413);
+        aMap.moveCamera(CameraUpdateFactory.changeLatLng(marker1)); 
+        
         // 自定义系统定位小蓝点
         MyLocationStyle myLocationStyle = new MyLocationStyle();
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker));// 设置小蓝点的图标
@@ -99,6 +113,7 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
         aMap.getUiSettings().setMyLocationButtonEnabled(true);// 设置默认定位按钮是否显示
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         // aMap.setMyLocationType()
+        
     }
     
     /**
@@ -224,6 +239,5 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
             default:
                 break;
         }
-        
     }
 }

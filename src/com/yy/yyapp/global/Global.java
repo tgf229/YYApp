@@ -104,6 +104,16 @@ public class Global
         SharePref.saveString(SharePref.USER_ORG_ID, userOrgId);
     }
     
+    public static String getOrgName()
+    {
+        return SharePref.getString(SharePref.USER_ORG_NAME, "");
+    }
+    
+    public static void saveOrgName(String orgName)
+    {
+        SharePref.saveString(SharePref.USER_ORG_NAME, orgName);
+    }
+    
     public static String getUserType()
     {
         return SharePref.getString(SharePref.USER_TYPE, "");
@@ -124,6 +134,16 @@ public class Global
         SharePref.saveString(SharePref.SCORE, score);
     }
     
+    public static String getTotalUser()
+    {
+        return SharePref.getString(SharePref.TOTAL_USER, "");
+    }
+    
+    public static void saveTotalUser(String total)
+    {
+        SharePref.saveString(SharePref.TOTAL_USER, total);
+    }
+    
     /**
      * 
      * <保存登陆信息>
@@ -139,9 +159,9 @@ public class Global
         Global.saveUserSex(userBean.getUser_sex());
         Global.saveUserCity(userBean.getUser_city());
         Global.saveUserEmail(userBean.getUser_email());
-        Global.saveUserOrgId(userBean.getUser_org_id());
         Global.saveUserType(userBean.getUser_type());
         Global.saveScore(userBean.getScore());
+        Global.saveTotalUser(userBean.getTotal_user());
     }
     
     public static void logout()
@@ -154,9 +174,11 @@ public class Global
         Global.saveUserSex("");
         Global.saveUserCity("");
         Global.saveUserEmail("");
-        Global.saveUserOrgId("");
         Global.saveUserType("");
         Global.saveScore("");
+        Global.saveTotalUser("");
+        Global.saveUserOrgId("");
+        Global.saveOrgName("");
     }
     
     /**

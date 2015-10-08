@@ -77,6 +77,58 @@
             android:textColor="@color/register1_blue"
             android:textSize="15sp" />
     </LinearLayout>
+    
+            <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_grey" />
+
+        <LinearLayout
+            android:id="@+id/scan"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="18dp" >
+
+            <!-- <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/user_list_card" /> -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="扫一扫绑定商家"
+                android:textColor="@color/black_color"
+                android:textSize="14sp" />
+            
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="非必选"
+                android:textColor="@color/bb474d"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:src="@drawable/user_list_arrow_selector" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_grey" />
 
     <Button
         android:id="@+id/confirm_btn"

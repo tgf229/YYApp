@@ -34,7 +34,6 @@ import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.MyImageView;
-import com.yy.yyapp.view.MyImageView2;
 
 /**
  * <一句话功能简述>
@@ -48,17 +47,22 @@ import com.yy.yyapp.view.MyImageView2;
 public class CouponDetailActivity extends BaseActivity implements OnClickListener
 {
     private LinearLayout back;
-    private TextView title,name,price,priceTag,content,number;
+    
+    private TextView title, name, price, priceTag, content, number, limit, nameTxt, brandTxt, typeTxt, priceTxt;
+    
     private MyImageView img;
+    
     private NetLoadingDailog dialog;
+    
     private String coupon_id;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coupon_detail);
         coupon_id = getIntent().getStringExtra("id");
-        if(GeneralUtils.isNullOrZeroLenght(coupon_id))
+        if (GeneralUtils.isNullOrZeroLenght(coupon_id))
         {
             ToastUtil.makeText(this, "很抱歉，获取信息失败");
             this.finish();
@@ -82,7 +86,12 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         price = (TextView)findViewById(R.id.price);
         number = (TextView)findViewById(R.id.number);
         content = (TextView)findViewById(R.id.content);
+        limit = (TextView)findViewById(R.id.limit);
         
+        nameTxt = (TextView)findViewById(R.id.nameTxt);
+        brandTxt = (TextView)findViewById(R.id.brandTxt);
+        typeTxt = (TextView)findViewById(R.id.typeTxt);
+        priceTxt = (TextView)findViewById(R.id.priceTxt);
         
         back.setOnClickListener(this);
     }
@@ -106,9 +115,9 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
     public void netBack(String service, String res)
     {
         super.netBack(service, res);
-        if(URLUtil.COUPON_DETAIL.equals(service))
+        if (URLUtil.COUPON_DETAIL.equals(service))
         {
-            if(dialog != null)
+            if (dialog != null)
             {
                 dialog.dismissDialog();
             }
@@ -126,6 +135,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                     bean.setTicket_money(ob.getString("ticket_money"));
                     bean.setTicket_number(ob.getString("ticket_number"));
                     bean.setTicket_content(ob.getString("ticket_content"));
+                    bean.setTicket_limit(ob.getString("ticket_limit"));
                     showDetail(bean);
                 }
                 else
@@ -149,24 +159,58 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         name.setText(bean.getTicket_title());
         content.setText(bean.getTicket_content());
         
-        if(GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_money()))
+        if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_money()))
         {
-            price.setText("￥ "+bean.getTicket_money());
+            price.setText("￥ " + bean.getTicket_money());
+            priceTxt.setText("面值："+bean.getTicket_money());
         }
         else
-        { 
+        {
             price.setText("");
+            priceTxt.setText("");
         }
-        if(GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_number()))
+        if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_limit()))
         {
-            number.setText("发行数量："+bean.getTicket_number());
+            limit.setText("已领" + bean.getTicket_number() + "张");
         }
         else
-        { 
+        {
+            limit.setText("");
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_number()))
+        {
+            number.setText("总计" + bean.getTicket_number() + "张");
+        }
+        else
+        {
             number.setText("");
         }
+        if(GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_title()))
+        {
+            nameTxt.setText("名称："+bean.getTicket_title());
+        }
+        else
+        {
+            nameTxt.setText("名称： 无");
+        }
+        if(GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_brand()))
+        {
+            brandTxt.setText("品牌："+bean.getTicket_brand());
+        }
+        else
+        {
+            brandTxt.setText("品牌： 无");
+        }
+        if(GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_type()))
+        {
+            typeTxt.setText("类型："+bean.getTicket_type());
+        }
+        else
+        {
+            typeTxt.setText("类型： 无");
+        }
     }
-
+    
     @Override
     public void onClick(View v)
     {

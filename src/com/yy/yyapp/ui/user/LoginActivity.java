@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.BaseListBean;
 import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
@@ -172,14 +173,24 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         }
     }
     
+    private void reqDetail(String org_id)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("org_id", org_id);
+        ConnectService.instance().connectServiceReturnResponse(this,
+            param,
+            this,
+            URLUtil.SHOP_DETAIL,
+            Constants.ENCRYPT_NONE);
+    }
+    
     @Override
     public void netBack(String service, String res)
     {
-        
-        if (dialog != null)
-        {
-            dialog.dismissDialog();
-        }
         if (URLUtil.LOGIN.equals(service))
         {
             JSONArray array;
@@ -192,12 +203,64 @@ public class LoginActivity extends BaseActivity implements OnClickListener
                     UserBean user = NetResponse.loginResponse(this, bean);
                     Global.setIsLogin(true);
                     Global.saveData(user, pwdTxt.getText().toString().trim());
+                    if(GeneralUtils.isNotNullOrZeroLenght(user.getUser_org_id()))
+                    {
+                        reqDetail(user.getUser_org_id());
+                    }
+                    else
+                    {
+                        if (dialog != null)
+                        {
+                            dialog.dismissDialog();
+                        }
+                        LoginActivity.this.setResult(Constants.LOGIN_SUCCESS_CODE);
+                        finish();
+                    }
+                }
+                else
+                {
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.makeText(this, "用户名或密码错误");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
+                ToastUtil.showError(this);
+            }
+        }
+        if (URLUtil.SHOP_DETAIL.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Global.saveUserOrgId(ob.getString("org_id"));
+                    Global.saveOrgName(ob.getString("org_name"));
+                    
+                    Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    
                     LoginActivity.this.setResult(Constants.LOGIN_SUCCESS_CODE);
                     finish();
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "用户名或密码错误");
+                    ToastUtil.showError(this);
                 }
             }
             catch (Exception e)

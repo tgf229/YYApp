@@ -23,6 +23,12 @@
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
             android:src="@drawable/default_pic" />
+        
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignBottom="@id/tag_title"
+                android:background="@drawable/line_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,6 +72,31 @@
 
         <View
             android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@drawable/line_grey" />
+        
+        <LinearLayout
+            android:id="@+id/wifiLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dip"
+            android:visibility="gone" >
+
+            <Button
+                android:id="@+id/wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableLeft="@drawable/wireless"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/black_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
             android:layout_height="10dip"
             android:background="@drawable/line_grey" />
 
@@ -93,55 +124,99 @@
                 android:text="更多"
                 android:textColor="@color/gray_color" />
 
-            <View
+        </RelativeLayout>
+		
+		<View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_alignBottom="@id/tag_title"
                 android:background="@drawable/line_grey" />
-        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/hot_product_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="10dip" >
+            android:padding="10dp">
+            <LinearLayout
+			    android:layout_width="0dip"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:orientation="vertical"
+			    android:gravity="center" >
+			    <ImageView
+			        android:id="@+id/hot_product_pic1"
+			        android:layout_width="100dp"
+			        android:layout_height="100dp"
+			        android:background="@drawable/default_pic" />
+			    <TextView
+			        android:id="@+id/hot_product_name1"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			         android:text="@string/icon_loading"
+			        android:singleLine="true"
+			        android:ellipsize="end"
+			        android:textColor="@color/black_color" />
+			</LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center" >
-
-                <Button
-                    style="@style/shop_product_style"
-                    android:drawableTop="@drawable/default_pic"
-                    android:text="@string/icon_loading" />
-                
+                <LinearLayout
+				    android:layout_width="0dip"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="1"
+				    android:orientation="vertical"
+				    android:gravity="center" >
+				    <ImageView
+				        android:id="@+id/hot_product_pic2"
+				        android:layout_width="100dp"
+				        android:layout_height="100dp"
+				        android:background="@drawable/default_pic" />
+				    <TextView
+				        android:id="@+id/hot_product_name2"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="@string/icon_loading"
+				        android:singleLine="true"
+				        android:ellipsize="end"
+				        android:textColor="@color/black_color" />
+				</LinearLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center" >
 
-                <Button
+                <LinearLayout
+				    android:layout_width="0dip"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="1"
+				    android:orientation="vertical"
+				    android:gravity="center" >
+				    <ImageView
+				        android:id="@+id/hot_product_pic3"
+				        android:layout_width="100dp"
+				        android:layout_height="100dp"
+				        android:background="@drawable/default_pic" />
+				    <TextView
+				        android:id="@+id/hot_product_name3"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="@string/icon_loading"
+				        android:singleLine="true"
+				        android:ellipsize="end"
+				        android:textColor="@color/black_color" />
+				</LinearLayout>
+                <!-- <Button
                     style="@style/shop_product_style"
                     android:drawableTop="@drawable/default_pic"
-                    android:text="@string/icon_loading" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center" >
-
-                <Button
-                    style="@style/shop_product_style"
-                    android:drawableTop="@drawable/default_pic"
-                    android:text="@string/icon_loading" />
+                    android:text="@string/icon_loading" />-->
             </LinearLayout>
         </LinearLayout>
 

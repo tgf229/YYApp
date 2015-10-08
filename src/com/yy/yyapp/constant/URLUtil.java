@@ -13,6 +13,8 @@ public class URLUtil
 {
     public static final String SERVER = "http://123.57.160.38/app/AppAction?action=";
     
+    public static final String AMAP_KEY = "77d14c8738d368e202f2792acbe6ff90";
+    
     public static final String REGISTER = "doRegister";
     
     public static final String LOGIN = "doLogin";
@@ -45,6 +47,11 @@ public class URLUtil
     
     public static final String COUPON_DETAIL = "getCashticketbyId";
     
+    public static final String CITY_LIST = "getCitys";
+    
+    public static final String PAGE_LIST = "getBootScrollPics";
+    
+    public static final String CIRCLE_LIST = "getCommunitys";
     
     //        public static final String SERVER = "http://10.167.130.240:8080/x8-mobile-gw/";
     //public static final String SERVER = "http://10.167.130.144:8080/p_gateway/";

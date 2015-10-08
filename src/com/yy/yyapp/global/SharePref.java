@@ -60,11 +60,18 @@ public class SharePref
     public static final String USER_ORG_ID = "user_org_id";
     
     /**
+     * 商户NAME
+     */
+    public static final String USER_ORG_NAME = "org_id";
+    
+    /**
      * 会员类型
      */
     public static final String USER_TYPE = "user_type";
     
     public static final String SCORE = "score";
+    
+    public static final String TOTAL_USER = "total_user";
     
     public static final String LOGIN_TYPE = "login_type";
     

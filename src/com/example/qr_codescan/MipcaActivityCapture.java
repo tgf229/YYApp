@@ -29,6 +29,7 @@ import com.mining.app.zxing.decoding.CaptureActivityHandler;
 import com.mining.app.zxing.decoding.InactivityTimer;
 import com.mining.app.zxing.view.ViewfinderView;
 import com.yy.yyapp.R;
+import com.yy.yyapp.constant.Constants;
 /**
  * Initial the camera
  * @author Ryan.Tang
@@ -125,7 +126,7 @@ public class MipcaActivityCapture extends Activity implements Callback {
 			bundle.putString("result", resultString);
 			bundle.putParcelable("bitmap", barcode);
 			resultIntent.putExtras(bundle);
-			this.setResult(1001, resultIntent);
+			this.setResult(Constants.SCAN_SUCCESS_CODE, resultIntent);
 		}
 		MipcaActivityCapture.this.finish();
 	}

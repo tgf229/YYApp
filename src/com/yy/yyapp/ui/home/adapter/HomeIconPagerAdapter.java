@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
@@ -25,6 +26,7 @@ import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.ui.coupon.CouponActivity;
 import com.yy.yyapp.ui.home.LocationActivity;
+import com.yy.yyapp.ui.home.ShopCircleActivity;
 
 @SuppressLint("NewApi")
 public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapter
@@ -110,6 +112,18 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
                 {
                     Intent intent = new Intent(mContext,LocationActivity.class);
                     mContext.startActivity(intent);
+                }
+            });
+        }
+        else if(Constants.ICON_BUSINESS.equals(title))
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(mContext,ShopCircleActivity.class);
+                    ((Activity)mContext).startActivityForResult(intent, Constants.CIRCLE_SUCCESS_CODE);
                 }
             });
         }

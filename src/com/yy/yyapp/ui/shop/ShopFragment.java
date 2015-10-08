@@ -17,6 +17,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,12 +38,14 @@ import android.widget.RelativeLayout;
 
 import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.shop.ShopBean;
 import com.yy.yyapp.callback.DialogCallBack;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.shop.adapter.ShopListAdapter;
 import com.yy.yyapp.ui.user.LoginActivity;
@@ -114,9 +117,15 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     
     private String keyword = null;
     
+    private String circle1 = null;
+    
     private boolean isSearching = false;
     
     private NetLoadingDailog dialog;
+    
+    private String org_id;
+    
+    private int num = 0;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -130,6 +139,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     {
         super.onActivityCreated(savedInstanceState);
         init();
+//        circle1 = ((HomeFragmentActivity)getActivity()).circle;
         initData();
     }
     
@@ -237,6 +247,10 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("org_name", keyword);
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(circle1))
+        {
+            param.put("org_comm", circle1);
+        }
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             ShopFragment.this,
@@ -244,7 +258,28 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
             Constants.ENCRYPT_NONE);
     }
     
-    private void bind(String org_id)
+    private void bind()
+    {
+        num = num + 1;
+        if (num <= 1)
+        {
+            dialog = new NetLoadingDailog(getActivity());
+            dialog.loading();
+            Map<String, String> param = new HashMap<String, String>();
+            if (Global.isLogin())
+            {
+                param.put("user_id", Global.getUserId());
+            }
+            param.put("org_id", org_id);
+            ConnectService.instance().connectServiceReturnResponse(getActivity(),
+                param,
+                this,
+                URLUtil.BIND,
+                Constants.ENCRYPT_NONE);
+        }
+    }
+    
+    private void reqDetail()
     {
         Map<String, String> param = new HashMap<String, String>();
         if (Global.isLogin())
@@ -255,7 +290,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             this,
-            URLUtil.BIND,
+            URLUtil.SHOP_DETAIL,
             Constants.ENCRYPT_NONE);
     }
     
@@ -302,6 +337,37 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         }
         if (URLUtil.BIND.equals(service))
         {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    reqDetail();
+                    num = 0;
+                }
+                else
+                {
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
+                ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+            }
+        }
+        if (URLUtil.SHOP_DETAIL.equals(service))
+        {
             if (dialog != null)
             {
                 dialog.dismissDialog();
@@ -313,33 +379,30 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                 JSONObject ob = array.getJSONObject(0);
                 if (Constants.SUCESS_CODE.equals(ob.getString("result")))
                 {
-//                    ShopBean bean = new ShopBean();
-//                    bean.setOrg_id(ob.getString("org_id"));
-//                    bean.setOrg_name(ob.getString("org_name"));
-//                    bean.setOrg_pic_url(ob.getString("org_pic_url"));
-//                    bean.setOrg_content(ob.getString("org_content"));
-//                    bean.setOrg_addr(ob.getString("org_addr"));
-//                    bean.setOrg_city(ob.getString("org_city"));
-//                    bean.setOrg_position(ob.getString("org_position"));
-//                    bean.setOrg_tel(ob.getString("org_tel"));
-//                    
-//                    showDetail(bean);
+                    Global.saveUserOrgId(ob.getString("org_id"));
+                    Global.saveOrgName(ob.getString("org_name"));
+                    
+                    Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    ToastUtil.makeText(getActivity(), "恭喜您，扫码绑定成功");
                 }
                 else
                 {
-                    ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+                    ToastUtil.showError(getActivity());
                 }
             }
             catch (Exception e)
             {
                 e.printStackTrace();
-                ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+                ToastUtil.showError(getActivity());
             }
         }
     }
     
     private void showList()
     {
+        circle1 = null;
+        ((HomeFragmentActivity)getActivity()).circle = null;
         isSearching = false;
         isRefreshing = false;
         
@@ -357,7 +420,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         switch (v.getId())
         {
             case R.id.scan:
-                if(Global.isLogin())
+                if (Global.isLogin())
                 {
                     Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
                     startActivityForResult(intent, 0);
@@ -404,20 +467,18 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode)
         {
-            case 1001:
+            case Constants.SCAN_SUCCESS_CODE:
                 Bundle bundle = data.getExtras();
                 String star = bundle.getString("result");
-                if(GeneralUtils.isNotNullOrZeroLenght(star))
+                if (GeneralUtils.isNotNullOrZeroLenght(star))
                 {
-                    dialog = new NetLoadingDailog(getActivity());
-                    dialog.loading();
-                    bind(star.trim());
+                    org_id = star.trim();
+                    bind();
                 }
                 else
                 {
                     ToastUtil.makeText(getActivity(), "很抱歉，未扫描到信息");
                 }
-                
                 break;
             case Constants.TYPE_SUCCESS_CODE:
                 type = data.getStringExtra("type");

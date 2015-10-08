@@ -12,11 +12,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:cacheColorHint="@android:color/transparent"
-        android:divider="@color/gray_color"
+        android:divider="@drawable/line_grey"
         android:dividerHeight="1dp"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none"
         android:visibility="gone" >
     </com.yy.yyapp.view.MyListView2>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@drawable/line_grey"/>
 
 </LinearLayout>

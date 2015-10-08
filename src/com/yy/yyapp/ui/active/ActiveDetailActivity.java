@@ -21,7 +21,9 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.active.ActiveBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
@@ -30,6 +32,7 @@ import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
+import com.yy.yyapp.view.MyImageView;
 
 /**
  * <一句话功能简述>
@@ -47,6 +50,7 @@ public class ActiveDetailActivity extends BaseActivity implements OnClickListene
     private TextView title, name, time, addr, content;
     private NetLoadingDailog dialog;
     private String active_id;
+    private MyImageView img;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,6 +71,7 @@ public class ActiveDetailActivity extends BaseActivity implements OnClickListene
         title = (TextView)findViewById(R.id.title_name);
         title.setText("活动详情");
         
+        img = (MyImageView)findViewById(R.id.img);
         name = (TextView)findViewById(R.id.name);
         time = (TextView)findViewById(R.id.time);
         addr = (TextView)findViewById(R.id.addr);
@@ -113,6 +118,7 @@ public class ActiveDetailActivity extends BaseActivity implements OnClickListene
                     bean.setActivity_addr(ob.getString("activity_addr"));
                     bean.setActivity_time(ob.getString("activity_time"));
                     bean.setActivity_content(ob.getString("activity_content"));
+                    bean.setActivity_pic_url(ob.getString("activity_pic_url"));
                     
                     showDetail(bean);
                 }
@@ -131,6 +137,9 @@ public class ActiveDetailActivity extends BaseActivity implements OnClickListene
     
     private void showDetail(ActiveBean bean)
     {
+        ImageLoader.getInstance().displayImage(bean.getActivity_pic_url(),
+            img,
+            YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
         name.setText(bean.getActivity_title());
         time.setText(bean.getActivity_time());
         addr.setText(bean.getActivity_addr());

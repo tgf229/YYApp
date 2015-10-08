@@ -15,6 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
+            
+            <com.yy.yyapp.view.MyImageView
+                android:id="@+id/img"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/default_pic" />
 
             <LinearLayout
                 android:layout_width="match_parent"

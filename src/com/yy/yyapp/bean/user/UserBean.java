@@ -46,6 +46,18 @@ public class UserBean extends BaseBean
     
     private String score;
     
+    private String total_user;
+    
+    public String getTotal_user()
+    {
+        return total_user;
+    }
+
+    public void setTotal_user(String total_user)
+    {
+        this.total_user = total_user;
+    }
+
     public String getScore()
     {
         return score;

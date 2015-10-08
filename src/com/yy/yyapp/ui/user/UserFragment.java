@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.ui.base.BaseFragment;
@@ -36,9 +37,9 @@ public class UserFragment extends BaseFragment implements OnClickListener
 {
     private View view;
     
-    private TextView loginBtn, registerBtn, logout,tips;
+    private TextView loginBtn, registerBtn, inLoginTxt,tips;
     
-    private LinearLayout unlogin, inlogin;
+    private LinearLayout unlogin, inlogin,logout;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -64,9 +65,11 @@ public class UserFragment extends BaseFragment implements OnClickListener
     {
         loginBtn = (TextView)view.findViewById(R.id.login_btn);
         registerBtn = (TextView)view.findViewById(R.id.register_btn);
-        logout = (TextView)view.findViewById(R.id.logout);
+        inLoginTxt = (TextView)view.findViewById(R.id.inLoginTxt);
         unlogin = (LinearLayout)view.findViewById(R.id.unlogin);
         inlogin = (LinearLayout)view.findViewById(R.id.inlogin);
+        logout = (LinearLayout)view.findViewById(R.id.logout);
+        
         tips = (TextView)view.findViewById(R.id.tips);
         
         if (Global.isLogin())
@@ -103,6 +106,8 @@ public class UserFragment extends BaseFragment implements OnClickListener
                 unlogin.setVisibility(View.VISIBLE);
                 tips.setVisibility(View.VISIBLE);
                 Global.logout();
+                Intent intent2 = new Intent(Constants.BIND_TITLE_BROADCAST);
+                YYApplication.yyApplication.sendBroadcast(intent2);
             default:
                 break;
         }
@@ -116,6 +121,7 @@ public class UserFragment extends BaseFragment implements OnClickListener
         {
             case Constants.LOGIN_SUCCESS_CODE:
                 inlogin.setVisibility(View.VISIBLE);
+                inLoginTxt.setText("已注册会员："+Global.getTotalUser()+"人");
                 unlogin.setVisibility(View.GONE);
                 tips.setVisibility(View.GONE);
                 break;
