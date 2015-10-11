@@ -471,7 +471,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     bean.setPic_url(ob.getString("pic_url"));
                     bean.setTitle(ob.getString("title"));
                     bean.setUrl(ob.getString("url"));
-                    //                    bean.setUrl("http://www.baidu.com"); 
+                    bean.setOrg_id(ob.getString("org_id"));
                     bannerList.add(bean);
                 }
                 showBanner();

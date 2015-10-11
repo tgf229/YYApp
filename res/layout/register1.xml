@@ -103,7 +103,7 @@
                 android:layout_weight="3"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="扫一扫绑定商家"
+                android:text="现在去绑定商家"
                 android:textColor="@color/black_color"
                 android:textSize="14sp" />
             
@@ -130,16 +130,17 @@
             android:layout_height="1px"
             android:background="@drawable/line_grey" />
 
-    <Button
-        android:id="@+id/confirm_btn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="13dp"
-        android:background="@drawable/button_bg"
-        android:text="注    册"
-        android:textColor="@color/white_color"
-        android:textSize="16sp" />
+        
+        <Button
+            android:id="@+id/confirm_btn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/home_menu_selected"
+            android:text="注    册"
+            android:textColor="@color/white_color"
+            android:textSize="16sp" />
 
 </LinearLayout>

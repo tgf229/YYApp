@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yy.yyapp"
     android:versionCode="1"
-    android:versionName="1.2" >
+    android:versionName="1.4" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -44,6 +44,8 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="8bb99c2844a1bf06092cc5e9d44e3dc1" />
+        <!-- debug 8bb99c2844a1bf06092cc5e9d44e3dc1   -->
+        <!-- dis   7d01ec7ea75c2dd7483264b2d700cd17    -->
 
         <!-- welcome -->
         <activity
@@ -131,6 +133,38 @@
          <!-- MAP2-->
         <activity
             android:name="com.yy.yyapp.ui.home.PoiAroundSearchActivity">
+        </activity>
+        <!-- USER CARD-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.UserCardActivity">
+        </activity>
+         <!-- USER SCORE-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.UserScoreActivity">
+        </activity>
+         <!-- ABOUT US-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.AboutUsActivity">
+        </activity>
+         <!-- CHANGE PWD-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.UserPasswordActivity">
+        </activity>
+        <!-- user coupon-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.UserCouponActivity">
+        </activity>
+        <!-- USER  FORGET PWD-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.ForgetPasswordActivity">
+        </activity>
+        <!-- REGISTER SHOP-->
+        <activity
+            android:name="com.yy.yyapp.ui.shop.RegisterShopActivity">
+        </activity>
+        <!-- COLLECT-->
+        <activity
+            android:name="com.yy.yyapp.ui.user.UserCollectActivity">
         </activity>
     </application>
 

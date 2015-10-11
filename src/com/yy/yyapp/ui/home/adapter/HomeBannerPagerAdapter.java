@@ -23,6 +23,8 @@ import com.viewpagerindicator.IconPagerAdapter;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.ui.WebviewActivity;
+import com.yy.yyapp.ui.shop.ShopDetailActivity;
+import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.ToastUtil;
 
 /**
@@ -71,11 +73,18 @@ public class HomeBannerPagerAdapter extends PagerAdapter implements IconPagerAda
             {
                 if (null != mPaths && null != mPaths.get(position))
                 {
-                    
                     Intent intent = new Intent();
-                    intent.setClass(mContext, WebviewActivity.class);
-                    intent.putExtra("title", mPaths.get(position).getTitle());
-                    intent.putExtra("url", mPaths.get(position).getUrl());
+                    if(GeneralUtils.isNotNullOrZeroLenght(mPaths.get(position).getOrg_id()))
+                    {
+                        intent.setClass(mContext, ShopDetailActivity.class);
+                        intent.putExtra("id", mPaths.get(position).getOrg_id());
+                    }
+                    else
+                    {
+                        intent.setClass(mContext, WebviewActivity.class);
+                        intent.putExtra("title", mPaths.get(position).getTitle());
+                        intent.putExtra("url", mPaths.get(position).getUrl());
+                    }
                     mContext.startActivity(intent);
                 }
                 else

@@ -47,11 +47,31 @@ public class URLUtil
     
     public static final String COUPON_DETAIL = "getCashticketbyId";
     
+    public static final String MY_COUPON = "myCashtickets";
+    
+    public static final String COUPON_SEND = "doReceiveCashticket";
+    
+    public static final String ADD_COLLECT = "addCollect";
+    
+    public static final String MY_COLLECT = "myCollect";
+    
     public static final String CITY_LIST = "getCitys";
     
     public static final String PAGE_LIST = "getBootScrollPics";
     
     public static final String CIRCLE_LIST = "getCommunitys";
+    
+    public static final String MY_SCORE = "myScore";
+    
+    public static final String MY_CARD = "mycard";
+    
+    public static final String CHANGE_PWD = "doChangePwd";
+    
+    public static final String FORGET_PWD = "forgetPwd";
+    
+    public static final String SET_NEW_PWD = "setNewPwd";
+    
+    
     
     //        public static final String SERVER = "http://10.167.130.240:8080/x8-mobile-gw/";
     //public static final String SERVER = "http://10.167.130.144:8080/p_gateway/";

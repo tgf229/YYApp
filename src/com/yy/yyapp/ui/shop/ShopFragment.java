@@ -139,8 +139,27 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     {
         super.onActivityCreated(savedInstanceState);
         init();
-//        circle1 = ((HomeFragmentActivity)getActivity()).circle;
+        circle1 = ((HomeFragmentActivity)getActivity()).circle;
         initData();
+    }
+    
+    @Override
+    public void onHiddenChanged(boolean hidden)
+    {
+        super.onHiddenChanged(hidden);
+        circle1 = ((HomeFragmentActivity)getActivity()).circle;
+        if (!hidden)
+        {
+            page = 0;
+            shopList.clear();
+            anyMore = true;
+            initData();
+        }
+        else
+        {
+            circle1 = null;
+            ((HomeFragmentActivity)getActivity()).circle = null;
+        }
     }
     
     private void init()
@@ -233,29 +252,32 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void reqList()
     {
-        Map<String, String> param = new HashMap<String, String>();
-        if (Global.isLogin())
+        if (num <= 1)
         {
-            param.put("user_id", Global.getUserId());
+            Map<String, String> param = new HashMap<String, String>();
+            if (Global.isLogin())
+            {
+                param.put("user_id", Global.getUserId());
+            }
+            param.put("page_no", String.valueOf(page));
+            if (GeneralUtils.isNotNullOrZeroLenght(type))
+            {
+                param.put("org_type", type);
+            }
+            if (GeneralUtils.isNotNullOrZeroLenght(keyword))
+            {
+                param.put("org_name", keyword);
+            }
+            if (GeneralUtils.isNotNullOrZeroLenght(circle1))
+            {
+                param.put("org_comm", circle1);
+            }
+            ConnectService.instance().connectServiceReturnResponse(getActivity(),
+                param,
+                ShopFragment.this,
+                URLUtil.SHOP_LIST,
+                Constants.ENCRYPT_NONE);
         }
-        param.put("page_no", String.valueOf(page));
-        if (GeneralUtils.isNotNullOrZeroLenght(type))
-        {
-            param.put("org_type", type);
-        }
-        if (GeneralUtils.isNotNullOrZeroLenght(keyword))
-        {
-            param.put("org_name", keyword);
-        }
-        if (GeneralUtils.isNotNullOrZeroLenght(circle1))
-        {
-            param.put("org_comm", circle1);
-        }
-        ConnectService.instance().connectServiceReturnResponse(getActivity(),
-            param,
-            ShopFragment.this,
-            URLUtil.SHOP_LIST,
-            Constants.ENCRYPT_NONE);
     }
     
     private void bind()
@@ -328,6 +350,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                     shopList.add(bean);
                 }
                 showList();
+                num = 0;
             }
             catch (Exception e)
             {
@@ -401,8 +424,6 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showList()
     {
-        circle1 = null;
-        ((HomeFragmentActivity)getActivity()).circle = null;
         isSearching = false;
         isRefreshing = false;
         
@@ -422,8 +443,15 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
             case R.id.scan:
                 if (Global.isLogin())
                 {
-                    Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
-                    startActivityForResult(intent, 0);
+                    if (GeneralUtils.isNotNullOrZeroLenght(Global.getUserOrgId()))
+                    {
+                        ToastUtil.makeText(getActivity(), "操作重复，您已经绑定了商户");
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
+                        startActivityForResult(intent, 0);
+                    }
                 }
                 else
                 {
@@ -485,6 +513,7 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                 page = 0;
                 shopList.clear();
                 anyMore = true;
+                num = num + 1;
                 reqList();
                 break;
         }

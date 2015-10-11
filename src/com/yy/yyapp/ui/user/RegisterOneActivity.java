@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.example.qr_codescan.MipcaActivityCapture;
 import com.yy.yyapp.R;
+import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
@@ -39,6 +40,7 @@ import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.base.BaseActivity;
+import com.yy.yyapp.ui.shop.RegisterShopActivity;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
@@ -179,7 +181,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                 reqRegister();
                 break;
             case R.id.scan:
-                Intent intent = new Intent(this, MipcaActivityCapture.class);
+                Intent intent = new Intent(this, RegisterShopActivity.class);
                 startActivityForResult(intent, 0);
                 break;
             default:
@@ -205,7 +207,18 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                     ToastUtil.makeText(this, "很抱歉，未扫描到信息");
                 }
                 break;
-                
+            case Constants.REGISTER_BIND_CODE:
+                Bundle bundle1 = data.getExtras();
+                String result = bundle1.getString("id");
+                if(GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    scanResult = result.trim();
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "很抱歉，获取到商家信息");
+                }
+                break;
             default:
                 break;
         }
@@ -221,6 +234,21 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         param.put("user_password", pwd);
         ConnectService.instance()
             .connectServiceReturnResponse(this, param, this, URLUtil.LOGIN, Constants.ENCRYPT_NONE);
+    }
+
+    private void reqDetail(String org_id)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("org_id", org_id);
+        ConnectService.instance().connectServiceReturnResponse(this,
+            param,
+            this,
+            URLUtil.SHOP_DETAIL,
+            Constants.ENCRYPT_NONE);
     }
     
     @Override
@@ -243,7 +271,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                     {
                         dialog.dismissDialog();
                     }
-                    ToastUtil.showError(this);
+                    ToastUtil.makeText(this, "很抱歉，注册失败");
                 }
             }
             catch (JSONException e)
@@ -258,11 +286,6 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         }
         if (URLUtil.LOGIN.equals(service))
         {
-            if (dialog != null)
-            {
-                dialog.dismissDialog();
-            }
-            
             JSONArray array;
             try
             {
@@ -273,12 +296,27 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                     UserBean user = NetResponse.loginResponse(this, bean);
                     Global.setIsLogin(true);
                     Global.saveData(user, pwdTxt.getText().toString().trim());
-                    RegisterOneActivity.this.setResult(Constants.LOGIN_SUCCESS_CODE);
-                    finish();
+                    if(GeneralUtils.isNotNullOrZeroLenght(user.getUser_org_id()))
+                    {
+                        reqDetail(user.getUser_org_id());
+                    }
+                    else
+                    {
+                        if (dialog != null)
+                        {
+                            dialog.dismissDialog();
+                        }
+                        this.setResult(Constants.LOGIN_SUCCESS_CODE);
+                        finish();
+                    }
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "自动登录失败");
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.makeText(this, "用户名或密码错误");
                 }
             }
             catch (Exception e)
@@ -288,6 +326,39 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                 {
                     dialog.dismissDialog();
                 }
+                ToastUtil.showError(this);
+            }
+        }
+        if (URLUtil.SHOP_DETAIL.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Global.saveUserOrgId(ob.getString("org_id"));
+                    Global.saveOrgName(ob.getString("org_name"));
+                    
+                    Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    
+                    this.setResult(Constants.LOGIN_SUCCESS_CODE);
+                    finish();
+                }
+                else
+                {
+                    ToastUtil.showError(this);
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
                 ToastUtil.showError(this);
             }
         }

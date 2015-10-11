@@ -227,31 +227,34 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
     
     private void reqList()
     {
-        Map<String, String> param = new HashMap<String, String>();
-        if (Global.isLogin())
+        if (num <= 1)
         {
-            param.put("user_id", Global.getUserId());
+            Map<String, String> param = new HashMap<String, String>();
+            if (Global.isLogin())
+            {
+                param.put("user_id", Global.getUserId());
+            }
+            param.put("page_no", String.valueOf(page));
+            if (GeneralUtils.isNotNullOrZeroLenght(keyword))
+            {
+                param.put("product_name", keyword);
+            }
+            if (GeneralUtils.isNotNullOrZeroLenght(type))
+            {
+                param.put("product_type", type);
+            }
+            ConnectService.instance().connectServiceReturnResponse(getActivity(),
+                param,
+                GoodsFragment.this,
+                URLUtil.PRODUCT_LIST,
+                Constants.ENCRYPT_NONE);
         }
-        param.put("page_no", String.valueOf(page));
-        if (GeneralUtils.isNotNullOrZeroLenght(keyword))
-        {
-            param.put("product_name", keyword);
-        }
-        if (GeneralUtils.isNotNullOrZeroLenght(type))
-        {
-            param.put("product_type", type);
-        }
-        ConnectService.instance().connectServiceReturnResponse(getActivity(),
-            param,
-            GoodsFragment.this,
-            URLUtil.PRODUCT_LIST,
-            Constants.ENCRYPT_NONE);
     }
     
     private void bind()
     {
-        num = num+1;
-        if(num <= 1)
+        num = num + 1;
+        if (num <= 1)
         {
             dialog = new NetLoadingDailog(getActivity());
             dialog.loading();
@@ -318,6 +321,7 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                     goodsList.add(bean);
                 }
                 showList();
+                num = 0;
             }
             catch (Exception e)
             {
@@ -424,10 +428,17 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         switch (v.getId())
         {
             case R.id.scan:
-                if(Global.isLogin())
+                if (Global.isLogin())
                 {
-                    Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
-                    startActivityForResult(intent, 0);
+                    if(GeneralUtils.isNotNullOrZeroLenght(Global.getUserOrgId()))
+                    {
+                        ToastUtil.makeText(getActivity(), "操作重复，您已经绑定了商户");
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getActivity(), MipcaActivityCapture.class);
+                        startActivityForResult(intent, 0);
+                    }
                 }
                 else
                 {
@@ -463,12 +474,13 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                 page = 0;
                 goodsList.clear();
                 anyMore = true;
+                num = num + 1;
                 reqList();
                 break;
             case Constants.SCAN_SUCCESS_CODE:
                 Bundle bundle = data.getExtras();
                 String star = bundle.getString("result");
-                if(GeneralUtils.isNotNullOrZeroLenght(star))
+                if (GeneralUtils.isNotNullOrZeroLenght(star))
                 {
                     org_id = star.trim();
                     bind();

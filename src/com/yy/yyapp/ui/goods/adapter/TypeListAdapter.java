@@ -81,14 +81,29 @@ public class TypeListAdapter extends BaseAdapter
                 if("com.yy.yyapp.ui.shop.ShopTypeActivity".equals(YYApplication.currentActivity))
                 {
                     Intent intent = new Intent(context, ShopFragment.class);
-                    intent.putExtra("type", entity);
+                    if("全部".equals(entity))
+                    {
+                        intent.putExtra("type", "");
+                    }
+                    else
+                    {
+                        intent.putExtra("type", entity);
+                    }
+                    
                     ((Activity)context).setResult(Constants.TYPE_SUCCESS_CODE, intent);
                     ((Activity)context).finish();
                 }
                 else
                 {
                     Intent intent = new Intent(context, GoodsFragment.class);
-                    intent.putExtra("type", entity);
+                    if("全部".equals(entity))
+                    {
+                        intent.putExtra("type", "");
+                    }
+                    else
+                    {
+                        intent.putExtra("type", entity);
+                    }
                     ((Activity)context).setResult(Constants.TYPE_SUCCESS_CODE, intent);
                     ((Activity)context).finish();
                 }

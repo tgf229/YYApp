@@ -51,6 +51,7 @@ public class Constants
     public static final int CITY_SUCCESS_CODE = 1003;
     public static final int SCAN_SUCCESS_CODE = 1004;
     public static final int CIRCLE_SUCCESS_CODE = 1005;
+    public static final int REGISTER_BIND_CODE = 1006;
     
     /**
      * 请求失败展示信息

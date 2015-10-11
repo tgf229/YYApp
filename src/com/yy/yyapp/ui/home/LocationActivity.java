@@ -67,7 +67,7 @@ public class LocationActivity extends Activity implements LocationSource, AMapLo
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.map);
+        setContentView(R.layout.location);
         mapView = (MapView)findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         init();

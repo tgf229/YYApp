@@ -66,5 +66,5 @@
             android:visibility="gone" >
         </com.yy.yyapp.view.MyListView2>
     </com.yy.yyapp.view.PullToRefreshView>
-
+    
 </LinearLayout>

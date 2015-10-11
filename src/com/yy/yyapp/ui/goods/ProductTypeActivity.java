@@ -110,6 +110,7 @@ public class ProductTypeActivity extends BaseActivity implements OnClickListener
             try
             {
                 array = new JSONArray(res);
+                typeList.add("全部");
                 for (int i = 0; i < array.length(); i++)
                 {
                     JSONObject ob = array.getJSONObject(i);

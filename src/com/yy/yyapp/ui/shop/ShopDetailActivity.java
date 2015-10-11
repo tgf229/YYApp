@@ -34,12 +34,16 @@ import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.goods.GoodsBean;
 import com.yy.yyapp.bean.shop.ShopBean;
+import com.yy.yyapp.callback.DialogCallBack;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseActivity;
+import com.yy.yyapp.ui.coupon.CouponDetailActivity;
 import com.yy.yyapp.ui.goods.ProductDetailActivity;
+import com.yy.yyapp.ui.user.LoginActivity;
+import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
@@ -58,11 +62,11 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
 {
     private LinearLayout back;
     
-    private TextView title, content;
+    private TextView title, content, collect_btn;
     
     private String org_id;
     
-    private Button address,wifi;
+    private Button address, wifi;
     
     private MyImageView img;
     
@@ -70,7 +74,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     
     private List<GoodsBean> hotProductList;
     
-    private LinearLayout hotProductLayout,wifiLayout;
+    private LinearLayout hotProductLayout, wifiLayout;
     
     private RelativeLayout hotProductLayoutTitle, call_layout;
     
@@ -110,6 +114,9 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         hotProductLayoutTitle = (RelativeLayout)findViewById(R.id.hot_product_layout_title);
         hotProductLayout = (LinearLayout)findViewById(R.id.hot_product_layout);
         
+        collect_btn = (TextView)findViewById(R.id.collect_btn);
+        collect_btn.setOnClickListener(this);
+        
         back.setOnClickListener(this);
     }
     
@@ -140,6 +147,22 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
             param,
             this,
             URLUtil.PRODUCT_LIST,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    private void reqCollect()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("collect_item_id", org_id);
+        param.put("collect_type", "商家");
+        ConnectService.instance().connectServiceReturnResponse(this,
+            param,
+            ShopDetailActivity.this,
+            URLUtil.ADD_COLLECT,
             Constants.ENCRYPT_NONE);
     }
     
@@ -212,6 +235,32 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                 ToastUtil.showError(this);
             }
         }
+        if (URLUtil.ADD_COLLECT.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    ToastUtil.makeText(this, "恭喜您，收藏成功");
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "很抱歉，收藏失败");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(this);
+            }
+        }
     }
     
     private void showDetail(final ShopBean bean)
@@ -220,11 +269,20 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
             img,
             YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
         address.setText(bean.getOrg_addr());
-        content.setText(bean.getOrg_content());
-        title.setText(bean.getOrg_name());
-        if(GeneralUtils.isNotNullOrZeroLenght(bean.getOrg_wifiname()))
+        String cont = bean.getOrg_content();
+        if (GeneralUtils.isNotNullOrZeroLenght(cont))
         {
-            wifi.setText("本店提供免费wifi："+bean.getOrg_wifiname()+"  密码："+bean.getOrg_wifipwd());
+            cont = cont.replaceAll("rn", "\n");
+            content.setText(cont);
+        }
+        else
+        {
+            content.setText("");
+        }
+        title.setText(bean.getOrg_name());
+        if (GeneralUtils.isNotNullOrZeroLenght(bean.getOrg_wifiname()))
+        {
+            wifi.setText("本店提供免费wifi：" + bean.getOrg_wifiname() + "  密码：" + bean.getOrg_wifipwd());
             wifiLayout.setVisibility(View.VISIBLE);
         }
         else
@@ -376,9 +434,32 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
             case R.id.title_back_layout:
                 finish();
                 break;
-            
+            case R.id.collect_btn:
+                if (Global.isLogin())
+                {
+                    dialog.loading();
+                    reqCollect();
+                }
+                else
+                {
+                    goToLogin();
+                }
+                break;
             default:
                 break;
         }
+    }
+    
+    private void goToLogin()
+    {
+        DialogUtil.loginTwoButtonDialog(this, new DialogCallBack()
+        {
+            @Override
+            public void dialogBack()
+            {
+                Intent i = new Intent(ShopDetailActivity.this, LoginActivity.class);
+                ShopDetailActivity.this.startActivity(i);
+            }
+        });
     }
 }

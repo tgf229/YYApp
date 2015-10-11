@@ -109,6 +109,7 @@ public class ShopTypeActivity extends BaseActivity implements OnClickListener
             JSONArray array;
             try
             {
+                typeList.add("全部");
                 array = new JSONArray(res);
                 for (int i = 0; i < array.length(); i++)
                 {

@@ -18,6 +18,7 @@ import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.coupon.CouponBean;
 import com.yy.yyapp.callback.UICallBack;
 import com.yy.yyapp.ui.coupon.CouponDetailActivity;
+import com.yy.yyapp.ui.user.UserCouponActivity;
 import com.yy.yyapp.util.GeneralUtils;
 
 public class CouponListAdapter extends BaseAdapter
@@ -68,7 +69,6 @@ public class CouponListAdapter extends BaseAdapter
             mHolder.price = (TextView)convertView.findViewById(R.id.price);
             mHolder.number = (TextView)convertView.findViewById(R.id.number);
             mHolder.limit =  (TextView)convertView.findViewById(R.id.limit);
-            
             
             convertView.setTag(mHolder);
         }
@@ -123,6 +123,10 @@ public class CouponListAdapter extends BaseAdapter
             {
                 Intent intent = new Intent(context, CouponDetailActivity.class);
                 intent.putExtra("id", entity.getTicket_id());
+                if("com.yy.yyapp.ui.user.UserCouponActivity".equals(YYApplication.currentActivity))
+                {
+                    intent.putExtra("channel", "1");
+                }
                 context.startActivity(intent);
             }
         });
