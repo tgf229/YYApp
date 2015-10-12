@@ -90,7 +90,9 @@ public class WebviewActivity extends BaseActivity
         web.getSettings().setSupportZoom(true);
         web.getSettings().setAppCacheEnabled(true);
         web.getSettings().setBuiltInZoomControls(true);
-        // web.setInitialScale(25);
+         web.setInitialScale(50);
+         web.getSettings().setUseWideViewPort(true); 
+         web.getSettings().setLoadWithOverviewMode(true);
         loadurl(web, url);
         
         web.setWebChromeClient(new CustomWebChromeClient());

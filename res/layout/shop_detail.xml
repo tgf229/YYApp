@@ -18,12 +18,33 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-        <com.yy.yyapp.view.MyImageView
-            android:id="@+id/img"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="fitCenter"
-            android:src="@drawable/default_pic" />
+         <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:background="#F1F1F1" >
+		
+		        <com.yy.yyapp.view.MyImageView
+		            android:id="@+id/img"
+		            android:layout_width="fill_parent"
+		            android:layout_height="fill_parent"
+		            android:src="@drawable/default_banner" />
+		
+		        <android.support.v4.view.ViewPager
+		            android:id="@+id/circlepager"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:visibility="gone" />
+		
+		        <com.viewpagerindicator.CirclePageIndicator
+		            android:id="@+id/circleindicator"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentBottom="true"
+		            android:layout_centerHorizontal="true"
+		            android:paddingBottom="10dip"
+		            android:paddingLeft="5dip"
+		            android:visibility="gone" />
+		    </RelativeLayout>
         
         <View
                 android:layout_width="match_parent"
@@ -46,6 +67,7 @@
                 android:drawableLeft="@drawable/shop_location"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:gravity="left|center_vertical"
                 android:text="x利浦x飞内"
                 android:textColor="@color/black_color"
                 android:textSize="12sp" />
@@ -118,6 +140,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/hot_product_more"
                 android:layout_width="50dip"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tag_title"
@@ -220,6 +243,154 @@
                     android:text="@string/icon_loading" />-->
             </LinearLayout>
         </LinearLayout>
+        
+        
+        
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:background="@drawable/line_grey" />
+
+        <RelativeLayout
+            android:id="@+id/hot_coupon_layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dip" >
+
+            <TextView
+                android:id="@+id/tag_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="现金券"
+                android:textColor="@color/black_color"
+                android:textSize="18sp" />
+            
+            <TextView
+                android:id="@+id/hot_coupon_more_all"
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tag_title"
+                android:layout_alignParentRight="true"
+                android:text="所有现金券"
+                android:textSize="14sp"
+                android:textColor="@color/gray_color" />
+            
+            <TextView
+                android:id="@+id/hot_coupon_more_my"
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tag_title"
+                android:layout_toLeftOf="@id/hot_coupon_more_all"
+                android:text="本店现金券"
+                android:textSize="14sp"
+                android:textColor="@color/gray_color" />
+
+        </RelativeLayout>
+		
+		<View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_grey" />
+
+        <LinearLayout
+            android:id="@+id/hot_coupon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+ 				<ImageView
+ 				    android:id="@+id/hot_coupon_pic1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/default_banner" />
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:background="@drawable/line_grey" />
+                <ImageView
+                    android:id="@+id/hot_coupon_pic2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/default_banner" />
+        </LinearLayout>
+        
+        
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:background="@drawable/line_grey" />
+
+        <RelativeLayout
+            android:id="@+id/hot_active_layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dip" >
+
+            <TextView
+                android:id="@+id/tag_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="活动推荐"
+                android:textColor="@color/black_color"
+                android:textSize="18sp" />
+            
+            <TextView
+                android:id="@+id/hot_active_more"
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tag_title"
+                android:layout_alignParentRight="true"
+                android:text="更多"
+                android:textSize="14sp"
+                android:textColor="@color/gray_color" />
+        </RelativeLayout>
+		
+		<View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_grey" />
+
+        <LinearLayout
+            android:id="@+id/hot_active_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+ 				<ImageView
+ 				    android:id="@+id/hot_active_pic1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/default_banner" />
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:background="@drawable/line_grey" />
+                <ImageView
+                    android:id="@+id/hot_active_pic2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/default_banner" />
+        </LinearLayout>
+        
+        
 
         <View
             android:layout_width="match_parent"

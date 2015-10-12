@@ -90,9 +90,11 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
     
     private int page = -1;
     
-    private List<ShopBean> mList;
+    private List<ShopBean> mList = new ArrayList<ShopBean>();
     
     private String type = null;
+    
+    private String org_comm = null;
     
     private LatLng myMarker;
     
@@ -121,7 +123,6 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
         nextButton = (LinearLayout)findViewById(R.id.nextButton);
         typeTxt = (TextView)findViewById(R.id.typeTxt);
         
-        
         if (aMap == null)
         {
             aMap = ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -137,7 +138,15 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
     private void initData()
     {
         mList = (List<ShopBean>)getIntent().getSerializableExtra("list");
-        addMarkersToMap(mList);
+        org_comm = getIntent().getStringExtra("org_comm");
+        if(GeneralUtils.isNotNullOrZeroLenght(org_comm))
+        {
+            
+        }
+        else
+        {
+            addMarkersToMap(mList);
+        }
     }
     
     /**
@@ -217,6 +226,10 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
         {
             param.put("org_type", type);
         }
+        if(GeneralUtils.isNotNullOrZeroLenght(org_comm))
+        {
+            param.put("org_comm", org_comm);
+        }
         
         param.put("page_no", String.valueOf(page));
         ConnectService.instance().connectServiceReturnResponse(MapActivity.this,
@@ -241,7 +254,10 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
                     nextButton.setClickable(false);
                     if (array.length() != 0)
                     {
-                        mList.clear();
+                        if (GeneralUtils.isNotNullOrZeroSize(mList))
+                        {
+                            mList.clear();
+                        }
                     }
                 }
                 for (int i = 0; i < array.length(); i++)
@@ -263,7 +279,10 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
                     bean.setOrg_tel(ob.getString("org_tel"));
                     mList.add(bean);
                 }
-                addMarkersToMap(mList);
+                if (GeneralUtils.isNotNullOrZeroSize(mList))
+                {
+                    addMarkersToMap(mList);
+                }
             }
             catch (Exception e)
             {
@@ -369,6 +388,11 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
             mListener.onLocationChanged(aLocation);// 显示系统小蓝点
             myMarker = new LatLng(aLocation.getLatitude(), aLocation.getLongitude());
             aMap.moveCamera(CameraUpdateFactory.changeLatLng(myMarker));
+            if(GeneralUtils.isNotNullOrZeroLenght(org_comm))
+            {
+                page = 0;
+                reqList();
+            }
         }
     }
     
@@ -438,8 +462,12 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
                 type = data.getStringExtra("type");
                 typeTxt.setText(type);
                 page = 0;
+                org_comm = null;
                 nextButton.setClickable(true);
-                mList.clear();
+                if(GeneralUtils.isNotNullOrZeroSize(mList))
+                {
+                    mList.clear();
+                }
                 reqList();
                 break;
         }

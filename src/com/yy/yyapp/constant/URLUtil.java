@@ -51,6 +51,8 @@ public class URLUtil
     
     public static final String COUPON_SEND = "doReceiveCashticket";
     
+    public static final String USE_COUPON = "useCashticket";
+    
     public static final String ADD_COLLECT = "addCollect";
     
     public static final String MY_COLLECT = "myCollect";

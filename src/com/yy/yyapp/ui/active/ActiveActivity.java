@@ -104,6 +104,7 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
     
     private String keyword;
     
+    private String org_id;
     private boolean isSearching = false;
     
     @Override
@@ -111,6 +112,7 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_list);
+        org_id =  getIntent().getStringExtra("org_id");
         init();
         initData();
     }
@@ -212,6 +214,10 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
         if (GeneralUtils.isNotNullOrZeroLenght(keyword))
         {
             param.put("activity_title", keyword);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(org_id))
+        {
+            param.put("org_id", org_id);
         }
         ConnectService.instance().connectServiceReturnResponse(this,
             param,

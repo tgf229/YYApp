@@ -88,6 +88,7 @@ public class UserFragment extends BaseFragment implements OnClickListener
         {
             inlogin.setVisibility(View.VISIBLE);
             unlogin.setVisibility(View.GONE);
+            inLoginTxt.setText("已注册会员："+Global.getTotalUser()+" 人");
         }
         else
         {

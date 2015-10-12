@@ -64,10 +64,12 @@ import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.bean.shop.ShopBean;
+import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.active.ActiveActivity;
 import com.yy.yyapp.ui.active.ActiveDetailActivity;
@@ -234,6 +236,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         reqHotActive();
         reqHotCoupon();
         reqGuss();
+        
+        reqAutoLogin();
     }
     
     private void init(Bundle savedInstanceState)
@@ -452,6 +456,33 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             Constants.ENCRYPT_NONE);
     }
     
+    private void reqAutoLogin()
+    {
+        if(Global.isLogin())
+        {
+            Map<String, String> param = new HashMap<String, String>();
+            param.put("user_mobile", Global.getUserMobile());
+            param.put("user_password", Global.getUserPassword());
+            ConnectService.instance().connectServiceReturnResponse(getActivity(), param, MainFragment.this,
+                URLUtil.LOGIN,
+                Constants.ENCRYPT_NONE);
+        }
+    }
+    private void reqDetail(String org_id)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("org_id", org_id);
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.SHOP_DETAIL,
+            Constants.ENCRYPT_NONE);
+    }
+    
     @Override
     public void netBack(String service, String res)
     {
@@ -639,6 +670,67 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     hotActiveList.add(bean);
                 }
                 showHotActive();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
+        if (URLUtil.LOGIN.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject bean = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(bean.getString("result")))
+                {
+                    UserBean user = NetResponse.loginResponse(getActivity(), bean);
+                    Global.setIsLogin(true);
+                    Global.saveData(user, Global.getUserPassword());
+                    if(GeneralUtils.isNotNullOrZeroLenght(user.getUser_org_id()))
+                    {
+                        if(!Global.getUserOrgId().equals(user.getUser_org_id()))
+                        {
+                            reqDetail(user.getUser_org_id());
+                        }
+                    }
+                    else
+                    {
+                        getActivity().setResult(Constants.LOGIN_SUCCESS_CODE);
+                    }
+                }
+                else
+                {
+                    Global.setIsLogin(false);
+                    Global.logout();
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        if (URLUtil.SHOP_DETAIL.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Global.saveUserOrgId(ob.getString("org_id"));
+                    Global.saveOrgName(ob.getString("org_name"));
+                    
+                    Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    getActivity().setResult(Constants.LOGIN_SUCCESS_CODE);
+                }
+                else
+                {
+                }
             }
             catch (Exception e)
             {

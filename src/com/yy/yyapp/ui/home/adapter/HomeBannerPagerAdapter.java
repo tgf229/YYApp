@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -12,20 +11,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.ui.WebviewActivity;
 import com.yy.yyapp.ui.shop.ShopDetailActivity;
 import com.yy.yyapp.util.GeneralUtils;
-import com.yy.yyapp.util.ToastUtil;
 
 /**
  * 

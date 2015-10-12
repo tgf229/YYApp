@@ -107,6 +107,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         if("1".equals(channel))
         {
             send_btn.setText("使    用");
+            collect_btn.setVisibility(View.GONE);
         }
         
         back.setOnClickListener(this);
@@ -146,7 +147,18 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
     
     private void reqUse()
     {
-        ToastUtil.makeText(this, "没有接口");
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("ticket_id", coupon_id);
+        param.put("ticket_count", "1");
+        ConnectService.instance().connectServiceReturnResponse(this,
+            param,
+            CouponDetailActivity.this,
+            URLUtil.USE_COUPON,
+            Constants.ENCRYPT_NONE);
     }
     
     private void reqCollect()
@@ -255,6 +267,34 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                 ToastUtil.showError(this);
             }
         }
+        if (URLUtil.USE_COUPON.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    ToastUtil.makeText(this, "恭喜您，使用成功");
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "很抱歉，您无法使用此券");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(this);
+            }
+        }
+        
+        
     }
     
     private void showDetail(CouponBean bean)

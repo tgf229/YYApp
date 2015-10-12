@@ -9,8 +9,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#F1F1F1"
-        >
+        android:background="#F1F1F1" >
 
         <com.yy.yyapp.view.MyImageView
             android:id="@+id/default_load_img"
@@ -38,15 +37,14 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_color" 
-        >
+        android:background="@color/white_color" >
 
         <LinearLayout
             android:id="@+id/icon_default_load_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white_color"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,18 +60,19 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="12dip" >
-                    
-                    <ImageView 
+
+                    <ImageView
                         android:id="@+id/icon1"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:src="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon1_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:src="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon1_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -84,17 +83,18 @@
                     android:orientation="vertical"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon2"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon2_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon2_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -105,17 +105,18 @@
                     android:orientation="vertical"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon3"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon3_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon3_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -126,17 +127,18 @@
                     android:orientation="vertical"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon4"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon4_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon4_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -156,17 +158,18 @@
                     android:paddingBottom="7dip"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon5"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon5_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon5_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -178,17 +181,18 @@
                     android:paddingBottom="7dip"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon6"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon6_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon6_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -200,17 +204,18 @@
                     android:paddingBottom="7dip"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon7"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon7_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon7_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -222,17 +227,18 @@
                     android:paddingBottom="7dip"
                     android:paddingTop="12dip" >
 
-                    <ImageView 
+                    <ImageView
                         android:id="@+id/icon8"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
-                        android:background="@drawable/default_icon"/>
-					<TextView 
-					    android:id="@+id/icon8_text"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:textColor="@color/black_color"
-					    android:text="@string/icon_loading"/>
+                        android:background="@drawable/default_icon" />
+
+                    <TextView
+                        android:id="@+id/icon8_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -327,6 +333,7 @@
                     <ImageView
                         android:id="@+id/hot_coupon_pic2"
                         android:layout_width="match_parent"
+                        android:minHeight="160dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
@@ -340,6 +347,7 @@
                     <ImageView
                         android:id="@+id/hot_coupon_pic3"
                         android:layout_width="match_parent"
+                        android:minHeight="160dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
@@ -404,8 +412,9 @@
                 <ImageView
                     android:id="@+id/hot_shop_pic1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:minWidth="99dp"
+                    android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
@@ -417,8 +426,9 @@
                 <ImageView
                     android:id="@+id/hot_shop_pic2"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:minWidth="99dp"
+                    android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
 
@@ -430,8 +440,9 @@
                 <ImageView
                     android:id="@+id/hot_shop_pic3"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:minWidth="99dp"
+                    android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
             </LinearLayout>
@@ -511,8 +522,9 @@
                     <ImageView
                         android:id="@+id/hot_goods_pic2"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:minHeight="160dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_banner" />
 
@@ -524,8 +536,9 @@
                     <ImageView
                         android:id="@+id/hot_goods_pic3"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:minHeight="160dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/default_banner" />
                 </LinearLayout>

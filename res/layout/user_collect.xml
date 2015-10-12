@@ -74,15 +74,15 @@
 
                     <ImageView
                         android:id="@+id/shop_tag_content_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/shop_tag_content_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -96,15 +96,15 @@
 
                     <ImageView
                         android:id="@+id/shop_tag_content_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/shop_tag_content_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -175,15 +175,15 @@
 
                     <ImageView
                         android:id="@+id/product_tag_content_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/product_tag_content_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -197,15 +197,15 @@
 
                     <ImageView
                         android:id="@+id/product_tag_content_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/product_tag_content_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -276,15 +276,15 @@
 
                     <ImageView
                         android:id="@+id/active_tag_content_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/active_tag_content_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -298,15 +298,15 @@
 
                     <ImageView
                         android:id="@+id/active_tag_content_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/active_tag_content_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -377,15 +377,15 @@
 
                     <ImageView
                         android:id="@+id/coupon_tag_content_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/coupon_tag_content_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>
@@ -399,15 +399,15 @@
 
                     <ImageView
                         android:id="@+id/coupon_tag_content_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
 
                     <ImageView
                         android:id="@+id/coupon_tag_content_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
                         android:layout_weight="1"
                         android:src="@drawable/default_pic" />
                 </LinearLayout>

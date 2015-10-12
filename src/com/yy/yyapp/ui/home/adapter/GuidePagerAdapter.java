@@ -1,6 +1,5 @@
 package com.yy.yyapp.ui.home.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -18,14 +17,10 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.yy.yyapp.R;
-import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.WelcomeActivity;
-import com.yy.yyapp.ui.user.LoginActivity;
 
 /**
  * 

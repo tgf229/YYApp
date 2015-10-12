@@ -23,10 +23,18 @@ import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
+import com.yy.yyapp.callback.DialogCallBack;
 import com.yy.yyapp.constant.Constants;
+import com.yy.yyapp.global.Global;
+import com.yy.yyapp.ui.WebviewActivity;
 import com.yy.yyapp.ui.coupon.CouponActivity;
+import com.yy.yyapp.ui.coupon.CouponDetailActivity;
 import com.yy.yyapp.ui.home.LocationActivity;
 import com.yy.yyapp.ui.home.ShopCircleActivity;
+import com.yy.yyapp.ui.home.WaitingActivity;
+import com.yy.yyapp.ui.user.LoginActivity;
+import com.yy.yyapp.ui.user.UserCardActivity;
+import com.yy.yyapp.util.DialogUtil;
 
 @SuppressLint("NewApi")
 public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapter
@@ -72,7 +80,9 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
         TextView icon7_text = (TextView)pageView.findViewById(R.id.icon7_text);
         TextView icon8_text = (TextView)pageView.findViewById(R.id.icon8_text);
         ImageView[] btns = new ImageView[] {icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8};
-        TextView[] btns_text = new TextView[] {icon1_text, icon2_text, icon3_text, icon4_text, icon5_text, icon6_text, icon7_text, icon8_text};
+        TextView[] btns_text =
+            new TextView[] {icon1_text, icon2_text, icon3_text, icon4_text, icon5_text, icon6_text, icon7_text,
+                icon8_text};
         
         List<HomeIconBean> list = mPaths.get(position).getList();
         for (int i = 0; i < list.size(); i++)
@@ -81,7 +91,7 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
                 btns[i],
                 YYApplication.setAllDisplayImageOptions(mContext, "default_icon", "default_icon", "default_icon"));
             btns_text[i].setText(list.get(i).getPic_title());
-            bindClick(list.get(i).getPic_title(),btns[i]);
+            bindClick(list.get(i).getPic_title(), btns[i]);
             btns[i].setVisibility(View.VISIBLE);
             btns_text[i].setVisibility(View.VISIBLE);
         }
@@ -91,39 +101,84 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
     
     private void bindClick(String title, ImageView btn)
     {
-        if(Constants.ICON_COUPON.equals(title))
+        if (Constants.ICON_COUPON.equals(title))
         {
             btn.setOnClickListener(new OnClickListener()
             {
                 @Override
                 public void onClick(View arg0)
                 {
-                    Intent intent = new Intent(mContext,CouponActivity.class);
+                    Intent intent = new Intent(mContext, CouponActivity.class);
                     mContext.startActivity(intent);
                 }
             });
         }
-        else if(Constants.ICON_LOCATION.equals(title))
+        else if (Constants.ICON_LOCATION.equals(title))
         {
             btn.setOnClickListener(new OnClickListener()
             {
                 @Override
                 public void onClick(View arg0)
                 {
-                    Intent intent = new Intent(mContext,LocationActivity.class);
+                    Intent intent = new Intent(mContext, LocationActivity.class);
                     mContext.startActivity(intent);
                 }
             });
         }
-        else if(Constants.ICON_BUSINESS.equals(title))
+        else if (Constants.ICON_BUSINESS.equals(title))
         {
             btn.setOnClickListener(new OnClickListener()
             {
                 @Override
                 public void onClick(View arg0)
                 {
-                    Intent intent = new Intent(mContext,ShopCircleActivity.class);
+                    Intent intent = new Intent(mContext, ShopCircleActivity.class);
                     ((Activity)mContext).startActivityForResult(intent, Constants.CIRCLE_SUCCESS_CODE);
+                }
+            });
+        }
+        else if (Constants.ICON_CARD.equals(title))
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    if (Global.isLogin())
+                    {
+                        Intent intent = new Intent(mContext, UserCardActivity.class);
+                        ((Activity)mContext).startActivityForResult(intent, Constants.CIRCLE_SUCCESS_CODE);
+                    }
+                    else
+                    {
+                        goToLogin();
+                    }
+                }
+            });
+        }
+        else if (Constants.ICON_HOUSE.equals(title))
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(mContext, WebviewActivity.class);
+                    intent.putExtra("url", "http://www.xenon.cn/yy/");
+                    intent.putExtra("title", "智能家居");
+                    ((Activity)mContext).startActivity(intent);
+                }
+            });
+        }
+        else
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(mContext, WaitingActivity.class);
+                    ((Activity)mContext).startActivity(intent);
                 }
             });
         }
@@ -193,5 +248,18 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
     {
         count = getCount();
         super.notifyDataSetChanged();
+    }
+    
+    private void goToLogin()
+    {
+        DialogUtil.loginTwoButtonDialog(mContext, new DialogCallBack()
+        {
+            @Override
+            public void dialogBack()
+            {
+                Intent i = new Intent(mContext, LoginActivity.class);
+                mContext.startActivity(i);
+            }
+        });
     }
 }

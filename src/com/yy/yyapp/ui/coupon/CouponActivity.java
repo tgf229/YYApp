@@ -108,6 +108,8 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
     
     private String keyword;
     
+    private String org_id;
+    
     private boolean isSearching = false;
     
     @Override
@@ -115,6 +117,7 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coupon_list);
+        org_id = getIntent().getStringExtra("org_id");
         init();
         initData();
     }
@@ -217,6 +220,10 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
         if (GeneralUtils.isNotNullOrZeroLenght(keyword))
         {
             param.put("ticket_name", keyword);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(org_id))
+        {
+            param.put("ticket_org_id", org_id);
         }
         param.put("page_no", String.valueOf(page));
         ConnectService.instance().connectServiceReturnResponse(this,

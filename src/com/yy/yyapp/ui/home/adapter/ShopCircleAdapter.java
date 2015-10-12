@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yy.yyapp.R;
@@ -20,6 +21,7 @@ import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.goods.GoodsFragment;
 import com.yy.yyapp.ui.home.MainFragment;
+import com.yy.yyapp.ui.home.MapActivity;
 import com.yy.yyapp.ui.shop.ShopFragment;
 
 public class ShopCircleAdapter extends BaseAdapter
@@ -63,8 +65,9 @@ public class ShopCircleAdapter extends BaseAdapter
         if (convertView == null)
         {
             mHolder = new HolderView();
-            convertView = LayoutInflater.from(context).inflate(R.layout.type_listview_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.circle_listview_item, null);
             mHolder.name = (TextView)convertView.findViewById(R.id.name);
+            mHolder.location = (ImageView)convertView.findViewById(R.id.location);
             
             convertView.setTag(mHolder);
         }
@@ -85,11 +88,22 @@ public class ShopCircleAdapter extends BaseAdapter
                 ((Activity)context).finish();
             }
         });
+        mHolder.location.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context, MapActivity.class);
+                intent.putExtra("org_comm", mList.get(position).getComm_id());
+                ((Activity)context).startActivity(intent);
+            }
+        });
         return convertView;
     }
     
     class HolderView
     {
         TextView name;
+        ImageView location;
     }
 }

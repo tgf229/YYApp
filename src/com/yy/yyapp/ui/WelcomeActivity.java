@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -34,7 +33,7 @@ import android.widget.RelativeLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;

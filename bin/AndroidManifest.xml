@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yy.yyapp"
     android:versionCode="1"
-    android:versionName="1.4" >
+    android:versionName="1.5" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -165,6 +165,14 @@
         <!-- COLLECT-->
         <activity
             android:name="com.yy.yyapp.ui.user.UserCollectActivity">
+        </activity>
+        <!-- PRODUCT LIST-->
+        <activity
+            android:name="com.yy.yyapp.ui.goods.GoodsListActivity">
+        </activity>
+         <!-- WAITING-->
+        <activity
+            android:name="com.yy.yyapp.ui.home.WaitingActivity">
         </activity>
     </application>
 
