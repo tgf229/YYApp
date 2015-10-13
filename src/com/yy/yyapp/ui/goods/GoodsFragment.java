@@ -243,6 +243,10 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
             {
                 param.put("product_type", type);
             }
+            if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+            {
+                param.put("org_city", Constants.cityTxt);
+            }
             ConnectService.instance().connectServiceReturnResponse(getActivity(),
                 param,
                 GoodsFragment.this,

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -16,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,6 +67,27 @@ public class DialogUtil
             }
         });
         cancel.setOnClickListener(new OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
+    }
+    
+    
+    public static Dialog showCodeDialog(Context context, Bitmap code)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.one_code, null);
+        ImageView confirm = (ImageView)layout.findViewById(R.id.code_image);
+        confirm.setImageBitmap(code);
+        final Dialog dialog = new Dialog(context, R.style.main_dialog);
+        dialog.setContentView(layout);
+        layout.setOnClickListener(new OnClickListener()
         {
             public void onClick(View v)
             {

@@ -177,7 +177,7 @@ public class ActiveDetailActivity extends BaseActivity implements OnClickListene
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "很抱歉，收藏失败");
+                    ToastUtil.makeText(this, "您已收藏");
                 }
             }
             catch (Exception e)

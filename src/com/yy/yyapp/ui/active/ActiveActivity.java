@@ -219,6 +219,10 @@ public class ActiveActivity extends BaseActivity implements OnClickListener, OnH
         {
             param.put("org_id", org_id);
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         ConnectService.instance().connectServiceReturnResponse(this,
             param,
             ActiveActivity.this,

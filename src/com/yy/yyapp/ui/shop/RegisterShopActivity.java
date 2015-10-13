@@ -243,6 +243,10 @@ public class RegisterShopActivity extends BaseActivity implements OnClickListene
             {
                 param.put("org_comm", circle1);
             }
+            if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+            {
+                param.put("org_city", Constants.cityTxt);
+            }
             ConnectService.instance().connectServiceReturnResponse(this,
                 param,
                 RegisterShopActivity.this,

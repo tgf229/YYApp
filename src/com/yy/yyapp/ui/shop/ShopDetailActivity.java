@@ -227,6 +227,10 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             param.put("user_id", Global.getUserId());
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("org_id", org_id);
         ConnectService.instance().connectServiceReturnResponse(this,
             param,
@@ -242,6 +246,10 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             param.put("user_id", Global.getUserId());
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("ticket_org_id", org_id);
         ConnectService.instance().connectServiceReturnResponse(this,
             param,
@@ -256,6 +264,10 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
         }
         param.put("org_id", org_id);
         ConnectService.instance().connectServiceReturnResponse(this,
@@ -436,7 +448,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "很抱歉，收藏失败");
+                    ToastUtil.makeText(this, "您已收藏");
                 }
             }
             catch (Exception e)

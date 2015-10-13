@@ -82,7 +82,7 @@ public class ShopCircleAdapter extends BaseAdapter
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(context, MainFragment.class);
+                Intent intent = new Intent();
                 intent.putExtra("circle", mList.get(position).getComm_id());
                 ((Activity)context).setResult(Constants.CIRCLE_SUCCESS_CODE, intent);
                 ((Activity)context).finish();

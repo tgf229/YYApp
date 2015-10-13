@@ -38,6 +38,7 @@ import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.ui.coupon.CouponDetailActivity;
 import com.yy.yyapp.ui.goods.ProductDetailActivity;
 import com.yy.yyapp.ui.shop.ShopDetailActivity;
+import com.yy.yyapp.ui.user.adapter.UserCollectAdapter;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
@@ -64,13 +65,14 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
     
     private List<CollectBean> list = new ArrayList<CollectBean>();
     
-    List<CollectBean> shopList = new ArrayList<CollectBean>();
+    ArrayList<CollectBean> shopList = new ArrayList<CollectBean>();
     
-    List<CollectBean> productList = new ArrayList<CollectBean>();
+    ArrayList<CollectBean> productList = new ArrayList<CollectBean>();
     
-    List<CollectBean> activeList = new ArrayList<CollectBean>();
+    ArrayList<CollectBean> activeList = new ArrayList<CollectBean>();
     
-    List<CollectBean> couponList = new ArrayList<CollectBean>();
+    ArrayList<CollectBean> couponList = new ArrayList<CollectBean>();
+    private UserCollectAdapter userCollectAdapter;
     
     private NetLoadingDailog dialog;
     
@@ -98,11 +100,13 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
         active_tag_more = (TextView)findViewById(R.id.active_tag_more);
         coupon_tag_more = (TextView)findViewById(R.id.coupon_tag_more);
         
-        
         shop_tag_content_1 = (ImageView)findViewById(R.id.shop_tag_content_1);
         shop_tag_content_2 = (ImageView)findViewById(R.id.shop_tag_content_2);
         shop_tag_content_3 = (ImageView)findViewById(R.id.shop_tag_content_3);
         shop_tag_content_4 = (ImageView)findViewById(R.id.shop_tag_content_4);
+//        ListView shop_tag_listview = (ListView)findViewById(R.id.shop_tag_listview);
+//        userCollectAdapter = new UserCollectAdapter(this, shopList, this);
+//        shop_tag_listview.setAdapter(userCollectAdapter);
         
         product_tag_content_1 = (ImageView)findViewById(R.id.product_tag_content_1);
         product_tag_content_2 = (ImageView)findViewById(R.id.product_tag_content_2);
@@ -121,6 +125,11 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
         
         title.setText("我的收藏");
         back.setOnClickListener(this);
+        
+        shop_tag_more.setOnClickListener(this);
+        product_tag_more.setOnClickListener(this);
+        active_tag_more.setOnClickListener(this);
+        coupon_tag_more.setOnClickListener(this);
     }
     
     private void reqList()
@@ -197,6 +206,13 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
         showCouponList();
     }
     
+//    private void showShopList()
+//    {
+//        userCollectAdapter.notifyDataSetChanged();
+//    }
+    
+    
+    
     private void showShopList()
     {
         shop_tag_content_1.setVisibility(View.GONE);
@@ -228,6 +244,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     shop_tag_content_1.setVisibility(View.VISIBLE);
+                    shop_tag_content_2.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 1)
                 {
@@ -262,6 +279,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     shop_tag_content_3.setVisibility(View.VISIBLE);
+                    shop_tag_content_4.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 3)
                 {
@@ -315,6 +333,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     product_tag_content_1.setVisibility(View.VISIBLE);
+                    product_tag_content_2.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 1)
                 {
@@ -349,6 +368,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     product_tag_content_3.setVisibility(View.VISIBLE);
+                    product_tag_content_4.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 3)
                 {
@@ -402,6 +422,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     active_tag_content_1.setVisibility(View.VISIBLE);
+                    active_tag_content_2.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 1)
                 {
@@ -436,6 +457,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     active_tag_content_3.setVisibility(View.VISIBLE);
+                    active_tag_content_4.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 3)
                 {
@@ -489,6 +511,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     coupon_tag_content_1.setVisibility(View.VISIBLE);
+                    coupon_tag_content_2.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 1)
                 {
@@ -523,6 +546,7 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                         }
                     });
                     coupon_tag_content_3.setVisibility(View.VISIBLE);
+                    coupon_tag_content_4.setVisibility(View.INVISIBLE);
                 }
                 else if (i == 3)
                 {
@@ -552,6 +576,26 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
         {
             case R.id.title_back_layout:
                 finish();
+                break;
+            case R.id.shop_tag_more:
+                Intent intent = new Intent(this,CollectMoreActivity.class);
+                intent.putExtra("list", shopList);
+                startActivity(intent);
+                break;
+            case R.id.product_tag_more:
+                Intent intent1 = new Intent(this,CollectMoreActivity.class);
+                intent1.putExtra("list", productList);
+                startActivity(intent1);
+                break;
+            case R.id.active_tag_more:
+                Intent intent2 = new Intent(this,CollectMoreActivity.class);
+                intent2.putExtra("list", activeList);
+                startActivity(intent2);
+                break;
+            case R.id.coupon_tag_more:
+                Intent intent3 = new Intent(this,CollectMoreActivity.class);
+                intent3.putExtra("list", couponList);
+                startActivity(intent3);
                 break;
             default:
                 break;

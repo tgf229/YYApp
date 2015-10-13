@@ -230,6 +230,10 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
         {
             param.put("org_comm", org_comm);
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         
         param.put("page_no", String.valueOf(page));
         ConnectService.instance().connectServiceReturnResponse(MapActivity.this,

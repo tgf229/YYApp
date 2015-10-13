@@ -33,6 +33,7 @@ import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.ui.goods.adapter.TypeListAdapter;
 import com.yy.yyapp.ui.home.adapter.ShopCircleAdapter;
+import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
 
@@ -90,6 +91,10 @@ public class ShopCircleActivity extends BaseActivity implements OnClickListener
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("city_name", Constants.cityTxt);
         }
         ConnectService.instance().connectServiceReturnResponse(this,
             param,

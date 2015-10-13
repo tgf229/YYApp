@@ -2,6 +2,8 @@ package com.yy.yyapp.constant;
 
 public class Constants
 {
+    
+    public static String cityTxt = "";
     /**
      * 是否显示引导页，版本控制,需要引导页时，版本号变大1
      */
@@ -21,6 +23,8 @@ public class Constants
     
     public static final String PAGE_LOAD_BROADCAST = "PAGE_LOAD_BROADCAST";
     public static final String BIND_TITLE_BROADCAST = "BIND_TITLE_BROADCAST";
+    
+    public static final String GEOFENCE_BROADCAST_ACTION = "com.location.apis.geofencedemo.broadcast";
     
     
     /**
@@ -52,6 +56,7 @@ public class Constants
     public static final int SCAN_SUCCESS_CODE = 1004;
     public static final int CIRCLE_SUCCESS_CODE = 1005;
     public static final int REGISTER_BIND_CODE = 1006;
+    public static final int ORDER_TYPE_SUCCESS_CODE = 1007;
     
     /**
      * 请求失败展示信息

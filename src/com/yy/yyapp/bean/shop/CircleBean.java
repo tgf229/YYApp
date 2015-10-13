@@ -28,6 +28,40 @@ public class CircleBean
     
     private String comm_pic_url;
     
+    private String comm_latitude;
+    private String comm_longitude;
+    private String comm_radius;
+    
+    public String getComm_latitude()
+    {
+        return comm_latitude;
+    }
+
+    public void setComm_latitude(String comm_latitude)
+    {
+        this.comm_latitude = comm_latitude;
+    }
+
+    public String getComm_longitude()
+    {
+        return comm_longitude;
+    }
+
+    public void setComm_longitude(String comm_longitude)
+    {
+        this.comm_longitude = comm_longitude;
+    }
+
+    public String getComm_radius()
+    {
+        return comm_radius;
+    }
+
+    public void setComm_radius(String comm_radius)
+    {
+        this.comm_radius = comm_radius;
+    }
+
     public String getComm_id()
     {
         return comm_id;

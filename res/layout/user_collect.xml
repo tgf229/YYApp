@@ -40,8 +40,7 @@
                     android:layout_alignBottom="@id/shop_tag_title"
                     android:layout_alignParentRight="true"
                     android:text="更多"
-                    android:textColor="@color/black_color"
-                    android:visibility="gone" />
+                    android:textColor="@color/black_color" />
             </RelativeLayout>
 
             <View
@@ -62,10 +61,11 @@
                     android:layout_height="30dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
+                    android:visibility="gone"
                     android:text="您没有收藏此类信息！"
                     android:textColor="@color/text_color" />
-
-                <LinearLayout
+                
+              <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -140,8 +140,7 @@
                     android:layout_alignBottom="@id/product_tag_title"
                     android:layout_alignParentRight="true"
                     android:text="更多"
-                    android:textColor="@color/black_color"
-                    android:visibility="gone" />
+                    android:textColor="@color/black_color"/>
             </RelativeLayout>
 
             <View
@@ -241,8 +240,7 @@
                     android:layout_alignBottom="@id/active_tag_title"
                     android:layout_alignParentRight="true"
                     android:text="更多"
-                    android:textColor="@color/black_color"
-                    android:visibility="gone" />
+                    android:textColor="@color/black_color" />
             </RelativeLayout>
 
             <View
@@ -342,8 +340,7 @@
                     android:layout_alignBottom="@id/tag_title"
                     android:layout_alignParentRight="true"
                     android:text="更多"
-                    android:textColor="@color/black_color"
-                    android:visibility="gone" />
+                    android:textColor="@color/black_color" />
             </RelativeLayout>
 
             <View

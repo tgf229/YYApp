@@ -10,6 +10,7 @@
 package com.yy.yyapp.ui.coupon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,24 +29,22 @@ import android.view.View.OnKeyListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.yy.yyapp.R;
-import com.yy.yyapp.bean.active.ActiveBean;
 import com.yy.yyapp.bean.coupon.CouponBean;
-import com.yy.yyapp.bean.goods.GoodsBean;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
-import com.yy.yyapp.ui.active.ActiveActivity;
-import com.yy.yyapp.ui.active.adapter.ActiveListAdapter;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.ui.coupon.adapter.CouponListAdapter;
+import com.yy.yyapp.ui.home.CityActivity;
+import com.yy.yyapp.ui.shop.ShopTypeActivity;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.PullToRefreshView;
@@ -112,6 +111,14 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
     
     private boolean isSearching = false;
     
+    private Button title_tag_type, title_tag_price, title_tag_city, title_tag_order;
+    
+    private String[] orderStrs = {"热门","品牌","类别"};
+    
+    private String type;
+    private String city;
+    private String order;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -126,6 +133,16 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
     {
         loadingLayout = (LinearLayout)findViewById(R.id.loading_layout);
         loadingLayout.setVisibility(View.VISIBLE);
+        
+        title_tag_type = (Button)findViewById(R.id.title_tag_type);
+        title_tag_price = (Button)findViewById(R.id.title_tag_price);
+        title_tag_city = (Button)findViewById(R.id.title_tag_city);
+        title_tag_order = (Button)findViewById(R.id.title_tag_order);
+        
+        title_tag_type.setOnClickListener(this);
+        title_tag_price.setOnClickListener(this);
+        title_tag_city.setOnClickListener(this);
+        title_tag_order.setOnClickListener(this);
         
         mPullToRefreshView = (PullToRefreshView)findViewById(R.id.home_main_pull_refresh_view);
         mPullToRefreshView.setOnHeaderRefreshListener(this);
@@ -225,6 +242,22 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
         {
             param.put("ticket_org_id", org_id);
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(type))
+        {
+            param.put("ticket_trade_type", type);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(city))
+        {
+            param.put("org_city", city);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(order))
+        {
+            param.put("orderfield", order);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("page_no", String.valueOf(page));
         ConnectService.instance().connectServiceReturnResponse(this,
             param,
@@ -294,7 +327,78 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
             case R.id.title_back_layout:
                 finish();
                 break;
-            
+            case R.id.title_tag_type:
+                Intent intent = new Intent(this, ShopTypeActivity.class);
+                startActivityForResult(intent, Constants.TYPE_SUCCESS_CODE);
+                break;
+            case R.id.title_tag_price:
+                break;
+            case R.id.title_tag_city:
+                Intent cIntent = new Intent(this, CityActivity.class);
+                if(GeneralUtils.isNotNullOrZeroLenght(city))
+                {
+                    cIntent.putExtra("city", city);
+                }
+                else
+                {
+                    cIntent.putExtra("city", Constants.cityTxt);
+                }
+                startActivityForResult(cIntent, 0);
+                break;
+            case R.id.title_tag_order:
+                ArrayList<String> orderList = new ArrayList<String>();
+                Collections.addAll(orderList, orderStrs);
+                Intent oIntent = new Intent(this, TypeActivity.class);
+                oIntent.putStringArrayListExtra("list", orderList);
+                startActivityForResult(oIntent, 1);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.TYPE_SUCCESS_CODE:
+                type = data.getStringExtra("type");
+                title_tag_type.setText(GeneralUtils.isNullOrZeroLenght(type)? "行业": type);
+                page = 0;
+                couponList.clear();
+                anyMore = true;
+                reqList();
+                break;
+            case Constants.CITY_SUCCESS_CODE:
+                city = data.getStringExtra("city");
+                title_tag_city.setText(city);
+                page = 0;
+                couponList.clear();
+                anyMore = true;
+                reqList();
+                break;
+            case Constants.ORDER_TYPE_SUCCESS_CODE:
+                String str = data.getStringExtra("type");
+                if("品牌".equals(str))
+                {
+                    order = "ticket_brand";
+                    title_tag_order.setText("品牌");
+                }else if("类别".equals(str))
+                {
+                    order = "ticket_type";
+                    title_tag_order.setText("类别");
+                }
+                else
+                {
+                    title_tag_order.setText("热门");
+                }
+                page = 0;
+                couponList.clear();
+                anyMore = true;
+                reqList();
+                break;
             default:
                 break;
         }

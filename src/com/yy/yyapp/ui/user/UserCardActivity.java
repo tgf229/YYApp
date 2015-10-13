@@ -18,8 +18,11 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +41,7 @@ import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseActivity;
+import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
 import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
@@ -55,9 +59,11 @@ public class UserCardActivity extends BaseActivity implements OnClickListener
 {
     private LinearLayout back,card_bg;
     
-    private TextView title,card_no;
+    private TextView title,card_no,card_type;
     
     private NetLoadingDailog dialog;
+    
+    private  Bitmap code;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,7 +82,9 @@ public class UserCardActivity extends BaseActivity implements OnClickListener
         
         card_bg = (LinearLayout)findViewById(R.id.card_bg);
         card_no = (TextView)findViewById(R.id.card_no);
+        card_type = (TextView)findViewById(R.id.card_type);
         back.setOnClickListener(this);
+        card_bg.setOnClickListener(this);
     }
     
     @SuppressLint("NewApi")
@@ -86,17 +94,19 @@ public class UserCardActivity extends BaseActivity implements OnClickListener
         {
             if("金卡会员".equals(level))
             {
+                card_type.setText("金卡");
                 card_bg.setBackground(getResources().getDrawable(R.drawable.card_gold));
             }
             else
             {
+                card_type.setText("银卡");
                 card_bg.setBackground(getResources().getDrawable(R.drawable.card_silver));
             }
-            Bitmap qrcode = CreateOneDCode(Global.getUserId());
+            code = CreateOneDCode(Global.getUserId());
             card_no.setText("No："+Global.getUserId());
             
-            ImageView imageView = (ImageView)findViewById(R.id.code_image);
-            imageView.setImageBitmap(qrcode);
+//            ImageView imageView = (ImageView)findViewById(R.id.code_image);
+//            imageView.setImageBitmap(qrcode);
             
             Bitmap qrcode2 = CreateTwoDCode(Global.getUserId());
             ImageView imageView2 = (ImageView)findViewById(R.id.qr_image);
@@ -158,6 +168,9 @@ public class UserCardActivity extends BaseActivity implements OnClickListener
             case R.id.title_back_layout:
                 finish();
                 break;
+            case R.id.card_bg:
+                DialogUtil.showCodeDialog(this, code);
+                break;
             default:
                 break;
         }
@@ -200,7 +213,7 @@ public class UserCardActivity extends BaseActivity implements OnClickListener
         throws WriterException
     {
         // 生成一维条码,编码时指定大小,不要生成了图片以后再进行缩放,这样会模糊导致识别失败  
-        BitMatrix matrix = new MultiFormatWriter().encode(content, BarcodeFormat.CODE_128, 260, 90);
+        BitMatrix matrix = new MultiFormatWriter().encode(content, BarcodeFormat.CODE_128, 600, 180);
         int width = matrix.getWidth();
         int height = matrix.getHeight();
         int[] pixels = new int[width * height];
@@ -216,8 +229,22 @@ public class UserCardActivity extends BaseActivity implements OnClickListener
         }
         
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        // 通过像素数组生成bitmap,具体参考api  
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        
+        Matrix m = new Matrix();
+        m.postRotate(90);  //旋转-90度
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, m, true);
+
+        
+        //        Canvas cv = new Canvas(bitmap);
+//        Matrix m = new Matrix();
+//        m.postRotate(-90);  //旋转-90度
+//        Bitmap new2 = Bitmap.createBitmap(bitmap, 0, 0, width, height, m, true);
+//        cv.drawBitmap(new2, new Rect(0, 0, new2.getWidth(), new2.getHeight()),new Rect(0, 0, width, height), null);
+//        
+//        return new2;
+        // 通过像素数组生成bitmap,具体参考api  
+//        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         return bitmap;
     }
     

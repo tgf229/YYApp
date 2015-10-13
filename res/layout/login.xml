@@ -7,18 +7,11 @@
 
     <include layout="@layout/app_title" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dip"
-        android:maxLines="2"
-        android:text="已办理实体会员卡的用户，初始登录密码为卡号后6位数字 "
-        android:textSize="12sp"
-        android:textColor="@color/yello_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/person_login_username_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal" >

@@ -47,6 +47,8 @@ import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.base.BaseFragment;
+import com.yy.yyapp.ui.coupon.CouponActivity;
+import com.yy.yyapp.ui.home.ShopCircleActivity;
 import com.yy.yyapp.ui.shop.adapter.ShopListAdapter;
 import com.yy.yyapp.ui.user.LoginActivity;
 import com.yy.yyapp.util.DialogUtil;
@@ -198,6 +200,17 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                         hideSoftInput();
                     }
                 }
+                else if (keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    if(GeneralUtils.isNotNullOrZeroLenght(circle1))
+                    {
+                        circle1 = null;
+                        Intent intent = new Intent(getActivity(),ShopCircleActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                        getActivity().startActivityForResult(intent, Constants.CIRCLE_SUCCESS_CODE);
+                        ((HomeFragmentActivity)getActivity()).setTabSelection(getString(R.string.home_tabbar_home));
+                    }
+                }
                 return true;
             }
         });
@@ -271,6 +284,10 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
             if (GeneralUtils.isNotNullOrZeroLenght(circle1))
             {
                 param.put("org_comm", circle1);
+            }
+            if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+            {
+                param.put("org_city", Constants.cityTxt);
             }
             ConnectService.instance().connectServiceReturnResponse(getActivity(),
                 param,

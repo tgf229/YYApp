@@ -9,6 +9,9 @@
  */
 package com.yy.yyapp.ui;
 
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -45,6 +48,7 @@ import com.yy.yyapp.util.ToastUtil;
  */
 public class HomeFragmentActivity extends FragmentActivity implements UICallBack, OnClickListener
 {
+    public NotificationManager mNotificationManager;
     /**
      * TabBar标签
      */
@@ -74,6 +78,7 @@ public class HomeFragmentActivity extends FragmentActivity implements UICallBack
         super.onCreate(arg0);
         setContentView(R.layout.activity_home_fragment);
         YYApplication.yyApplication.addActivity(this);
+        mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         init();
         initData();
         setTabSelection(getString(R.string.home_tabbar_home));

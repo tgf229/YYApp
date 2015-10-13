@@ -93,6 +93,21 @@ public class TypeListAdapter extends BaseAdapter
                     ((Activity)context).setResult(Constants.TYPE_SUCCESS_CODE, intent);
                     ((Activity)context).finish();
                 }
+                if("com.yy.yyapp.ui.coupon.TypeActivity".equals(YYApplication.currentActivity))
+                {
+                    Intent intent = new Intent(context, ShopFragment.class);
+                    if("热门".equals(entity))
+                    {
+                        intent.putExtra("type", "");
+                    }
+                    else
+                    {
+                        intent.putExtra("type", entity);
+                    }
+                    
+                    ((Activity)context).setResult(Constants.ORDER_TYPE_SUCCESS_CODE, intent);
+                    ((Activity)context).finish();
+                }
                 else
                 {
                     Intent intent = new Intent(context, GoodsFragment.class);

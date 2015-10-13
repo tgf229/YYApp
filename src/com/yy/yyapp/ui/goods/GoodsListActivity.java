@@ -245,6 +245,10 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener, 
             {
                 param.put("org_id", org_id);
             }
+            if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+            {
+                param.put("org_city", Constants.cityTxt);
+            }
             
             ConnectService.instance().connectServiceReturnResponse(this,
                 param,

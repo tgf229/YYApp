@@ -17,15 +17,21 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +55,7 @@ import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CircleOptions;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -63,6 +70,7 @@ import com.yy.yyapp.bean.goods.GoodsBean;
 import com.yy.yyapp.bean.home.HomeBannerBean;
 import com.yy.yyapp.bean.home.HomeIconBean;
 import com.yy.yyapp.bean.home.HomeIconPageBean;
+import com.yy.yyapp.bean.shop.CircleBean;
 import com.yy.yyapp.bean.shop.ShopBean;
 import com.yy.yyapp.bean.user.UserBean;
 import com.yy.yyapp.constant.Constants;
@@ -82,6 +90,7 @@ import com.yy.yyapp.ui.home.adapter.HomeBannerPagerAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeIconPagerAdapter;
 import com.yy.yyapp.ui.shop.ShopDetailActivity;
 import com.yy.yyapp.util.GeneralUtils;
+import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.MyImageView;
 import com.yy.yyapp.view.PullToRefreshView;
 import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
@@ -96,14 +105,11 @@ import com.yy.yyapp.view.PullToRefreshView.OnHeaderRefreshListener;
  * @since  [产品/模块版本]
  */
 public class MainFragment extends BaseFragment implements OnClickListener, OnHeaderRefreshListener, LocationSource,
-    AMapLocationListener,OnMarkerClickListener
+    AMapLocationListener, OnMarkerClickListener
 {
     private View view;
     
     private Button city;
-    
-    //TODO =========================
-    private String cityTxt = "南京";
     
     private String circle = null;
     
@@ -165,6 +171,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private View listview_head;
     
+    private ArrayList<CircleBean> circleList = new ArrayList<CircleBean>();
+    
     private ImageView hotCoupon1, hotCoupon2, hotCoupon3, hotShop1, hotShop2, hotShop3, hotGoods1, hotGoods2,
         hotGoods3, hotActive1, hotActive2;
     
@@ -213,6 +221,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private ImageLoader imageLoader = ImageLoader.getInstance();
     
+    private PendingIntent mPendingIntent;
+    
+    private String circleId;
+    
+    NotificationCompat.Builder mBuilder;
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -226,7 +240,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     {
         super.onActivityCreated(savedInstanceState);
         init(savedInstanceState);
-        
+        initNotify();
         registreBroadcast();
         
         reqIcon();
@@ -238,6 +252,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         reqGuss();
         
         reqAutoLogin();
+        
+        reqShopCircle();
     }
     
     private void init(Bundle savedInstanceState)
@@ -247,7 +263,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         titleBar = (RelativeLayout)view.findViewById(R.id.title_bar);
         titleName = (TextView)view.findViewById(R.id.title_name);
         city = (Button)view.findViewById(R.id.city);
-        city.setText(cityTxt);
+        city.setText("未知");
         if (Global.isLogin() && GeneralUtils.isNotNullOrZeroLenght(Global.getOrgName()))
         {
             titleName.setText(Global.getOrgName());
@@ -351,6 +367,27 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         freshNewsListView.addFooterView(footView);
     }
     
+    private void initNotify()
+    {
+        mBuilder = new NotificationCompat.Builder(getActivity());
+        mBuilder.setContentTitle("测试标题").setContentText("测试内容")
+        //.setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL))
+            .setTicker("测试通知来啦")
+            //通知首次出现在通知栏，带上升动画效果的
+            .setWhen(System.currentTimeMillis())
+            //通知产生的时间，会在通知信息里显示
+            .setPriority(Notification.PRIORITY_DEFAULT)
+            //设置该通知优先级
+            .setAutoCancel(true)
+            //设置这个标志当用户单击面板就可以让通知将自动取消  
+            .setOngoing(false)
+            //ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+            .setDefaults(Notification.DEFAULT_VIBRATE)
+            //向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
+            //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+            .setSmallIcon(R.drawable.ic_launcher);
+    }
+    
     private void reqBanner()
     {
         Map<String, String> param = new HashMap<String, String>();
@@ -388,6 +425,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("is_recomment", "推荐商品");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -403,7 +444,18 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        param.put("is_recomment", "推荐商家");
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(circleId))
+        {
+            param.put("org_comm", circleId);
+        }
+        else
+        {
+            param.put("is_recomment", "推荐商家");
+        }
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             this,
@@ -417,6 +469,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
         }
         param.put("is_recomment", "推荐活动");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
@@ -433,6 +489,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("is_recomment", "推荐现金券");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -448,6 +508,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("is_recomment", "推荐商品");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -458,16 +522,19 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void reqAutoLogin()
     {
-        if(Global.isLogin())
+        if (Global.isLogin())
         {
             Map<String, String> param = new HashMap<String, String>();
             param.put("user_mobile", Global.getUserMobile());
             param.put("user_password", Global.getUserPassword());
-            ConnectService.instance().connectServiceReturnResponse(getActivity(), param, MainFragment.this,
+            ConnectService.instance().connectServiceReturnResponse(getActivity(),
+                param,
+                MainFragment.this,
                 URLUtil.LOGIN,
                 Constants.ENCRYPT_NONE);
         }
     }
+    
     private void reqDetail(String org_id)
     {
         Map<String, String> param = new HashMap<String, String>();
@@ -480,6 +547,24 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             param,
             this,
             URLUtil.SHOP_DETAIL,
+            Constants.ENCRYPT_NONE);
+    }
+    
+    private void reqShopCircle()
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("city_name", Constants.cityTxt);
+        }
+        ConnectService.instance().connectServiceReturnResponse(getActivity(),
+            param,
+            this,
+            URLUtil.CIRCLE_LIST,
             Constants.ENCRYPT_NONE);
     }
     
@@ -689,9 +774,9 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     UserBean user = NetResponse.loginResponse(getActivity(), bean);
                     Global.setIsLogin(true);
                     Global.saveData(user, Global.getUserPassword());
-                    if(GeneralUtils.isNotNullOrZeroLenght(user.getUser_org_id()))
+                    if (GeneralUtils.isNotNullOrZeroLenght(user.getUser_org_id()))
                     {
-                        if(!Global.getUserOrgId().equals(user.getUser_org_id()))
+                        if (!Global.getUserOrgId().equals(user.getUser_org_id()))
                         {
                             reqDetail(user.getUser_org_id());
                         }
@@ -737,10 +822,45 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 e.printStackTrace();
             }
         }
+        if (URLUtil.CIRCLE_LIST.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                for (int i = 0; i < array.length(); i++)
+                {
+                    JSONObject ob = array.getJSONObject(i);
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    {
+                        break;
+                    }
+                    
+                    CircleBean bean = new CircleBean();
+                    bean.setComm_id(ob.getString("comm_id"));
+                    bean.setComm_title(ob.getString("comm_title"));
+                    bean.setComm_latitude(ob.getString("comm_latitude"));
+                    bean.setComm_longitude(ob.getString("comm_longitude"));
+                    bean.setComm_radius(ob.getString("comm_radius"));
+                    circleList.add(bean);
+                }
+                showCircleList();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
     
     private void showHotActive()
     {
+        if(GeneralUtils.isNullOrZeroSize(hotActiveList))
+        {
+            hotActive1.setClickable(false);
+            hotActive2.setClickable(false);
+            return;
+        }
         for (int i = 0; i < hotActiveList.size(); i++)
         {
             if (i == 0)
@@ -768,6 +888,13 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotGoods()
     {
+        if(GeneralUtils.isNullOrZeroSize(hotProductList))
+        {
+            hotGoods1.setClickable(false);
+            hotGoods2.setClickable(false);
+            hotGoods3.setClickable(false);
+            return;
+        }
         for (int i = 0; i < hotProductList.size(); i++)
         {
             if (i == 0)
@@ -805,37 +932,51 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotShop()
     {
-        for (int i = 0; i < hotShopList.size(); i++)
+        if(GeneralUtils.isNullOrZeroSize(hotShopList))
         {
-            if (i == 0)
+            hotShop1.setClickable(false);
+            hotShop2.setClickable(false);
+            hotShop3.setClickable(false);
+            return;
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(circleId))
+        {
+            
+        }
+        else
+        {
+            for (int i = 0; i < hotShopList.size(); i++)
             {
-                imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
-                    hotShop1,
-                    YYApplication.setAllDisplayImageOptions(getActivity(),
-                        "default_banner",
-                        "default_banner",
-                        "default_banner"));
-                hotShop1.setOnClickListener(this);
-            }
-            else if (i == 1)
-            {
-                imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
-                    hotShop2,
-                    YYApplication.setAllDisplayImageOptions(getActivity(),
-                        "default_banner",
-                        "default_banner",
-                        "default_banner"));
-                hotShop2.setOnClickListener(this);
-            }
-            else
-            {
-                imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
-                    hotShop3,
-                    YYApplication.setAllDisplayImageOptions(getActivity(),
-                        "default_banner",
-                        "default_banner",
-                        "default_banner"));
-                hotShop3.setOnClickListener(this);
+                if (i == 0)
+                {
+                    imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
+                        hotShop1,
+                        YYApplication.setAllDisplayImageOptions(getActivity(),
+                            "default_banner",
+                            "default_banner",
+                            "default_banner"));
+                    hotShop1.setOnClickListener(this);
+                }
+                else if (i == 1)
+                {
+                    imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
+                        hotShop2,
+                        YYApplication.setAllDisplayImageOptions(getActivity(),
+                            "default_banner",
+                            "default_banner",
+                            "default_banner"));
+                    hotShop2.setOnClickListener(this);
+                }
+                else
+                {
+                    imageLoader.displayImage(hotShopList.get(i).getOrg_pic_url(),
+                        hotShop3,
+                        YYApplication.setAllDisplayImageOptions(getActivity(),
+                            "default_banner",
+                            "default_banner",
+                            "default_banner"));
+                    hotShop3.setOnClickListener(this);
+                }
             }
         }
         addMarkersToMap();
@@ -843,7 +984,13 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotCoupon()
     {
-        
+        if(GeneralUtils.isNullOrZeroSize(hotCouponList))
+        {
+            hotCoupon1.setClickable(false);
+            hotCoupon2.setClickable(false);
+            hotCoupon3.setClickable(false);
+            return;
+        }
         for (int i = 0; i < hotCouponList.size(); i++)
         {
             if (i == 0)
@@ -937,6 +1084,14 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         mPullToRefreshView.onHeaderRefreshComplete();
     }
     
+    private void showCircleList()
+    {
+        if (GeneralUtils.isNotNullOrZeroSize(circleList))
+        {
+            registreCircleBroadcast();
+        }
+    }
+    
     @Override
     public void onClick(View v)
     {
@@ -944,7 +1099,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             case R.id.city:
                 Intent cIntent = new Intent(getActivity(), CityActivity.class);
-                cIntent.putExtra("city", cityTxt);
+                cIntent.putExtra("city", Constants.cityTxt);
                 getActivity().startActivityForResult(cIntent, 0);
                 break;
             case R.id.hot_goods_pic1:
@@ -1072,7 +1227,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 @Override
                 public void onMapClick(LatLng arg0)
                 {
-                    Intent intent = new Intent(getActivity(),MapActivity.class);
+                    Intent intent = new Intent(getActivity(), MapActivity.class);
                     intent.putExtra("list", hotShopList);
                     getActivity().startActivity(intent);
                 }
@@ -1083,7 +1238,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     private void setUpMap()
     {
         LatLng marker1 = new LatLng(32.041544, 118.767413);
-        aMap.moveCamera(CameraUpdateFactory.changeLatLng(marker1)); 
+        aMap.moveCamera(CameraUpdateFactory.changeLatLng(marker1));
         
         // 自定义系统定位小蓝点
         MyLocationStyle myLocationStyle = new MyLocationStyle();
@@ -1159,9 +1314,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     {
         if (mListener != null && aLocation != null)
         {
+            Constants.cityTxt = aLocation.getCity().replaceAll("市", "");
+            city.setText(Constants.cityTxt);
             mListener.onLocationChanged(aLocation);// 显示系统小蓝点
         }
-        
     }
     
     @Override
@@ -1194,7 +1350,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         mAMapLocationManager = null;
     }
     
-    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -1202,8 +1357,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         switch (resultCode)
         {
             case Constants.CITY_SUCCESS_CODE:
-                cityTxt = data.getStringExtra("city");
-                city.setText(cityTxt);
+                Constants.cityTxt = data.getStringExtra("city");
+                city.setText(Constants.cityTxt);
                 break;
             default:
                 break;
@@ -1216,7 +1371,70 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         loginFilter.addAction(Constants.BIND_TITLE_BROADCAST);
         titleBroard = new TitleBroard();
         getActivity().registerReceiver(titleBroard, loginFilter);
+        
+        // 将地理围栏添加到地图上显示
+        //        LatLng latLng = new LatLng(32.00487349, 118.74203682);
+        //        CircleOptions circleOptions = new CircleOptions();
+        //        circleOptions.center(latLng).radius(1000)
+        //                .fillColor(Color.argb(180, 224, 171, 10))
+        //                .strokeColor(Color.RED);
+        //        aMap.addCircle(circleOptions);
     }
+    
+    private void registreCircleBroadcast()
+    {
+        IntentFilter fliter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        fliter.addAction(Constants.GEOFENCE_BROADCAST_ACTION);
+        getActivity().registerReceiver(mGeoFenceReceiver, fliter);
+        
+        Intent intent = new Intent(Constants.GEOFENCE_BROADCAST_ACTION);
+        mPendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+        
+        for (CircleBean b : circleList)
+        {
+            mAMapLocationManager.addGeoFenceAlert(Double.valueOf(b.getComm_longitude()),
+                Double.valueOf(b.getComm_latitude()),
+                Float.valueOf(b.getComm_radius()),
+                1000 * 60 * 30,
+                mPendingIntent);
+        }
+    }
+    
+    private BroadcastReceiver mGeoFenceReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            // 接受广播
+            if (intent.getAction().equals(Constants.GEOFENCE_BROADCAST_ACTION))
+            {
+                Bundle bundle = intent.getExtras();
+                // 根据广播的status来确定是在区域内还是在区域外
+                int status = bundle.getInt("status");
+                if (status == 1)
+                {
+                    getActivity().unregisterReceiver(mGeoFenceReceiver);
+                    for (CircleBean b : circleList)
+                    {
+                        if (bundle.getString("fence").split("#")[0].equals(b.getComm_latitude()))
+                        {
+                            mBuilder.setContentTitle("亲爱的用户")
+                            .setContentText("欢迎来到" + b.getComm_title())
+                            //                          .setNumber(number)//显示数量
+                                .setTicker("亲爱的用户，您进入商圈范围啦");//通知首次出现在通知栏，带上升动画效果的
+                            ((HomeFragmentActivity)getActivity()).mNotificationManager.notify(1, mBuilder.build());
+                            circleId = b.getComm_id();
+                            reqHotShop();
+                        }
+                    }
+                }
+                else
+                {
+                    
+                }
+            }
+        }
+    };
     
     class TitleBroard extends BroadcastReceiver
     {
@@ -1225,7 +1443,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             if (Constants.BIND_TITLE_BROADCAST.equals(intent.getAction()))
             {
-                if(GeneralUtils.isNullOrZeroLenght(Global.getOrgName()))
+                if (GeneralUtils.isNullOrZeroLenght(Global.getOrgName()))
                 {
                     titleName.setText("首页");
                 }

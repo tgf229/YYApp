@@ -9,6 +9,8 @@
  */
 package com.yy.yyapp.bean.user;
 
+import java.io.Serializable;
+
 /**
  * <一句话功能简述>
  * <功能详细描述>
@@ -18,7 +20,7 @@ package com.yy.yyapp.bean.user;
  * @see  [相关类/方法]
  * @since  [产品/模块版本]
  */
-public class CollectBean
+public class CollectBean implements Serializable
 {
     private String collect_item_id;
     private String collect_type;    //中文  【商家、商品、活动、现金券】

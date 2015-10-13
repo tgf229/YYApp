@@ -92,6 +92,8 @@ public class UserFragment extends BaseFragment implements OnClickListener
         }
         else
         {
+            logout.setVisibility(View.GONE);
+            my_pwd.setVisibility(View.GONE);
             inlogin.setVisibility(View.GONE);
             unlogin.setVisibility(View.VISIBLE);
         }
@@ -126,6 +128,8 @@ public class UserFragment extends BaseFragment implements OnClickListener
                 inlogin.setVisibility(View.GONE);
                 unlogin.setVisibility(View.VISIBLE);
                 tips.setVisibility(View.VISIBLE);
+                logout.setVisibility(View.GONE);
+                my_pwd.setVisibility(View.GONE);
                 Global.logout();
                 Intent intent2 = new Intent(Constants.BIND_TITLE_BROADCAST);
                 YYApplication.yyApplication.sendBroadcast(intent2);
@@ -221,6 +225,8 @@ public class UserFragment extends BaseFragment implements OnClickListener
                 tips.setVisibility(View.GONE);
                 inlogin.setVisibility(View.VISIBLE);
                 inLoginTxt.setText("已注册会员："+Global.getTotalUser()+"人");
+                logout.setVisibility(View.VISIBLE);
+                my_pwd.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;

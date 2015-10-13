@@ -93,6 +93,7 @@ public class CityAdapter extends BaseAdapter
                 
                 Intent i = new Intent(context, MainFragment.class);
                 i.putExtra("city", entity);//小区所属的城市
+                Constants.cityTxt = entity;
                 ((Activity)context).setResult(Constants.CITY_SUCCESS_CODE, i);
                 ((Activity)context).finish();
             }
