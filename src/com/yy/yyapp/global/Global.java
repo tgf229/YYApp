@@ -114,6 +114,16 @@ public class Global
         SharePref.saveString(SharePref.USER_ORG_NAME, orgName);
     }
     
+    public static String getOrgImg()
+    {
+        return SharePref.getString(SharePref.USER_ORG_IMG, "");
+    }
+    
+    public static void saveOrgImg(String orgImg)
+    {
+        SharePref.saveString(SharePref.USER_ORG_IMG, orgImg);
+    }
+    
     public static String getUserType()
     {
         return SharePref.getString(SharePref.USER_TYPE, "");
@@ -179,6 +189,7 @@ public class Global
         Global.saveTotalUser("");
         Global.saveUserOrgId("");
         Global.saveOrgName("");
+        Global.saveOrgImg("");
     }
     
     /**

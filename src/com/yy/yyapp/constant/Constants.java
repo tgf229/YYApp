@@ -3,7 +3,7 @@ package com.yy.yyapp.constant;
 public class Constants
 {
     
-    public static String cityTxt = "";
+    public static String cityTxt = "南京";
     /**
      * 是否显示引导页，版本控制,需要引导页时，版本号变大1
      */
@@ -57,6 +57,7 @@ public class Constants
     public static final int CIRCLE_SUCCESS_CODE = 1005;
     public static final int REGISTER_BIND_CODE = 1006;
     public static final int ORDER_TYPE_SUCCESS_CODE = 1007;
+    public static final int PRICE_TYPE_SUCCESS_CODE = 1008;
     
     /**
      * 请求失败展示信息
@@ -69,3 +70,4 @@ public class Constants
     public static final String HOME_TAG_ACTIVE = "热门活动";
     public static final String HOME_TAG_GUSS = "猜你喜欢";
 }
+

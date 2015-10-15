@@ -118,6 +118,7 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
     private String type;
     private String city;
     private String order;
+    private String price_range;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -258,6 +259,11 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
         {
             param.put("org_city", Constants.cityTxt);
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(price_range))
+        {
+            param.put("price_range", price_range);
+        }
+        
         param.put("page_no", String.valueOf(page));
         ConnectService.instance().connectServiceReturnResponse(this,
             param,
@@ -332,6 +338,8 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
                 startActivityForResult(intent, Constants.TYPE_SUCCESS_CODE);
                 break;
             case R.id.title_tag_price:
+                Intent intent1 = new Intent(this, CouponPriceActivity.class);
+                startActivityForResult(intent1, Constants.PRICE_TYPE_SUCCESS_CODE);
                 break;
             case R.id.title_tag_city:
                 Intent cIntent = new Intent(this, CityActivity.class);
@@ -393,6 +401,20 @@ public class CouponActivity extends BaseActivity implements OnClickListener, OnH
                 else
                 {
                     title_tag_order.setText("热门");
+                }
+                page = 0;
+                couponList.clear();
+                anyMore = true;
+                reqList();
+                break;
+            case Constants.PRICE_TYPE_SUCCESS_CODE:
+                price_range = data.getStringExtra("type");
+                if("".equals(price_range))
+                {
+                    title_tag_price.setText("全部");
+                }else
+                {
+                    title_tag_price.setText(price_range);
                 }
                 page = 0;
                 couponList.clear();

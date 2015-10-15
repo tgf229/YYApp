@@ -36,6 +36,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.qr_codescan.MipcaActivityCapture;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.goods.GoodsBean;
@@ -379,6 +380,12 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                 {
                     Global.saveUserOrgId(ob.getString("org_id"));
                     Global.saveOrgName(ob.getString("org_name"));
+                    
+                    String is_recomment = ob.getString("is_recomment");
+                    if(GeneralUtils.isNotNullOrZeroLenght(is_recomment) && "推荐商家".equals(is_recomment))
+                    {
+                        Global.saveOrgImg(ob.getString("recomment_pic_url"));
+                    }
                     
                     Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
                     YYApplication.yyApplication.sendBroadcast(intent);

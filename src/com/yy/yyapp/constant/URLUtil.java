@@ -29,6 +29,8 @@ public class URLUtil
     
     public static final String PRODUCT_TYPE = "getProductTypes";
     
+    public static final String PRICE_RANGE = "getPriceRange";
+    
     public static final String GUSS_LIST = "getHotProducts";
     
     public static final String SHOP_LIST = "getOrg";

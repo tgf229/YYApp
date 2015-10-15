@@ -93,7 +93,7 @@ public class TypeListAdapter extends BaseAdapter
                     ((Activity)context).setResult(Constants.TYPE_SUCCESS_CODE, intent);
                     ((Activity)context).finish();
                 }
-                if("com.yy.yyapp.ui.coupon.TypeActivity".equals(YYApplication.currentActivity))
+                else if("com.yy.yyapp.ui.coupon.TypeActivity".equals(YYApplication.currentActivity))
                 {
                     Intent intent = new Intent(context, ShopFragment.class);
                     if("热门".equals(entity))
@@ -106,6 +106,21 @@ public class TypeListAdapter extends BaseAdapter
                     }
                     
                     ((Activity)context).setResult(Constants.ORDER_TYPE_SUCCESS_CODE, intent);
+                    ((Activity)context).finish();
+                }
+                else if("com.yy.yyapp.ui.coupon.CouponPriceActivity".equals(YYApplication.currentActivity))
+                {
+                    Intent intent = new Intent(context, ShopFragment.class);
+                    if("全部".equals(entity))
+                    {
+                        intent.putExtra("type", "");
+                    }
+                    else
+                    {
+                        intent.putExtra("type", entity);
+                    }
+                    
+                    ((Activity)context).setResult(Constants.PRICE_TYPE_SUCCESS_CODE, intent);
                     ((Activity)context).finish();
                 }
                 else

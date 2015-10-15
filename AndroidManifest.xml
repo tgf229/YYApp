@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yy.yyapp"
     android:versionCode="1"
-    android:versionName="1.5" >
+    android:versionName="1.6" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -43,7 +43,7 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="7d01ec7ea75c2dd7483264b2d700cd17" />
+            android:value="8bb99c2844a1bf06092cc5e9d44e3dc1" />
         <!-- debug 8bb99c2844a1bf06092cc5e9d44e3dc1   -->
         <!-- dis   7d01ec7ea75c2dd7483264b2d700cd17    -->
 
@@ -180,6 +180,9 @@
         </activity>
         <activity
             android:name="com.yy.yyapp.ui.coupon.TypeActivity">
+        </activity>
+        <activity
+            android:name="com.yy.yyapp.ui.coupon.CouponPriceActivity">
         </activity>
     </application>
 

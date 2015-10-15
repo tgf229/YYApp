@@ -64,6 +64,8 @@ public class SharePref
      */
     public static final String USER_ORG_NAME = "org_id";
     
+    public static final String USER_ORG_IMG = "org_img";
+    
     /**
      * 会员类型
      */

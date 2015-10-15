@@ -136,6 +136,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
      */
     private MyImageView default_img;
     
+    private ImageView title_img;
+    
     private LinearLayout icon_default_img, hotCouponPager, hotShopPager, hotShopPicPager, hotGoodsPager,
         hotActivePager, hotActivePicPager;
     
@@ -262,11 +264,20 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         mPullToRefreshView.setOnHeaderRefreshListener(this);
         titleBar = (RelativeLayout)view.findViewById(R.id.title_bar);
         titleName = (TextView)view.findViewById(R.id.title_name);
+        title_img = (ImageView)view.findViewById(R.id.title_img);
+        
         city = (Button)view.findViewById(R.id.city);
-        city.setText("未知");
+        city.setText(Constants.cityTxt);
         if (Global.isLogin() && GeneralUtils.isNotNullOrZeroLenght(Global.getOrgName()))
         {
             titleName.setText(Global.getOrgName());
+            if(GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
+            {
+                ImageLoader.getInstance().displayImage(Global.getOrgImg(),
+                    title_img,
+                    YYApplication.setAllDisplayImageOptions(getActivity(), "vip", "vip", "vip"));
+                title_img.setVisibility(View.VISIBLE);
+            }
         }
         else
         {
@@ -365,6 +376,31 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         footView = LayoutInflater.from(getActivity()).inflate(R.layout.end_tips_layout, null);
         footView.setVisibility(View.VISIBLE);
         freshNewsListView.addFooterView(footView);
+    }
+    
+    @Override
+    public void onHiddenChanged(boolean hidden)
+    {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+        {
+            if (Global.isLogin() && GeneralUtils.isNotNullOrZeroLenght(Global.getOrgName()))
+            {
+                titleName.setText(Global.getOrgName());
+                if(GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
+                {
+                    ImageLoader.getInstance().displayImage(Global.getOrgImg(),
+                        title_img,
+                        YYApplication.setAllDisplayImageOptions(getActivity(), "vip", "vip", "vip"));
+                    title_img.setVisibility(View.VISIBLE);
+                }
+            }
+            else
+            {
+                titleName.setText("首页");
+                title_img.setVisibility(View.GONE);
+            }
+        }
     }
     
     private void initNotify()
@@ -809,6 +845,17 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     Global.saveUserOrgId(ob.getString("org_id"));
                     Global.saveOrgName(ob.getString("org_name"));
                     
+                    String is_recomment = ob.getString("is_recomment");
+                    if(GeneralUtils.isNotNullOrZeroLenght(is_recomment) && "推荐商家".equals(is_recomment))
+                    {
+                        Global.saveOrgImg(ob.getString("recomment_pic_url"));
+                        ImageLoader.getInstance().displayImage(Global.getOrgImg(),
+                            title_img,
+                            YYApplication.setAllDisplayImageOptions(getActivity(), "vip", "vip", "vip"));
+                        title_img.setVisibility(View.VISIBLE);
+                    }
+
+                    titleName.setText(Global.getOrgName());
                     Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
                     YYApplication.yyApplication.sendBroadcast(intent);
                     getActivity().setResult(Constants.LOGIN_SUCCESS_CODE);
