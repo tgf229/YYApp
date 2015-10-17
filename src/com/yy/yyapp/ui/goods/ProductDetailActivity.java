@@ -9,6 +9,7 @@
  */
 package com.yy.yyapp.ui.goods;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,12 +19,17 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.viewpagerindicator.CirclePageIndicator;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.goods.GoodsBean;
@@ -36,6 +42,8 @@ import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.network.NetResponse;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.ui.coupon.CouponDetailActivity;
+import com.yy.yyapp.ui.goods.adapter.GoodsPicAdapter;
+import com.yy.yyapp.ui.shop.adapter.ShopPicAdapter;
 import com.yy.yyapp.ui.user.LoginActivity;
 import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
@@ -60,6 +68,29 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
     private MyImageView2 img;
     private NetLoadingDailog dialog;
     private String product_id;
+    private String is_collect;
+    
+    private ViewPager banner_Pager;
+    private MyImageView2 default_img;
+    private CirclePageIndicator banner_indicator;
+    private ArrayList<String> bannerList;
+    private GoodsPicAdapter goodsPicAdapter;
+    
+    private Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            if (msg.what == 0)
+            {
+                int postion = banner_Pager.getCurrentItem() + 1;
+                if (null != bannerList && bannerList.size() > 0)
+                    banner_Pager.setCurrentItem(postion % bannerList.size(), true);
+                handler.sendEmptyMessageDelayed(0, 5*1000);
+            }
+        }
+    };
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -83,8 +114,20 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
         
         back = (LinearLayout)findViewById(R.id.title_back_layout);
         title = (TextView)findViewById(R.id.title_name);
-        img = (MyImageView2)findViewById(R.id.img);
+//        img = (MyImageView2)findViewById(R.id.img);
         title.setText("商品详情");
+        
+        //BANNER
+        banner_Pager = (ViewPager)findViewById(R.id.circlepager);
+        banner_Pager.setVisibility(View.VISIBLE);
+        default_img = (MyImageView2)findViewById(R.id.img);
+        default_img.setVisibility(View.VISIBLE);
+        bannerList = new ArrayList<String>();
+        goodsPicAdapter = new GoodsPicAdapter(this, bannerList);
+        banner_Pager.setAdapter(goodsPicAdapter);
+        banner_indicator = (CirclePageIndicator)findViewById(R.id.circleindicator);
+        banner_indicator.setViewPager(banner_Pager);
+        handler.sendEmptyMessageDelayed(0, 5*1000);
         
         name = (TextView)findViewById(R.id.name);
         price = (TextView)findViewById(R.id.price);
@@ -96,6 +139,22 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
         collect_btn.setOnClickListener(this);
         
         back.setOnClickListener(this);
+    }
+    
+    private void showBanner()
+    {
+        int displayWidth = getResources().getDisplayMetrics().widthPixels;
+        int height = displayWidth;
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(displayWidth, height);
+        banner_Pager.setLayoutParams(params);
+        
+        banner_indicator.setVisibility(View.VISIBLE);
+        banner_Pager.setVisibility(View.VISIBLE);
+        default_img.setVisibility(View.GONE);
+        
+        goodsPicAdapter.notifyDataSetChanged();
+        banner_Pager.setCurrentItem(0);
+        banner_indicator.notifyDataSetChanged();
     }
     
     private void reqDetail()
@@ -122,11 +181,22 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
         }
         param.put("collect_item_id", product_id);
         param.put("collect_type", "商品");
-        ConnectService.instance().connectServiceReturnResponse(this,
-            param,
-            ProductDetailActivity.this,
-            URLUtil.ADD_COLLECT,
-            Constants.ENCRYPT_NONE);
+        if("1".equals(is_collect))
+        {
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                ProductDetailActivity.this,
+                URLUtil.DEL_COLLECT,
+                Constants.ENCRYPT_NONE);
+        }
+        else
+        {
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                ProductDetailActivity.this,
+                URLUtil.ADD_COLLECT,
+                Constants.ENCRYPT_NONE);
+        }
     }
     
     @Override
@@ -153,7 +223,15 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
                     bean.setProduct_price(ob.getString("product_price"));
                     bean.setActivity_price(ob.getString("activity_price"));
                     bean.setProduct_content(ob.getString("product_content"));
-                    
+                    is_collect = ob.getString("is_collect");
+                    for(String str: ob.getString("filepath").split(","))
+                    {
+                        bannerList.add(str);
+                    }
+                    if(GeneralUtils.isNotNullOrZeroSize(bannerList))
+                    {
+                        showBanner();
+                    }
                     showDetail(bean);
                 }
                 else
@@ -193,13 +271,42 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
                 ToastUtil.showError(this);
             }
         }
+        if (URLUtil.DEL_COLLECT.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Intent intent = new Intent(Constants.DEL_COLLECT_BROADCAST);
+                    intent.putExtra("id", product_id);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    ToastUtil.makeText(this, "取消成功");
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "取消失败");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(this);
+            }
+        }
     }
     
     private void showDetail(GoodsBean bean)
     {
-        ImageLoader.getInstance().displayImage(bean.getProduct_pic_url(),
-            img,
-            YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
+//        ImageLoader.getInstance().displayImage(bean.getProduct_pic_url(),
+//            img,
+//            YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
         name.setText(bean.getProduct_name());
         String activityPrice = bean.getActivity_price();
         if(GeneralUtils.isNullOrZeroLenght(activityPrice) || "null".equals(activityPrice) || activityPrice.equals(bean.getProduct_price()))
@@ -211,6 +318,10 @@ public class ProductDetailActivity extends BaseActivity implements OnClickListen
         {
             price.setText("￥ "+bean.getActivity_price());
             priceTag.setText("市场价  ￥ "+bean.getProduct_price());
+        }
+        if("1".equals(is_collect))
+        {
+            collect_btn.setText("取消收藏");
         }
         content.setText(bean.getProduct_content());
     }

@@ -102,6 +102,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     private CirclePageIndicator banner_indicator;
     private ArrayList<String> bannerList;
     private ShopPicAdapter shopPicAdapter;
+    private String is_collect;
     
     private Handler handler = new Handler()
     {
@@ -286,11 +287,22 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         }
         param.put("collect_item_id", org_id);
         param.put("collect_type", "商家");
-        ConnectService.instance().connectServiceReturnResponse(this,
-            param,
-            ShopDetailActivity.this,
-            URLUtil.ADD_COLLECT,
-            Constants.ENCRYPT_NONE);
+        if("1".equals(is_collect))
+        {
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                ShopDetailActivity.this,
+                URLUtil.DEL_COLLECT,
+                Constants.ENCRYPT_NONE);
+        }
+        else
+        {
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                ShopDetailActivity.this,
+                URLUtil.ADD_COLLECT,
+                Constants.ENCRYPT_NONE);
+        }
     }
     
     @Override
@@ -320,6 +332,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                     bean.setOrg_tel(ob.getString("org_tel"));
                     bean.setOrg_wifiname(ob.getString("org_wifiname"));
                     bean.setOrg_wifipwd(ob.getString("org_wifipwd"));
+                    is_collect = ob.getString("is_collect");
                     for(String str: ob.getString("filepath").split(","))
                     {
                         bannerList.add(str);
@@ -457,6 +470,35 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                 ToastUtil.showError(this);
             }
         }
+        if (URLUtil.DEL_COLLECT.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Intent intent = new Intent(Constants.DEL_COLLECT_BROADCAST);
+                    intent.putExtra("id", org_id);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    ToastUtil.makeText(this, "取消成功");
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "取消失败");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(this);
+            }
+        }
     }
     
     private void showDetail(final ShopBean bean)
@@ -484,6 +526,10 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         else
         {
             wifiLayout.setVisibility(View.GONE);
+        }
+        if("1".equals(is_collect))
+        {
+            collect_btn.setText("取消收藏");
         }
         call_layout.setOnClickListener(new OnClickListener()
         {

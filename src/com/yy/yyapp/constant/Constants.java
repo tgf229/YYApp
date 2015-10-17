@@ -23,6 +23,7 @@ public class Constants
     
     public static final String PAGE_LOAD_BROADCAST = "PAGE_LOAD_BROADCAST";
     public static final String BIND_TITLE_BROADCAST = "BIND_TITLE_BROADCAST";
+    public static final String DEL_COLLECT_BROADCAST = "DEL_COLLECT_BROADCAST";
     
     public static final String GEOFENCE_BROADCAST_ACTION = "com.location.apis.geofencedemo.broadcast";
     

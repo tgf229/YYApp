@@ -8,7 +8,7 @@
     <include layout="@layout/app_title" />
     
 
-    <ScrollView
+    <com.yy.yyapp.view.PagerScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"  >
@@ -49,7 +49,6 @@
         <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:layout_alignBottom="@id/tag_title"
                 android:background="@drawable/line_grey" />
 
         <LinearLayout
@@ -429,7 +428,7 @@
             android:textColor="@color/gray_color"
             android:textSize="14sp" />
         </LinearLayout>
-    </ScrollView>
+    </com.yy.yyapp.view.PagerScrollView>
     
         <View 
             android:layout_width="match_parent"

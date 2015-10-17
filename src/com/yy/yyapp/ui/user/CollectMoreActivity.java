@@ -12,6 +12,10 @@ package com.yy.yyapp.ui.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,10 +25,9 @@ import android.widget.TextView;
 
 import com.yy.yyapp.R;
 import com.yy.yyapp.bean.user.CollectBean;
+import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.ui.base.BaseActivity;
-import com.yy.yyapp.ui.goods.adapter.TypeListAdapter;
 import com.yy.yyapp.ui.user.adapter.UserCollectAdapter;
-import com.yy.yyapp.util.NetLoadingDailog;
 
 /**
  * <一句话功能简述>
@@ -46,6 +49,7 @@ public class CollectMoreActivity extends BaseActivity implements OnClickListener
     private ListView typeListView;
     
     private UserCollectAdapter typeListAdapter;
+    private DelCollectBroard delCollectBroard;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +58,15 @@ public class CollectMoreActivity extends BaseActivity implements OnClickListener
         setContentView(R.layout.goods_type);
         typeList = (List<CollectBean>)getIntent().getSerializableExtra("list");
         init();
+        registreBroadcast();
+    }
+    
+    private void registreBroadcast()
+    {
+        IntentFilter loginFilter = new IntentFilter();
+        loginFilter.addAction(Constants.DEL_COLLECT_BROADCAST);
+        delCollectBroard = new DelCollectBroard();
+        registerReceiver(delCollectBroard, loginFilter);
     }
     
     private void init()
@@ -80,6 +93,27 @@ public class CollectMoreActivity extends BaseActivity implements OnClickListener
                 break;
             default:
                 break;
+        }
+    }
+    
+    class DelCollectBroard extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            String id = (String)intent.getExtras().get("id");
+            if (Constants.DEL_COLLECT_BROADCAST.equals(intent.getAction()))
+            {
+                for(int i=0 ; i<typeList.size(); i++)
+                {
+                    if(id.equals(typeList.get(i).getCollect_item_id()))
+                    {
+                        typeList.remove(i);
+                        break;
+                    }
+                }
+                typeListAdapter.notifyDataSetChanged();
+            }
         }
     }
 }

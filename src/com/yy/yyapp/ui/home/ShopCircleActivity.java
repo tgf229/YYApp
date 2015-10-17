@@ -128,6 +128,7 @@ public class ShopCircleActivity extends BaseActivity implements OnClickListener
                     CircleBean bean = new CircleBean();
                     bean.setComm_id(ob.getString("comm_id"));
                     bean.setComm_title(ob.getString("comm_title"));
+                    bean.setComm_pic_url(ob.getString("comm_pic_url"));
                     typeList.add(bean);
                 }
                 showList();

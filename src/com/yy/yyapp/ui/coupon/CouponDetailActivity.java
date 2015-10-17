@@ -32,6 +32,7 @@ import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseActivity;
+import com.yy.yyapp.ui.goods.ProductDetailActivity;
 import com.yy.yyapp.ui.user.LoginActivity;
 import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
@@ -62,6 +63,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
     private String coupon_id;
     
     private String channel = null;
+    private String is_collect;
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -170,11 +172,22 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         }
         param.put("collect_item_id", coupon_id);
         param.put("collect_type", "现金券");
-        ConnectService.instance().connectServiceReturnResponse(this,
-            param,
-            CouponDetailActivity.this,
-            URLUtil.ADD_COLLECT,
-            Constants.ENCRYPT_NONE);
+        if("1".equals(is_collect))
+        {
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                CouponDetailActivity.this,
+                URLUtil.DEL_COLLECT,
+                Constants.ENCRYPT_NONE);
+        }
+        else
+        {
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                CouponDetailActivity.this,
+                URLUtil.ADD_COLLECT,
+                Constants.ENCRYPT_NONE);
+        }
     }
     
     @Override
@@ -202,6 +215,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                     bean.setTicket_number(ob.getString("ticket_number"));
                     bean.setTicket_content(ob.getString("ticket_content"));
                     bean.setTicket_limit(ob.getString("ticket_limit"));
+                    is_collect = ob.getString("is_collect");
                     showDetail(bean);
                 }
                 else
@@ -293,8 +307,35 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                 ToastUtil.showError(this);
             }
         }
-        
-        
+        if (URLUtil.DEL_COLLECT.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Intent intent = new Intent(Constants.DEL_COLLECT_BROADCAST);
+                    intent.putExtra("id", coupon_id);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                    ToastUtil.makeText(this, "取消成功");
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "取消失败");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(this);
+            }
+        }
     }
     
     private void showDetail(CouponBean bean)
@@ -354,6 +395,10 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         else
         {
             typeTxt.setText("类型： 无");
+        }
+        if("1".equals(is_collect))
+        {
+            collect_btn.setText("取消收藏");
         }
     }
     

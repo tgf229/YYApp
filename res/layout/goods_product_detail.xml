@@ -7,7 +7,7 @@
 
     <include layout="@layout/app_title" />
 
-    <ScrollView
+    <com.yy.yyapp.view.PagerScrollView
         android:layout_width="match_parent"
        android:layout_height="0dp"
         android:layout_weight="1"  >
@@ -16,12 +16,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
-            <com.yy.yyapp.view.MyImageView2
-                android:id="@+id/img"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/default_pic" />
+            
+                     <RelativeLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:background="#F1F1F1" >
+		
+		        <com.yy.yyapp.view.MyImageView2
+		            android:id="@+id/img"
+		            android:layout_width="fill_parent"
+		            android:layout_height="fill_parent"
+		            android:src="@drawable/default_banner" />
+		
+		        <android.support.v4.view.ViewPager
+		            android:id="@+id/circlepager"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:visibility="gone" />
+		
+		        <com.viewpagerindicator.CirclePageIndicator
+		            android:id="@+id/circleindicator"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentBottom="true"
+		            android:layout_centerHorizontal="true"
+		            android:paddingBottom="10dip"
+		            android:paddingLeft="5dip"
+		            android:visibility="gone" />
+		    </RelativeLayout>
+        
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_grey" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,7 +131,7 @@
                 android:textColor="@color/gray_color"
                 android:textSize="14sp" />
         </LinearLayout>
-    </ScrollView>
+    </com.yy.yyapp.view.PagerScrollView>
 
     <View
         android:layout_width="match_parent"

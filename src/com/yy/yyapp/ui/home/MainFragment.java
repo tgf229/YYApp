@@ -1468,7 +1468,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                             mBuilder.setContentTitle("亲爱的用户")
                             .setContentText("欢迎来到" + b.getComm_title())
                             //                          .setNumber(number)//显示数量
-                                .setTicker("亲爱的用户，您进入商圈范围啦");//通知首次出现在通知栏，带上升动画效果的
+                                .setTicker("亲爱的用户，您进入"+b.getComm_title()+"啦");//通知首次出现在通知栏，带上升动画效果的
                             ((HomeFragmentActivity)getActivity()).mNotificationManager.notify(1, mBuilder.build());
                             circleId = b.getComm_id();
                             reqHotShop();

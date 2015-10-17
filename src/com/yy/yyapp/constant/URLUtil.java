@@ -57,6 +57,8 @@ public class URLUtil
     
     public static final String ADD_COLLECT = "addCollect";
     
+    public static final String DEL_COLLECT = "delCollect";
+    
     public static final String MY_COLLECT = "myCollect";
     
     public static final String CITY_LIST = "getCitys";

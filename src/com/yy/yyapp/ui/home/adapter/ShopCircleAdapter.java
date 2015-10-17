@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yy.yyapp.R;
 import com.yy.yyapp.YYApplication;
 import com.yy.yyapp.bean.shop.CircleBean;
@@ -68,6 +69,7 @@ public class ShopCircleAdapter extends BaseAdapter
             convertView = LayoutInflater.from(context).inflate(R.layout.circle_listview_item, null);
             mHolder.name = (TextView)convertView.findViewById(R.id.name);
             mHolder.location = (ImageView)convertView.findViewById(R.id.location);
+            mHolder.img = (ImageView)convertView.findViewById(R.id.img);
             
             convertView.setTag(mHolder);
         }
@@ -75,7 +77,9 @@ public class ShopCircleAdapter extends BaseAdapter
         {
             mHolder = (HolderView)convertView.getTag();
         }
-        
+        ImageLoader.getInstance().displayImage(mList.get(position).getComm_pic_url(),
+            mHolder.img,
+            YYApplication.setAllDisplayImageOptions(context, "default_pic", "default_pic", "default_pic"));
         mHolder.name.setText(entity);
         convertView.setOnClickListener(new OnClickListener()
         {
@@ -105,5 +109,6 @@ public class ShopCircleAdapter extends BaseAdapter
     {
         TextView name;
         ImageView location;
+        ImageView img;
     }
 }

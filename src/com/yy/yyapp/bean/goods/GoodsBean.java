@@ -39,6 +39,18 @@ public class GoodsBean
     
     private String view_count;
     
+    private String is_collect;
+    
+    public String getIs_collect()
+    {
+        return is_collect;
+    }
+
+    public void setIs_collect(String is_collect)
+    {
+        this.is_collect = is_collect;
+    }
+
     public String getActivity_price()
     {
         return activity_price;

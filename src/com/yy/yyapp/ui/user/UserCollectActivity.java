@@ -82,6 +82,12 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_collect);
         init();
+    }
+    
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
         reqList();
     }
     
@@ -134,6 +140,11 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
     
     private void reqList()
     {
+        list.clear();
+        shopList.clear();
+        productList.clear();
+        activeList.clear();
+        couponList.clear();
         dialog = new NetLoadingDailog(this);
         dialog.loading();
         Map<String, String> param = new HashMap<String, String>();
