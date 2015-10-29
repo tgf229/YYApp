@@ -44,6 +44,18 @@ public class ShopBean implements Serializable
     
     private String org_wifipwd;
     
+    private String org_website;
+    
+    public String getOrg_website()
+    {
+        return org_website;
+    }
+
+    public void setOrg_website(String org_website)
+    {
+        this.org_website = org_website;
+    }
+
     public String getOrg_wifiname()
     {
         return org_wifiname;

@@ -9,6 +9,8 @@
  */
 package com.yy.yyapp;
 
+import im.fir.sdk.FIR;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,7 @@ public class YYApplication extends Application
     @Override
     public void onCreate()
     {
+        FIR.init(this);
         super.onCreate();
         Context contx = getApplicationContext();
         loadData(contx);

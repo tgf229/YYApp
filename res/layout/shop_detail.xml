@@ -118,6 +118,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/hot_product_splite"
             android:layout_width="match_parent"
             android:layout_height="10dip"
             android:background="@drawable/line_grey" />
@@ -247,6 +248,7 @@
         
         
         <View
+            android:id="@+id/hot_coupon_splite"
             android:layout_width="match_parent"
             android:layout_height="10dip"
             android:background="@drawable/line_grey" />
@@ -325,6 +327,7 @@
         
         
          <View
+             android:id="@+id/hot_active_splite"
             android:layout_width="match_parent"
             android:layout_height="10dip"
             android:background="@drawable/line_grey" />
@@ -427,7 +430,38 @@
             android:text="商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍13213213213213"
             android:textColor="@color/gray_color"
             android:textSize="14sp" />
-        </LinearLayout>
+       
+        
+            <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_vertical"
+	            android:orientation="horizontal"
+	            android:padding="10dip" >
+	
+	            <TextView
+	                android:id="@+id/ins_title"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="商家网站"
+	                android:textColor="@color/black_color"
+	                android:textSize="18sp" />
+	
+	            <View
+	                android:layout_width="match_parent"
+	                android:layout_height="1px"
+	                android:layout_alignBottom="@id/ins_title"
+	                android:background="@drawable/line_grey" />
+	        </RelativeLayout>
+	
+	        <TextView
+	            android:id="@+id/website"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:padding="10dp"
+	            android:textColor="@color/gray_color"
+	            android:textSize="14sp" />
+         </LinearLayout>
     </com.yy.yyapp.view.PagerScrollView>
     
         <View 

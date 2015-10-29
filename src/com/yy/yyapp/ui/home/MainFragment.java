@@ -60,6 +60,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
+import com.example.qr_codescan.MipcaActivityCapture;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.yy.yyapp.R;
@@ -73,6 +74,7 @@ import com.yy.yyapp.bean.home.HomeIconPageBean;
 import com.yy.yyapp.bean.shop.CircleBean;
 import com.yy.yyapp.bean.shop.ShopBean;
 import com.yy.yyapp.bean.user.UserBean;
+import com.yy.yyapp.callback.DialogCallBack;
 import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
@@ -88,8 +90,12 @@ import com.yy.yyapp.ui.goods.ProductDetailActivity;
 import com.yy.yyapp.ui.home.adapter.FreshNewsAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeBannerPagerAdapter;
 import com.yy.yyapp.ui.home.adapter.HomeIconPagerAdapter;
+import com.yy.yyapp.ui.shop.RegisterShopActivity;
 import com.yy.yyapp.ui.shop.ShopDetailActivity;
+import com.yy.yyapp.ui.user.LoginActivity;
+import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
+import com.yy.yyapp.util.NetLoadingDailog;
 import com.yy.yyapp.util.ToastUtil;
 import com.yy.yyapp.view.MyImageView;
 import com.yy.yyapp.view.PullToRefreshView;
@@ -193,6 +199,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private View footView;
     
+    private NetLoadingDailog dialog;
+    
+    private String org_id;
+    
+    private int num = 0;
+    
     private Handler handler = new Handler()
     {
         @Override
@@ -271,6 +283,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         if (Global.isLogin() && GeneralUtils.isNotNullOrZeroLenght(Global.getOrgName()))
         {
             titleName.setText(Global.getOrgName());
+            titleName.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                    intent.putExtra("id", Global.getUserOrgId());
+                    startActivity(intent);
+                }
+            });
             if(GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
             {
                 ImageLoader.getInstance().displayImage(Global.getOrgImg(),
@@ -387,6 +409,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             if (Global.isLogin() && GeneralUtils.isNotNullOrZeroLenght(Global.getOrgName()))
             {
                 titleName.setText(Global.getOrgName());
+                titleName.setOnClickListener(new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View arg0)
+                    {
+                        Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                        intent.putExtra("id", Global.getUserOrgId());
+                        startActivity(intent);
+                    }
+                });
                 if(GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
                 {
                     ImageLoader.getInstance().displayImage(Global.getOrgImg(),
@@ -461,10 +493,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
-        {
-            param.put("org_city", Constants.cityTxt);
-        }
         param.put("is_recomment", "推荐商品");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -479,10 +507,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
-        }
-        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
-        {
-            param.put("org_city", Constants.cityTxt);
         }
         if (GeneralUtils.isNotNullOrZeroLenght(circleId))
         {
@@ -506,10 +530,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
-        {
-            param.put("org_city", Constants.cityTxt);
-        }
         param.put("is_recomment", "推荐活动");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -525,10 +545,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
-        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
-        {
-            param.put("org_city", Constants.cityTxt);
-        }
         param.put("is_recomment", "推荐现金券");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -543,10 +559,6 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
-        }
-        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
-        {
-            param.put("org_city", Constants.cityTxt);
         }
         param.put("is_recomment", "推荐商品");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
@@ -602,6 +614,27 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             this,
             URLUtil.CIRCLE_LIST,
             Constants.ENCRYPT_NONE);
+    }
+    
+    private void bind()
+    {
+        num = num + 1;
+        if (num <= 1)
+        {
+            dialog = new NetLoadingDailog(getActivity());
+            dialog.loading();
+            Map<String, String> param = new HashMap<String, String>();
+            if (Global.isLogin())
+            {
+                param.put("user_id", Global.getUserId());
+            }
+            param.put("org_id", org_id);
+            ConnectService.instance().connectServiceReturnResponse(getActivity(),
+                param,
+                this,
+                URLUtil.BIND,
+                Constants.ENCRYPT_NONE);
+        }
     }
     
     @Override
@@ -819,6 +852,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     }
                     else
                     {
+                        goToScan();
                         getActivity().setResult(Constants.LOGIN_SUCCESS_CODE);
                     }
                 }
@@ -833,8 +867,43 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 e.printStackTrace();
             }
         }
+        if (URLUtil.BIND.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    reqDetail(org_id);
+                    num = 0;
+                }
+                else
+                {
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
+                ToastUtil.makeText(getActivity(), "很抱歉，扫描信息有误");
+            }
+        }
         if (URLUtil.SHOP_DETAIL.equals(service))
         {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
             JSONArray array;
             try
             {
@@ -856,6 +925,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     }
 
                     titleName.setText(Global.getOrgName());
+                    titleName.setOnClickListener(new OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View arg0)
+                        {
+                            Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                            intent.putExtra("id", Global.getUserOrgId());
+                            startActivity(intent);
+                        }
+                    });
                     Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
                     YYApplication.yyApplication.sendBroadcast(intent);
                     getActivity().setResult(Constants.LOGIN_SUCCESS_CODE);
@@ -1262,6 +1341,19 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         super.onDestroy();
     }
     
+    private void goToScan()
+    {
+        DialogUtil.scanTwoButtonDialog(getActivity(), new DialogCallBack()
+        {
+            @Override
+            public void dialogBack()
+            {
+                Intent intent = new Intent(getActivity(), RegisterShopActivity.class);
+                startActivityForResult(intent, 1234);
+            }
+        });
+    }
+    
     //==================MAP====================
     private void initMap()
     {
@@ -1403,6 +1495,19 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode)
         {
+            case Constants.REGISTER_BIND_CODE:
+                Bundle bundle1 = data.getExtras();
+                String result = bundle1.getString("id");
+                if(GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    org_id = result.trim();
+                    bind();
+                }
+                else
+                {
+                    ToastUtil.makeText(getActivity(), "很抱歉，未获取到商家信息");
+                }
+                break;
             case Constants.CITY_SUCCESS_CODE:
                 Constants.cityTxt = data.getStringExtra("city");
                 city.setText(Constants.cityTxt);
@@ -1497,6 +1602,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 else
                 {
                     titleName.setText(Global.getOrgName());
+                    titleName.setOnClickListener(new OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View arg0)
+                        {
+                            Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                            intent.putExtra("id", Global.getUserOrgId());
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
         }

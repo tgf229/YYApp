@@ -87,7 +87,7 @@ public class WelcomeActivity extends BaseActivity
         setContentView(R.layout.welcome);
         registreBroadcast();
         init();
-//        reqPage();
+        reqPage();
     }
     
     private void reqPage()
@@ -197,16 +197,16 @@ public class WelcomeActivity extends BaseActivity
         imageView.setVisibility(View.VISIBLE);
         
         //Android延后处理事件的方法  :  postDelayed 和   Handler和TimerTask相结合 
-                handler.postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        Intent intent = new Intent(WelcomeActivity.this, HomeFragmentActivity.class);
-                        WelcomeActivity.this.startActivity(intent);
-                        WelcomeActivity.this.finish();
-                    }
-                }, 500);
+//                handler.postDelayed(new Runnable()
+//                {
+//                    @Override
+//                    public void run()
+//                    {
+//                        Intent intent = new Intent(WelcomeActivity.this, HomeFragmentActivity.class);
+//                        WelcomeActivity.this.startActivity(intent);
+//                        WelcomeActivity.this.finish();
+//                    }
+//                }, 500);
     }
     
     @Override

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yy.yyapp"
     android:versionCode="1"
-    android:versionName="1.7" >
+    android:versionName="1.12" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -30,11 +30,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
+    
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    
+
     <application
         android:name="com.yy.yyapp.YYApplication"
         android:allowBackup="true"
@@ -44,9 +46,12 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="7d01ec7ea75c2dd7483264b2d700cd17" />
-        <!-- debug 8bb99c2844a1bf06092cc5e9d44e3dc1   -->
-        <!-- dis   7d01ec7ea75c2dd7483264b2d700cd17    -->
-
+        <!-- debug 8bb99c2844a1bf06092cc5e9d44e3dc1 -->
+        <!-- dis   7d01ec7ea75c2dd7483264b2d700cd17 -->
+        
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="e758a97c8a21a214720660ee3ff555da" />
         <!-- welcome -->
         <activity
             android:name="com.yy.yyapp.ui.WelcomeActivity"
@@ -70,119 +75,92 @@
         <!-- REGISTER 1 -->
         <activity
             android:name="com.yy.yyapp.ui.user.RegisterOneActivity"
-            android:label="@string/app_name" 
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <!-- PRODUCT DETAIL -->
-         <activity
+        <activity
             android:name="com.yy.yyapp.ui.goods.ProductDetailActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+            android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
         <!-- SHOP DETAIL -->
-         <activity
-            android:name="com.yy.yyapp.ui.shop.ShopDetailActivity">
+        <activity android:name="com.yy.yyapp.ui.shop.ShopDetailActivity" >
         </activity>
         <!-- SCAN -->
-          <activity
-            android:name="com.example.qr_codescan.MipcaActivityCapture">
+        <activity android:name="com.example.qr_codescan.MipcaActivityCapture" >
         </activity>
         <!-- WEBVIEW -->
-        <activity
-            android:name="com.yy.yyapp.ui.WebviewActivity">
+        <activity android:name="com.yy.yyapp.ui.WebviewActivity" >
         </activity>
         <!-- ACTIVE -->
-        <activity
-            android:name="com.yy.yyapp.ui.active.ActiveActivity">
+        <activity android:name="com.yy.yyapp.ui.active.ActiveActivity" >
         </activity>
         <!-- ACTIVE DETAIL -->
-        <activity
-            android:name="com.yy.yyapp.ui.active.ActiveDetailActivity">
+        <activity android:name="com.yy.yyapp.ui.active.ActiveDetailActivity" >
         </activity>
         <!-- COUPON -->
-        <activity
-            android:name="com.yy.yyapp.ui.coupon.CouponActivity">
+        <activity android:name="com.yy.yyapp.ui.coupon.CouponActivity" >
         </activity>
         <!-- COUPON DETAIL -->
-        <activity
-            android:name="com.yy.yyapp.ui.coupon.CouponDetailActivity">
+        <activity android:name="com.yy.yyapp.ui.coupon.CouponDetailActivity" >
         </activity>
-         <!-- MAP -->
-        <activity
-            android:name="com.yy.yyapp.ui.home.LocationActivity">
+        <!-- MAP -->
+        <activity android:name="com.yy.yyapp.ui.home.LocationActivity" >
         </activity>
         <!-- PRODUCT TYPE -->
-        <activity
-            android:name="com.yy.yyapp.ui.goods.ProductTypeActivity">
+        <activity android:name="com.yy.yyapp.ui.goods.ProductTypeActivity" >
         </activity>
         <!-- SHOP TYPE -->
-        <activity
-            android:name="com.yy.yyapp.ui.shop.ShopTypeActivity">
+        <activity android:name="com.yy.yyapp.ui.shop.ShopTypeActivity" >
         </activity>
         <!-- CITY -->
-        <activity
-            android:name="com.yy.yyapp.ui.home.CityActivity">
+        <activity android:name="com.yy.yyapp.ui.home.CityActivity" >
         </activity>
-         <!-- SHOP CIRCLE -->
-        <activity
-            android:name="com.yy.yyapp.ui.home.ShopCircleActivity">
+        <!-- SHOP CIRCLE -->
+        <activity android:name="com.yy.yyapp.ui.home.ShopCircleActivity" >
         </activity>
-         <!-- MAP-->
-        <activity
-            android:name="com.yy.yyapp.ui.home.MapActivity">
+        <!-- MAP -->
+        <activity android:name="com.yy.yyapp.ui.home.MapActivity" >
         </activity>
-         <!-- MAP2-->
-        <activity
-            android:name="com.yy.yyapp.ui.home.PoiAroundSearchActivity">
+        <!-- MAP2 -->
+        <activity android:name="com.yy.yyapp.ui.home.PoiAroundSearchActivity" >
         </activity>
-        <!-- USER CARD-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.UserCardActivity">
+        <!-- USER CARD -->
+        <activity android:name="com.yy.yyapp.ui.user.UserCardActivity" >
         </activity>
-         <!-- USER SCORE-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.UserScoreActivity">
+        <!-- USER SCORE -->
+        <activity android:name="com.yy.yyapp.ui.user.UserScoreActivity" >
         </activity>
-         <!-- ABOUT US-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.AboutUsActivity">
+        <!-- ABOUT US -->
+        <activity android:name="com.yy.yyapp.ui.user.AboutUsActivity" >
         </activity>
-         <!-- CHANGE PWD-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.UserPasswordActivity">
+        <!-- CHANGE PWD -->
+        <activity android:name="com.yy.yyapp.ui.user.UserPasswordActivity" >
         </activity>
-        <!-- user coupon-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.UserCouponActivity">
+        <!-- user coupon -->
+        <activity android:name="com.yy.yyapp.ui.user.UserCouponActivity" >
         </activity>
-        <!-- USER  FORGET PWD-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.ForgetPasswordActivity">
+        <!-- USER  FORGET PWD -->
+        <activity android:name="com.yy.yyapp.ui.user.ForgetPasswordActivity" >
         </activity>
-        <!-- REGISTER SHOP-->
-        <activity
-            android:name="com.yy.yyapp.ui.shop.RegisterShopActivity">
+        <!-- REGISTER SHOP -->
+        <activity android:name="com.yy.yyapp.ui.shop.RegisterShopActivity" >
         </activity>
-        <!-- COLLECT-->
-        <activity
-            android:name="com.yy.yyapp.ui.user.UserCollectActivity">
+        <!-- COLLECT -->
+        <activity android:name="com.yy.yyapp.ui.user.UserCollectActivity" >
         </activity>
-        <!-- PRODUCT LIST-->
-        <activity
-            android:name="com.yy.yyapp.ui.goods.GoodsListActivity">
+        <!-- PRODUCT LIST -->
+        <activity android:name="com.yy.yyapp.ui.goods.GoodsListActivity" >
         </activity>
-         <!-- WAITING-->
-        <activity
-            android:name="com.yy.yyapp.ui.home.WaitingActivity">
+        <!-- WAITING -->
+        <activity android:name="com.yy.yyapp.ui.home.WaitingActivity" >
         </activity>
-          <!-- COLLECT MORE-->
-         <activity
-            android:name="com.yy.yyapp.ui.user.CollectMoreActivity">
+        <!-- COLLECT MORE -->
+        <activity android:name="com.yy.yyapp.ui.user.CollectMoreActivity" >
         </activity>
-        <activity
-            android:name="com.yy.yyapp.ui.coupon.TypeActivity">
+        <activity android:name="com.yy.yyapp.ui.coupon.TypeActivity" >
         </activity>
-        <activity
-            android:name="com.yy.yyapp.ui.coupon.CouponPriceActivity">
+        <activity android:name="com.yy.yyapp.ui.coupon.CouponPriceActivity" >
         </activity>
     </application>
 

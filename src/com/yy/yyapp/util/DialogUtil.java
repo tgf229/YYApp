@@ -78,6 +78,34 @@ public class DialogUtil
         return dialog;
     }
     
+    public static Dialog scanTwoButtonDialog(Context context, final DialogCallBack callBack)
+    {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.two_button_scan_dialog, null);
+        Button confirm = (Button)layout.findViewById(R.id.dialog_confirm_bt);
+        Button cancel = (Button)layout.findViewById(R.id.dialog_cancel_bt);
+        final Dialog dialog = new Dialog(context, R.style.main_dialog);
+        dialog.setContentView(layout);
+        confirm.setOnClickListener(new OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+                callBack.dialogBack();
+            }
+        });
+        cancel.setOnClickListener(new OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
+    }
+    
     
     public static Dialog showCodeDialog(Context context, Bitmap code)
     {

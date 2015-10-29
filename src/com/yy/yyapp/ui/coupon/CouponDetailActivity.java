@@ -246,7 +246,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "很抱歉，领取失败");
+                    ToastUtil.makeText(this, ob.getString("content"));
                 }
             }
             catch (Exception e)
@@ -298,7 +298,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "很抱歉，您无法使用此券");
+                    ToastUtil.makeText(this, ob.getString("content"));
                 }
             }
             catch (Exception e)

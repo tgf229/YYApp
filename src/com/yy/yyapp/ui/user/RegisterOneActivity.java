@@ -39,6 +39,7 @@ import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.network.NetResponse;
+import com.yy.yyapp.ui.WebviewActivity;
 import com.yy.yyapp.ui.base.BaseActivity;
 import com.yy.yyapp.ui.shop.RegisterShopActivity;
 import com.yy.yyapp.util.GeneralUtils;
@@ -58,7 +59,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
 {
     private LinearLayout back,scan;
     
-    private TextView title;
+    private TextView title,agreement;
     
     private EditText phoneTxt, pwdTxt;
     
@@ -90,6 +91,8 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         pwdTxt = (EditText)findViewById(R.id.pwd_txt);
         confirmBtn = (Button)findViewById(R.id.confirm_btn);
         scan = (LinearLayout)findViewById(R.id.scan);
+        
+        agreement = (TextView)findViewById(R.id.agreement);
         
         dialog = new NetLoadingDailog(this);
         
@@ -123,6 +126,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         back.setOnClickListener(this);
         scan.setOnClickListener(this);
         confirmBtn.setOnClickListener(this);
+        agreement.setOnClickListener(this);
     }
     
     private void reqRegister()
@@ -184,6 +188,12 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                 Intent intent = new Intent(this, RegisterShopActivity.class);
                 startActivityForResult(intent, 0);
                 break;
+            case R.id.agreement:
+                Intent intent1 = new Intent(this, WebviewActivity.class);
+                intent1.putExtra("title", "服务协议");
+                intent1.putExtra("url", "http://123.57.160.38/app/agreement.jsp");
+                startActivity(intent1);
+                break;
             default:
                 break;
         }
@@ -216,7 +226,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                 }
                 else
                 {
-                    ToastUtil.makeText(this, "很抱歉，获取到商家信息");
+                    ToastUtil.makeText(this, "很抱歉，未获取到商家信息");
                 }
                 break;
             default:

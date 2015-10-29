@@ -46,6 +46,7 @@ import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.ui.HomeFragmentActivity;
 import com.yy.yyapp.ui.base.BaseFragment;
 import com.yy.yyapp.ui.goods.adapter.GoodsListAdapter;
 import com.yy.yyapp.ui.user.LoginActivity;
@@ -138,6 +139,19 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
         super.onActivityCreated(savedInstanceState);
         init();
         initData();
+    }
+    
+    @Override
+    public void onHiddenChanged(boolean hidden)
+    {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+        {
+            page = 0;
+            goodsList.clear();
+            anyMore = true;
+            initData();
+        }
     }
     
     private void init()

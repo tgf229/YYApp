@@ -47,6 +47,7 @@ import com.yy.yyapp.constant.Constants;
 import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
+import com.yy.yyapp.ui.WebviewActivity;
 import com.yy.yyapp.ui.active.ActiveActivity;
 import com.yy.yyapp.ui.active.ActiveDetailActivity;
 import com.yy.yyapp.ui.base.BaseActivity;
@@ -78,7 +79,8 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
 {
     private LinearLayout back;
     
-    private TextView title, content, collect_btn,hot_product_more,hot_coupon_more_my,hot_coupon_more_all,hot_active_more;
+    private TextView title, content, website, collect_btn, hot_product_more, hot_coupon_more_my, hot_coupon_more_all,
+        hot_active_more;
     
     private String org_id;
     
@@ -89,20 +91,30 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     private NetLoadingDailog dialog;
     
     private List<GoodsBean> hotProductList;
+    
     private List<CouponBean> hotCouponList;
+    
     private List<ActiveBean> hotActiveList;
     
-    private LinearLayout hotProductLayout, wifiLayout,hotCouponLayout,hotActiveLayout;
+    private LinearLayout hotProductLayout, wifiLayout, hotCouponLayout, hotActiveLayout;
     
-    private RelativeLayout hotProductLayoutTitle, call_layout,hotCouponLayoutTitle,hotActiveLayoutTitle;
+    private RelativeLayout hotProductLayoutTitle, call_layout, hotCouponLayoutTitle, hotActiveLayoutTitle;
     
     private ShopBean bean = new ShopBean();;
+    
     private ViewPager banner_Pager;
+    
     private MyImageView default_img;
+    
     private CirclePageIndicator banner_indicator;
+    
     private ArrayList<String> bannerList;
+    
     private ShopPicAdapter shopPicAdapter;
+    
     private String is_collect;
+    
+    private View hot_product_splite,hot_coupon_splite,hot_active_splite;
     
     private Handler handler = new Handler()
     {
@@ -114,7 +126,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                 int postion = banner_Pager.getCurrentItem() + 1;
                 if (null != bannerList && bannerList.size() > 0)
                     banner_Pager.setCurrentItem(postion % bannerList.size(), true);
-                handler.sendEmptyMessageDelayed(0, 5*1000);
+                handler.sendEmptyMessageDelayed(0, 5 * 1000);
             }
         }
     };
@@ -150,8 +162,10 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         wifi = (Button)findViewById(R.id.wifi);
         
         address = (Button)findViewById(R.id.address);
-//        img = (MyImageView)findViewById(R.id.img);
+        //        img = (MyImageView)findViewById(R.id.img);
         content = (TextView)findViewById(R.id.content);
+        website = (TextView)findViewById(R.id.website);
+        
         call_layout = (RelativeLayout)findViewById(R.id.call_layout);
         
         //BANNER
@@ -164,7 +178,11 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         banner_Pager.setAdapter(shopPicAdapter);
         banner_indicator = (CirclePageIndicator)findViewById(R.id.circleindicator);
         banner_indicator.setViewPager(banner_Pager);
-        handler.sendEmptyMessageDelayed(0, 5*1000);
+        handler.sendEmptyMessageDelayed(0, 5 * 1000);
+        
+        hot_product_splite = (View)findViewById(R.id.hot_product_splite);
+        hot_coupon_splite = (View)findViewById(R.id.hot_coupon_splite);
+        hot_active_splite = (View)findViewById(R.id.hot_active_splite);
         
         hot_product_more = (TextView)findViewById(R.id.hot_product_more);
         hotProductLayoutTitle = (RelativeLayout)findViewById(R.id.hot_product_layout_title);
@@ -175,7 +193,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         hotCouponLayoutTitle = (RelativeLayout)findViewById(R.id.hot_coupon_layout_title);
         hotCouponLayout = (LinearLayout)findViewById(R.id.hot_coupon_layout);
         
-        hot_active_more= (TextView)findViewById(R.id.hot_active_more);
+        hot_active_more = (TextView)findViewById(R.id.hot_active_more);
         hotActiveLayoutTitle = (RelativeLayout)findViewById(R.id.hot_active_layout_title);
         hotActiveLayout = (LinearLayout)findViewById(R.id.hot_active_layout);
         
@@ -193,7 +211,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     private void showBanner()
     {
         int displayWidth = getResources().getDisplayMetrics().widthPixels;
-        int height = displayWidth/2;
+        int height = displayWidth / 2;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(displayWidth, height);
         banner_Pager.setLayoutParams(params);
         
@@ -287,7 +305,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         }
         param.put("collect_item_id", org_id);
         param.put("collect_type", "商家");
-        if("1".equals(is_collect))
+        if ("1".equals(is_collect))
         {
             ConnectService.instance().connectServiceReturnResponse(this,
                 param,
@@ -332,12 +350,13 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
                     bean.setOrg_tel(ob.getString("org_tel"));
                     bean.setOrg_wifiname(ob.getString("org_wifiname"));
                     bean.setOrg_wifipwd(ob.getString("org_wifipwd"));
+                    bean.setOrg_website(ob.getString("org_website"));
                     is_collect = ob.getString("is_collect");
-                    for(String str: ob.getString("filepath").split(","))
+                    for (String str : ob.getString("filepath").split(","))
                     {
                         bannerList.add(str);
                     }
-                    if(GeneralUtils.isNotNullOrZeroSize(bannerList))
+                    if (GeneralUtils.isNotNullOrZeroSize(bannerList))
                     {
                         showBanner();
                     }
@@ -416,34 +435,34 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         }
         if (URLUtil.ACTIVE_LIST.equals(service))
         {
-                JSONArray array;
-                try
+            JSONArray array;
+            try
+            {
+                hotActiveList = new ArrayList<ActiveBean>();
+                array = new JSONArray(res);
+                for (int i = 0; i < array.length(); i++)
                 {
-                    hotActiveList = new ArrayList<ActiveBean>();
-                    array = new JSONArray(res);
-                    for (int i = 0; i < array.length(); i++)
+                    JSONObject ob = array.getJSONObject(i);
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
                     {
-                        JSONObject ob = array.getJSONObject(i);
-                        if (!Constants.SUCESS_CODE.equals(ob.get("result")))
-                        {
-                            break;
-                        }
-                        ActiveBean bean = new ActiveBean();
-                        bean.setActivity_id(ob.getString("activity_id"));
-                        bean.setActivity_title(ob.getString("activity_title"));
-                        bean.setActivity_addr(ob.getString("activity_addr"));
-                        bean.setActivity_time(ob.getString("activity_time"));
-                        bean.setActivity_pic_url(ob.getString("activity_pic_url"));
-                        hotActiveList.add(bean);
+                        break;
                     }
-                    showHotActive();
+                    ActiveBean bean = new ActiveBean();
+                    bean.setActivity_id(ob.getString("activity_id"));
+                    bean.setActivity_title(ob.getString("activity_title"));
+                    bean.setActivity_addr(ob.getString("activity_addr"));
+                    bean.setActivity_time(ob.getString("activity_time"));
+                    bean.setActivity_pic_url(ob.getString("activity_pic_url"));
+                    hotActiveList.add(bean);
                 }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    ToastUtil.showError(this);
-                }
+                showHotActive();
             }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                ToastUtil.showError(this);
+            }
+        }
         if (URLUtil.ADD_COLLECT.equals(service))
         {
             if (dialog != null)
@@ -503,9 +522,9 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
     
     private void showDetail(final ShopBean bean)
     {
-//        ImageLoader.getInstance().displayImage(bean.getOrg_pic_url(),
-//            img,
-//            YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
+        //        ImageLoader.getInstance().displayImage(bean.getOrg_pic_url(),
+        //            img,
+        //            YYApplication.setAllDisplayImageOptions(this, "default_pic", "default_pic", "default_pic"));
         address.setText(bean.getOrg_addr());
         String cont = bean.getOrg_content();
         if (GeneralUtils.isNotNullOrZeroLenght(cont))
@@ -517,6 +536,21 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             content.setText("");
         }
+        if(GeneralUtils.isNotNullOrZeroLenght(bean.getOrg_website()))
+        {
+            website.setText(bean.getOrg_website());
+            website.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent(ShopDetailActivity.this,WebviewActivity.class);
+                    intent.putExtra("title", bean.getOrg_name());
+                    intent.putExtra("url", bean.getOrg_website());
+                    startActivity(intent);
+                }
+            });
+        }
         title.setText(bean.getOrg_name());
         if (GeneralUtils.isNotNullOrZeroLenght(bean.getOrg_wifiname()))
         {
@@ -527,7 +561,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             wifiLayout.setVisibility(View.GONE);
         }
-        if("1".equals(is_collect))
+        if ("1".equals(is_collect))
         {
             collect_btn.setText("取消收藏");
         }
@@ -548,6 +582,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             hotProductLayoutTitle.setVisibility(View.GONE);
             hotProductLayout.setVisibility(View.GONE);
+            hot_product_splite.setVisibility(View.GONE);
         }
         else
         {
@@ -674,6 +709,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             hotCouponLayoutTitle.setVisibility(View.GONE);
             hotCouponLayout.setVisibility(View.GONE);
+            hot_coupon_splite.setVisibility(View.GONE);
         }
         else
         {
@@ -727,6 +763,7 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
         {
             hotActiveLayoutTitle.setVisibility(View.GONE);
             hotActiveLayout.setVisibility(View.GONE);
+            hot_active_splite.setVisibility(View.GONE);
         }
         else
         {
@@ -773,7 +810,6 @@ public class ShopDetailActivity extends BaseActivity implements OnClickListener
             }
         }
     }
-    
     
     @Override
     public void onClick(View v)
