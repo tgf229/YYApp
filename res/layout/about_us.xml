@@ -96,9 +96,9 @@
                         android:layout_weight="1.0"
                         android:gravity="center_vertical"
                         android:lineSpacingExtra="5dp"
-                        android:text=""
+                        android:text="购在指尖商家联盟平台，是商家、厂家和消费者零距离沟通的资源共享平台。注册会员只能作为一家商户会员，不能更改。但可以享受该平台所有商户的优惠政策。"
                         android:textColor="@color/black_color"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
 

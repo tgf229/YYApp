@@ -26,8 +26,7 @@
         android:layout_marginTop="15dp"
         android:layout_toRightOf="@id/img"
         android:textSize="16sp"
-        android:textColor="@color/text_color"
-        android:text="烟酒食品"/>
+        android:textColor="@color/text_color"/>
     
     <ImageView 
         android:id="@+id/location"

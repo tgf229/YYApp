@@ -173,6 +173,10 @@ public class UserCollectActivity extends BaseActivity implements OnClickListener
                 for (int i = 0; i < array.length(); i++)
                 {
                     JSONObject ob = array.getJSONObject(i);
+                    if (!Constants.SUCESS_CODE.equals(ob.get("result")))
+                    {
+                        break;
+                    }
                     CollectBean bean = new CollectBean();
                     bean.setCollect_item_id(ob.getString("collect_item_id"));
                     bean.setCollect_type(ob.getString("collect_type"));

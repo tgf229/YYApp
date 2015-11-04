@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dip"
-            android:text="温馨提示"
+            android:text="亲~您还没有绑定商户哦"
             android:textColor="@color/black_color"
             android:textSize="16sp"
             android:textStyle="bold" >
@@ -33,7 +33,7 @@
             android:layout_weight="1.0"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="您还没有绑定商户哦,快去绑定吧!"
+            android:text="选择一个商户吧"
             android:textColor="@color/black_color"
             android:textSize="15sp" >
         </TextView>
@@ -61,7 +61,7 @@
             android:layout_height="40dp"
             android:layout_weight="1.0"
             android:background="@color/home_menu_selected"
-            android:text="确定"
+            android:text="进入"
             android:textColor="@color/white_color"
             android:textSize="16sp"
             android:textStyle="bold" />

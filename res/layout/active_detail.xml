@@ -66,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="月饼礼盒加价购"
                     android:textColor="@color/black_color"
                     android:textSize="18sp" />
 
@@ -77,7 +76,6 @@
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="活动时间： 2014-1-2"
                     android:textColor="@color/gray_color" />
             </LinearLayout>
 
@@ -112,7 +110,6 @@
                     android:layout_marginTop="10dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="XXXXXXXXXXX"
                     android:textColor="@color/gray_color" />
             </LinearLayout>
 
@@ -145,7 +142,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
                     android:textColor="@color/gray_color" />
             </LinearLayout>
 

@@ -1,9 +1,15 @@
 package com.yy.yyapp.constant;
 
+import java.util.ArrayList;
+
+import com.yy.yyapp.bean.shop.ShopBean;
+
 public class Constants
 {
     
-    public static String cityTxt = "南京";
+    public static String cityTxt = "";
+    
+    public static ArrayList<ShopBean> shopList = null;
     /**
      * 是否显示引导页，版本控制,需要引导页时，版本号变大1
      */
@@ -16,7 +22,7 @@ public class Constants
     public static final String ICON_HOUSE= "智能家居";
     public static final String ICON_MONEY= "返现宝";
     public static final String ICON_BUSINESS= "商圈";
-    public static final String ICON_MOVIE= "看电影";
+    public static final String ICON_MOVIE= "看世界";
     public static final String ICON_GAME= "玩游戏";
     public static final String ICON_OLD= "养老";
     public static final String ICON_MEDICAL= "医疗";

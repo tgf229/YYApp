@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="13213213213213211czczczxcxzcdxzcxzczcxzczcasdsad3123213"
         android:textColor="@color/black_color" />
 
 </LinearLayout>

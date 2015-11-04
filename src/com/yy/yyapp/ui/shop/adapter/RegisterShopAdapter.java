@@ -99,6 +99,7 @@ public class RegisterShopAdapter extends BaseAdapter
             {
                 Intent intent = new Intent(context, RegisterOneActivity.class);
                 intent.putExtra("id", entity.getOrg_id());
+                intent.putExtra("name", entity.getOrg_name());
                 ((Activity)context).setResult(Constants.REGISTER_BIND_CODE, intent);
                 ((Activity)context).finish();
             }

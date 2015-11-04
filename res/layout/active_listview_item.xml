@@ -36,7 +36,6 @@
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="x飞利浦x利浦"
             android:textColor="@color/black_color"
             android:textSize="15sp" />
 
@@ -51,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textSize="12sp"
-                android:text="活动时间：2015-9-27"/>
+                android:textSize="12sp"/>
         </LinearLayout>
         
         <TextView
@@ -62,7 +60,6 @@
             android:layout_marginTop="15dip"
             android:singleLine="true"
             android:ellipsize="end"
-            android:text="活动描述：XZXXXXXXXXXXXXXXXXXXXsxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
             android:textSize="12sp" />
     </LinearLayout>
 

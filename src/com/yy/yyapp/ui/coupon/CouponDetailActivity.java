@@ -32,7 +32,8 @@ import com.yy.yyapp.constant.URLUtil;
 import com.yy.yyapp.global.Global;
 import com.yy.yyapp.network.ConnectService;
 import com.yy.yyapp.ui.base.BaseActivity;
-import com.yy.yyapp.ui.goods.ProductDetailActivity;
+import com.yy.yyapp.ui.shop.RegisterShopActivity;
+import com.yy.yyapp.ui.shop.ShopDetailActivity;
 import com.yy.yyapp.ui.user.LoginActivity;
 import com.yy.yyapp.util.DialogUtil;
 import com.yy.yyapp.util.GeneralUtils;
@@ -53,7 +54,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
 {
     private LinearLayout back;
     
-    private TextView title, name, price, priceTag, content, number, limit, nameTxt, brandTxt, typeTxt, priceTxt,
+    private TextView title, name, price, priceTag, content, number, remain ,nameTxt, brandTxt, typeTxt, priceTxt,
         send_btn,collect_btn;
     
     private MyImageView img;
@@ -64,7 +65,8 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
     
     private String channel = null;
     private String is_collect;
-    
+    private String org_id;
+    private int num = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -96,7 +98,9 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         price = (TextView)findViewById(R.id.price);
         number = (TextView)findViewById(R.id.number);
         content = (TextView)findViewById(R.id.content);
-        limit = (TextView)findViewById(R.id.limit);
+//        limit = (TextView)findViewById(R.id.limit);
+        remain = (TextView)findViewById(R.id.remain);
+        
         
         nameTxt = (TextView)findViewById(R.id.nameTxt);
         brandTxt = (TextView)findViewById(R.id.brandTxt);
@@ -163,6 +167,21 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
             Constants.ENCRYPT_NONE);
     }
     
+    private void reqDetail(String org_id)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        if (Global.isLogin())
+        {
+            param.put("user_id", Global.getUserId());
+        }
+        param.put("org_id", org_id);
+        ConnectService.instance().connectServiceReturnResponse(this,
+            param,
+            this,
+            URLUtil.SHOP_DETAIL,
+            Constants.ENCRYPT_NONE);
+    }
+    
     private void reqCollect()
     {
         Map<String, String> param = new HashMap<String, String>();
@@ -215,6 +234,7 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                     bean.setTicket_number(ob.getString("ticket_number"));
                     bean.setTicket_content(ob.getString("ticket_content"));
                     bean.setTicket_limit(ob.getString("ticket_limit"));
+                    bean.setTicket_remain(ob.getString("ticket_remain"));
                     is_collect = ob.getString("is_collect");
                     showDetail(bean);
                 }
@@ -336,6 +356,65 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                 ToastUtil.showError(this);
             }
         }
+        if (URLUtil.BIND.equals(service))
+        {
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    reqDetail(org_id);
+                    num = 0;
+                }
+                else
+                {
+                    if (dialog != null)
+                    {
+                        dialog.dismissDialog();
+                    }
+                    ToastUtil.makeText(this, "很抱歉，绑定商家失败");
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                if (dialog != null)
+                {
+                    dialog.dismissDialog();
+                }
+                ToastUtil.makeText(this, "很抱歉，绑定商家失败");
+            }
+        }
+        if (URLUtil.SHOP_DETAIL.equals(service))
+        {
+            if (dialog != null)
+            {
+                dialog.dismissDialog();
+            }
+            JSONArray array;
+            try
+            {
+                array = new JSONArray(res);
+                JSONObject ob = array.getJSONObject(0);
+                if (Constants.SUCESS_CODE.equals(ob.getString("result")))
+                {
+                    Global.saveUserOrgId(ob.getString("org_id"));
+                    Global.saveOrgName(ob.getString("org_name"));
+                    
+                    Intent intent = new Intent(Constants.BIND_TITLE_BROADCAST);
+                    YYApplication.yyApplication.sendBroadcast(intent);
+                }
+                else
+                {
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
     
     private void showDetail(CouponBean bean)
@@ -356,13 +435,21 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
             price.setText("");
             priceTxt.setText("");
         }
-        if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_limit()))
+//        if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_limit()))
+//        {
+//            limit.setText("可领" + bean.getTicket_number() + "张");
+//        }
+//        else
+//        {
+//            limit.setText("");
+//        }
+        if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_remain()))
         {
-            limit.setText("已领" + bean.getTicket_number() + "张");
+            remain.setText("还剩" + bean.getTicket_remain() + "张");
         }
         else
         {
-            limit.setText("");
+            remain.setText("");
         }
         if (GeneralUtils.isNotNullOrZeroLenght(bean.getTicket_number()))
         {
@@ -402,6 +489,39 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
         }
     }
     
+    private void goToScan()
+    {
+        DialogUtil.scanTwoButtonDialog(this, new DialogCallBack()
+        {
+            @Override
+            public void dialogBack()
+            {
+                Intent intent = new Intent(CouponDetailActivity.this, RegisterShopActivity.class);
+                startActivityForResult(intent, 1234);
+            }
+        });
+    }
+    private void bind()
+    {
+        num = num + 1;
+        if (num <= 1)
+        {
+            dialog = new NetLoadingDailog(this);
+            dialog.loading();
+            Map<String, String> param = new HashMap<String, String>();
+            if (Global.isLogin())
+            {
+                param.put("user_id", Global.getUserId());
+            }
+            param.put("org_id", org_id);
+            ConnectService.instance().connectServiceReturnResponse(this,
+                param,
+                this,
+                URLUtil.BIND,
+                Constants.ENCRYPT_NONE);
+        }
+    }
+    
     @Override
     public void onClick(View v)
     {
@@ -413,14 +533,23 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
             case R.id.send_btn:
                 if(Global.isLogin())
                 {
-                    dialog.loading();
                     if("1".equals(channel))
                     {
+                        dialog.loading();
                         reqUse();
                     }
                     else
                     {
-                        reqSend();
+                        //领取
+                        if(GeneralUtils.isNullOrZeroLenght(Global.getUserOrgId()))
+                        {
+                            goToScan();
+                        }
+                        else
+                        {
+                            dialog.loading();
+                            reqSend();
+                        }
                     }
                 }
                 else
@@ -437,6 +566,30 @@ public class CouponDetailActivity extends BaseActivity implements OnClickListene
                 else
                 {
                     goToLogin();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode)
+        {
+            case Constants.REGISTER_BIND_CODE:
+                Bundle bundle1 = data.getExtras();
+                String result = bundle1.getString("id");
+                if(GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    org_id = result.trim();
+                    bind();
+                }
+                else
+                {
+                    ToastUtil.makeText(this, "很抱歉，未获取到商家信息");
                 }
                 break;
             default:

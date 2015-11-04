@@ -121,7 +121,8 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private RelativeLayout titleBar;
     
-    private TextView titleName, hot_shop_more, hot_goods_more, hot_active_more, hot_coupon_more;
+    private TextView titleName, hot_shop_more, hot_goods_more, hot_active_more, hot_coupon_more, hot_shop_txt1,
+        hot_shop_txt2, hot_shop_txt3;
     
     private int displayWidth;
     
@@ -159,7 +160,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private ArrayList<CouponBean> hotCouponList;
     
-    private ArrayList<ShopBean> hotShopList;
+    public ArrayList<ShopBean> hotShopList;
     
     private ArrayList<ActiveBean> hotActiveList;
     
@@ -259,14 +260,14 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         
         reqIcon();
         reqBanner();
+        
         reqHotGoods();
         reqHotShop();
         reqHotActive();
         reqHotCoupon();
+        
         reqGuss();
-        
         reqAutoLogin();
-        
         reqShopCircle();
     }
     
@@ -288,12 +289,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                 @Override
                 public void onClick(View arg0)
                 {
-                    Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                    Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
                     intent.putExtra("id", Global.getUserOrgId());
                     startActivity(intent);
                 }
             });
-            if(GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
+            if (GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
             {
                 ImageLoader.getInstance().displayImage(Global.getOrgImg(),
                     title_img,
@@ -350,6 +351,9 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         hotShop1 = (ImageView)listview_head.findViewById(R.id.hot_shop_pic1);
         hotShop2 = (ImageView)listview_head.findViewById(R.id.hot_shop_pic2);
         hotShop3 = (ImageView)listview_head.findViewById(R.id.hot_shop_pic3);
+        hot_shop_txt1 = (TextView)listview_head.findViewById(R.id.hot_shop_txt1);
+        hot_shop_txt2 = (TextView)listview_head.findViewById(R.id.hot_shop_txt2);
+        hot_shop_txt3 = (TextView)listview_head.findViewById(R.id.hot_shop_txt3);
         int hotShopHeight = (displayWidth - 20) / 3 + 7;
         LinearLayout.LayoutParams hotShopParams = new LinearLayout.LayoutParams(displayWidth, hotShopHeight);
         hotShopPicPager.setLayoutParams(hotShopParams);
@@ -414,12 +418,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     @Override
                     public void onClick(View arg0)
                     {
-                        Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                        Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
                         intent.putExtra("id", Global.getUserOrgId());
                         startActivity(intent);
                     }
                 });
-                if(GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
+                if (GeneralUtils.isNotNullOrZeroLenght(Global.getOrgImg()))
                 {
                     ImageLoader.getInstance().displayImage(Global.getOrgImg(),
                         title_img,
@@ -493,6 +497,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("user_id", Global.getUserId());
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         param.put("is_recomment", "推荐商品");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
@@ -516,6 +524,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         {
             param.put("is_recomment", "推荐商家");
         }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
+        }
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
             param,
             this,
@@ -529,6 +541,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
         }
         param.put("is_recomment", "推荐活动");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
@@ -544,6 +560,10 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
         if (Global.isLogin())
         {
             param.put("user_id", Global.getUserId());
+        }
+        if (GeneralUtils.isNotNullOrZeroLenght(Constants.cityTxt))
+        {
+            param.put("org_city", Constants.cityTxt);
         }
         param.put("is_recomment", "推荐现金券");
         ConnectService.instance().connectServiceReturnResponse(getActivity(),
@@ -797,6 +817,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     bean.setOrg_position(ob.getString("org_position"));
                     hotShopList.add(bean);
                 }
+                Constants.shopList = hotShopList;
                 showHotShop();
             }
             catch (Exception e)
@@ -915,7 +936,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     Global.saveOrgName(ob.getString("org_name"));
                     
                     String is_recomment = ob.getString("is_recomment");
-                    if(GeneralUtils.isNotNullOrZeroLenght(is_recomment) && "推荐商家".equals(is_recomment))
+                    if (GeneralUtils.isNotNullOrZeroLenght(is_recomment) && "推荐商家".equals(is_recomment))
                     {
                         Global.saveOrgImg(ob.getString("recomment_pic_url"));
                         ImageLoader.getInstance().displayImage(Global.getOrgImg(),
@@ -923,14 +944,14 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                             YYApplication.setAllDisplayImageOptions(getActivity(), "vip", "vip", "vip"));
                         title_img.setVisibility(View.VISIBLE);
                     }
-
+                    
                     titleName.setText(Global.getOrgName());
                     titleName.setOnClickListener(new OnClickListener()
                     {
                         @Override
                         public void onClick(View arg0)
                         {
-                            Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                            Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
                             intent.putExtra("id", Global.getUserOrgId());
                             startActivity(intent);
                         }
@@ -981,11 +1002,14 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotActive()
     {
-        if(GeneralUtils.isNullOrZeroSize(hotActiveList))
+        
+        hotActive1.setClickable(false);
+        hotActive2.setClickable(false);
+        hotActive1.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotActive2.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        //            return;
+        if (GeneralUtils.isNullOrZeroSize(hotActiveList))
         {
-            hotActive1.setClickable(false);
-            hotActive2.setClickable(false);
-            return;
         }
         for (int i = 0; i < hotActiveList.size(); i++)
         {
@@ -1014,12 +1038,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotGoods()
     {
-        if(GeneralUtils.isNullOrZeroSize(hotProductList))
+        
+        hotGoods1.setClickable(false);
+        hotGoods2.setClickable(false);
+        hotGoods3.setClickable(false);
+        hotGoods1.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotGoods2.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotGoods3.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        //            return;
+        if (GeneralUtils.isNullOrZeroSize(hotProductList))
         {
-            hotGoods1.setClickable(false);
-            hotGoods2.setClickable(false);
-            hotGoods3.setClickable(false);
-            return;
         }
         for (int i = 0; i < hotProductList.size(); i++)
         {
@@ -1058,12 +1086,19 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotShop()
     {
-        if(GeneralUtils.isNullOrZeroSize(hotShopList))
+        
+        hotShop1.setClickable(false);
+        hotShop2.setClickable(false);
+        hotShop3.setClickable(false);
+        hotShop1.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotShop2.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotShop3.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hot_shop_txt1.setText("");
+        hot_shop_txt2.setText("");
+        hot_shop_txt3.setText("");
+        //            return;
+        if (GeneralUtils.isNullOrZeroSize(hotShopList))
         {
-            hotShop1.setClickable(false);
-            hotShop2.setClickable(false);
-            hotShop3.setClickable(false);
-            return;
         }
         if (GeneralUtils.isNotNullOrZeroLenght(circleId))
         {
@@ -1081,6 +1116,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                             "default_banner",
                             "default_banner",
                             "default_banner"));
+                    hot_shop_txt1.setText(hotShopList.get(i).getOrg_name());
                     hotShop1.setOnClickListener(this);
                 }
                 else if (i == 1)
@@ -1091,6 +1127,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                             "default_banner",
                             "default_banner",
                             "default_banner"));
+                    hot_shop_txt2.setText(hotShopList.get(i).getOrg_name());
                     hotShop2.setOnClickListener(this);
                 }
                 else
@@ -1101,6 +1138,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                             "default_banner",
                             "default_banner",
                             "default_banner"));
+                    hot_shop_txt3.setText(hotShopList.get(i).getOrg_name());
                     hotShop3.setOnClickListener(this);
                 }
             }
@@ -1110,12 +1148,16 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
     
     private void showHotCoupon()
     {
-        if(GeneralUtils.isNullOrZeroSize(hotCouponList))
+        
+        hotCoupon1.setClickable(false);
+        hotCoupon2.setClickable(false);
+        hotCoupon3.setClickable(false);
+        hotCoupon1.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotCoupon2.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        hotCoupon3.setImageDrawable(getResources().getDrawable(R.drawable.default_banner));
+        //            return;
+        if (GeneralUtils.isNullOrZeroSize(hotCouponList))
         {
-            hotCoupon1.setClickable(false);
-            hotCoupon2.setClickable(false);
-            hotCoupon3.setClickable(false);
-            return;
         }
         for (int i = 0; i < hotCouponList.size(); i++)
         {
@@ -1456,6 +1498,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             Constants.cityTxt = aLocation.getCity().replaceAll("市", "");
             city.setText(Constants.cityTxt);
             mListener.onLocationChanged(aLocation);// 显示系统小蓝点
+            
+            reqHotGoods();
+            reqHotShop();
+            reqHotActive();
+            reqHotCoupon();
+            
         }
     }
     
@@ -1498,7 +1546,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             case Constants.REGISTER_BIND_CODE:
                 Bundle bundle1 = data.getExtras();
                 String result = bundle1.getString("id");
-                if(GeneralUtils.isNotNullOrZeroLenght(result))
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
                 {
                     org_id = result.trim();
                     bind();
@@ -1511,6 +1559,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
             case Constants.CITY_SUCCESS_CODE:
                 Constants.cityTxt = data.getStringExtra("city");
                 city.setText(Constants.cityTxt);
+                
+                reqHotGoods();
+                reqHotShop();
+                reqHotActive();
+                reqHotCoupon();
+                
                 break;
             default:
                 break;
@@ -1570,13 +1624,12 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                     {
                         if (bundle.getString("fence").split("#")[0].equals(b.getComm_latitude()))
                         {
-                            mBuilder.setContentTitle("亲爱的用户")
-                            .setContentText("欢迎来到" + b.getComm_title())
+                            mBuilder.setContentTitle("亲爱的用户").setContentText("欢迎来到" + b.getComm_title())
                             //                          .setNumber(number)//显示数量
-                                .setTicker("亲爱的用户，您进入"+b.getComm_title()+"啦");//通知首次出现在通知栏，带上升动画效果的
+                                .setTicker("亲爱的用户，您进入" + b.getComm_title() + "啦");//通知首次出现在通知栏，带上升动画效果的
                             ((HomeFragmentActivity)getActivity()).mNotificationManager.notify(1, mBuilder.build());
-                            circleId = b.getComm_id();
-                            reqHotShop();
+                            //                            circleId = b.getComm_id();
+                            //                            reqHotShop();
                         }
                     }
                 }
@@ -1607,7 +1660,7 @@ public class MainFragment extends BaseFragment implements OnClickListener, OnHea
                         @Override
                         public void onClick(View arg0)
                         {
-                            Intent intent = new Intent(getActivity(),ShopDetailActivity.class);
+                            Intent intent = new Intent(getActivity(), ShopDetailActivity.class);
                             intent.putExtra("id", Global.getUserOrgId());
                             startActivity(intent);
                         }

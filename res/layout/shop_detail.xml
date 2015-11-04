@@ -6,315 +6,322 @@
     android:orientation="vertical" >
 
     <include layout="@layout/app_title" />
-    
 
     <com.yy.yyapp.view.PagerScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"  >
-        
+        android:layout_weight="1" >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-         <RelativeLayout
-		        android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:background="#F1F1F1" >
-		
-		        <com.yy.yyapp.view.MyImageView
-		            android:id="@+id/img"
-		            android:layout_width="fill_parent"
-		            android:layout_height="fill_parent"
-		            android:src="@drawable/default_banner" />
-		
-		        <android.support.v4.view.ViewPager
-		            android:id="@+id/circlepager"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:visibility="gone" />
-		
-		        <com.viewpagerindicator.CirclePageIndicator
-		            android:id="@+id/circleindicator"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:layout_alignParentBottom="true"
-		            android:layout_centerHorizontal="true"
-		            android:paddingBottom="10dip"
-		            android:paddingLeft="5dip"
-		            android:visibility="gone" />
-		    </RelativeLayout>
-        
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@drawable/line_grey" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dip" >
-
-            <Button
-                android:id="@+id/address"
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@null"
-                android:drawableLeft="@drawable/shop_location"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:gravity="left|center_vertical"
-                android:text="x利浦x飞内"
-                android:textColor="@color/black_color"
-                android:textSize="12sp" />
+                android:background="#F1F1F1">
+
+                <com.yy.yyapp.view.MyImageView
+                    android:id="@+id/img"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/default_banner" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/circlepager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/circleindicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="5dip"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
             <View
-                android:layout_width="1px"
-                android:layout_height="20dip"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dip"
-                android:background="@drawable/line_vertical" />
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_grey" />
 
-            <RelativeLayout
-                android:id="@+id/call_layout"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dip" >
 
-                <TextView
+                <Button
+                    android:id="@+id/address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/shop_location"
+                    android:ellipsize="end"
+                    android:gravity="left|center_vertical"
+                    android:maxLines="2"
+                    android:textColor="@color/black_color"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="20dip"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/line_vertical" />
+
+                <RelativeLayout
+                    android:id="@+id/call_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shop_call" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_grey" />
+
+            <LinearLayout
+                android:id="@+id/wifiLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dip"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/wifi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shop_call" />
+                    android:background="@null"
+                    android:drawableLeft="@drawable/wireless"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/black_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/hot_product_splite"
+                android:layout_width="match_parent"
+                android:layout_height="10dip"
+                android:background="@drawable/line_grey" />
+
+            <RelativeLayout
+                android:id="@+id/hot_product_layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dip" >
+
+                <TextView
+                    android:id="@+id/tag_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="推荐商品"
+                    android:textColor="@color/black_color"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hot_product_more"
+                    android:layout_width="50dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/tag_title"
+                    android:layout_alignParentRight="true"
+                    android:text="更多"
+                    android:textColor="@color/gray_color" />
             </RelativeLayout>
-        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@drawable/line_grey" />
-        
-        <LinearLayout
-            android:id="@+id/wifiLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dip"
-            android:visibility="gone" >
-
-            <Button
-                android:id="@+id/wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableLeft="@drawable/wireless"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="@color/black_color"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/hot_product_splite"
-            android:layout_width="match_parent"
-            android:layout_height="10dip"
-            android:background="@drawable/line_grey" />
-
-        <RelativeLayout
-            android:id="@+id/hot_product_layout_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dip" >
-
-            <TextView
-                android:id="@+id/tag_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="推荐商品"
-                android:textColor="@color/black_color"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/hot_product_more"
-                android:layout_width="50dip"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tag_title"
-                android:layout_alignParentRight="true"
-                android:text="更多"
-                android:textColor="@color/gray_color" />
-
-        </RelativeLayout>
-		
-		<View
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_alignBottom="@id/tag_title"
                 android:background="@drawable/line_grey" />
 
-        <LinearLayout
-            android:id="@+id/hot_product_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
             <LinearLayout
-			    android:layout_width="0dip"
-			    android:layout_height="wrap_content"
-			    android:layout_weight="1"
-			    android:orientation="vertical"
-			    android:gravity="center" >
-			    <ImageView
-			        android:id="@+id/hot_product_pic1"
-			        android:layout_width="100dp"
-			        android:layout_height="100dp"
-			        android:background="@drawable/default_pic" />
-			    <TextView
-			        android:id="@+id/hot_product_name1"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			         android:text="@string/icon_loading"
-			        android:singleLine="true"
-			        android:ellipsize="end"
-			        android:textColor="@color/black_color" />
-			</LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dip"
+                android:id="@+id/hot_product_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center" >
-                <LinearLayout
-				    android:layout_width="0dip"
-				    android:layout_height="wrap_content"
-				    android:layout_weight="1"
-				    android:orientation="vertical"
-				    android:gravity="center" >
-				    <ImageView
-				        android:id="@+id/hot_product_pic2"
-				        android:layout_width="100dp"
-				        android:layout_height="100dp"
-				        android:background="@drawable/default_pic" />
-				    <TextView
-				        android:id="@+id/hot_product_name2"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:text="@string/icon_loading"
-				        android:singleLine="true"
-				        android:ellipsize="end"
-				        android:textColor="@color/black_color" />
-				</LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center" >
+                android:orientation="horizontal"
+                android:padding="10dp" >
 
                 <LinearLayout
-				    android:layout_width="0dip"
-				    android:layout_height="wrap_content"
-				    android:layout_weight="1"
-				    android:orientation="vertical"
-				    android:gravity="center" >
-				    <ImageView
-				        android:id="@+id/hot_product_pic3"
-				        android:layout_width="100dp"
-				        android:layout_height="100dp"
-				        android:background="@drawable/default_pic" />
-				    <TextView
-				        android:id="@+id/hot_product_name3"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:text="@string/icon_loading"
-				        android:singleLine="true"
-				        android:ellipsize="end"
-				        android:textColor="@color/black_color" />
-				</LinearLayout>
-                <!-- <Button
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/hot_product_pic1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/default_pic" />
+
+                    <TextView
+                        android:id="@+id/hot_product_name1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="@string/icon_loading"
+                        android:textColor="@color/black_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <LinearLayout
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/hot_product_pic2"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/default_pic" />
+
+                        <TextView
+                            android:id="@+id/hot_product_name2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="@string/icon_loading"
+                            android:textColor="@color/black_color" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <LinearLayout
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical" >
+
+                        <ImageView
+                            android:id="@+id/hot_product_pic3"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/default_pic" />
+
+                        <TextView
+                            android:id="@+id/hot_product_name3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="@string/icon_loading"
+                            android:textColor="@color/black_color" />
+                    </LinearLayout>
+                    <!--
+                     <Button
                     style="@style/shop_product_style"
                     android:drawableTop="@drawable/default_pic"
-                    android:text="@string/icon_loading" />-->
+                    android:text="@string/icon_loading" />
+                    -->
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-        
-        
-        
-        
-        <View
-            android:id="@+id/hot_coupon_splite"
-            android:layout_width="match_parent"
-            android:layout_height="10dip"
-            android:background="@drawable/line_grey" />
 
-        <RelativeLayout
-            android:id="@+id/hot_coupon_layout_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dip" >
+            <View
+                android:id="@+id/hot_coupon_splite"
+                android:layout_width="match_parent"
+                android:layout_height="10dip"
+                android:background="@drawable/line_grey" />
 
-            <TextView
-                android:id="@+id/tag_title"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/hot_coupon_layout_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="现金券"
-                android:textColor="@color/black_color"
-                android:textSize="18sp" />
-            
-            <TextView
-                android:id="@+id/hot_coupon_more_all"
-                android:layout_width="80dip"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tag_title"
-                android:layout_alignParentRight="true"
-                android:text="所有现金券"
-                android:textSize="14sp"
-                android:textColor="@color/gray_color" />
-            
-            <TextView
-                android:id="@+id/hot_coupon_more_my"
-                android:layout_width="80dip"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tag_title"
-                android:layout_toLeftOf="@id/hot_coupon_more_all"
-                android:text="本店现金券"
-                android:textSize="14sp"
-                android:textColor="@color/gray_color" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dip" >
 
-        </RelativeLayout>
-		
-		<View
+                <TextView
+                    android:id="@+id/tag_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="现金券"
+                    android:textColor="@color/black_color"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hot_coupon_more_all"
+                    android:layout_width="80dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/tag_title"
+                    android:layout_alignParentRight="true"
+                    android:text="所有现金券"
+                    android:textColor="@color/gray_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/hot_coupon_more_my"
+                    android:layout_width="80dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/tag_title"
+                    android:layout_toLeftOf="@id/hot_coupon_more_all"
+                    android:text="本店现金券"
+                    android:textColor="@color/gray_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@drawable/line_grey" />
 
-        <LinearLayout
-            android:id="@+id/hot_coupon_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
- 				<ImageView
- 				    android:id="@+id/hot_coupon_pic1"
+            <LinearLayout
+                android:id="@+id/hot_coupon_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/hot_coupon_pic1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
+
                 <View
                     android:layout_width="1px"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:background="@drawable/line_grey" />
+
                 <ImageView
                     android:id="@+id/hot_coupon_pic2"
                     android:layout_width="0dp"
@@ -322,67 +329,68 @@
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
-        </LinearLayout>
-        
-        
-        
-         <View
-             android:id="@+id/hot_active_splite"
-            android:layout_width="match_parent"
-            android:layout_height="10dip"
-            android:background="@drawable/line_grey" />
+            </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/hot_active_layout_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dip" >
+            <View
+                android:id="@+id/hot_active_splite"
+                android:layout_width="match_parent"
+                android:layout_height="10dip"
+                android:background="@drawable/line_grey" />
 
-            <TextView
-                android:id="@+id/tag_title"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/hot_active_layout_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="活动推荐"
-                android:textColor="@color/black_color"
-                android:textSize="18sp" />
-            
-            <TextView
-                android:id="@+id/hot_active_more"
-                android:layout_width="80dip"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tag_title"
-                android:layout_alignParentRight="true"
-                android:text="更多"
-                android:textSize="14sp"
-                android:textColor="@color/gray_color" />
-        </RelativeLayout>
-		
-		<View
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dip" >
+
+                <TextView
+                    android:id="@+id/tag_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="活动推荐"
+                    android:textColor="@color/black_color"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hot_active_more"
+                    android:layout_width="80dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/tag_title"
+                    android:layout_alignParentRight="true"
+                    android:text="更多"
+                    android:textColor="@color/gray_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@drawable/line_grey" />
 
-        <LinearLayout
-            android:id="@+id/hot_active_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
- 				<ImageView
- 				    android:id="@+id/hot_active_pic1"
+            <LinearLayout
+                android:id="@+id/hot_active_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp" >
+
+                <ImageView
+                    android:id="@+id/hot_active_pic1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
+
                 <View
                     android:layout_width="1px"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:background="@drawable/line_grey" />
+
                 <ImageView
                     android:id="@+id/hot_active_pic2"
                     android:layout_width="0dp"
@@ -390,103 +398,104 @@
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/default_banner" />
-        </LinearLayout>
-        
-        
+            </LinearLayout>
+            
+             <View
+                android:layout_width="match_parent"
+                android:layout_height="10dip"
+                android:background="@drawable/line_grey" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dip"
-            android:background="@drawable/line_grey" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dip" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dip" >
+                <TextView
+                    android:id="@+id/ins_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家网站"
+                    android:textColor="@color/black_color"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignBottom="@id/ins_title"
+                    android:background="@drawable/line_grey" />
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/ins_title"
+                android:id="@+id/website"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商家介绍"
-                android:textColor="@color/black_color"
-                android:textSize="18sp" />
+                android:padding="10dp"
+                android:textColor="@color/gray_color"
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_alignBottom="@id/ins_title"
+                android:layout_height="10dip"
                 android:background="@drawable/line_grey" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dip"
-            android:paddingRight="10dip"
-            android:text="商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍商家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍家介绍13213213213213"
-            android:textColor="@color/gray_color"
-            android:textSize="14sp" />
-       
-        
             <RelativeLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center_vertical"
-	            android:orientation="horizontal"
-	            android:padding="10dip" >
-	
-	            <TextView
-	                android:id="@+id/ins_title"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:text="商家网站"
-	                android:textColor="@color/black_color"
-	                android:textSize="18sp" />
-	
-	            <View
-	                android:layout_width="match_parent"
-	                android:layout_height="1px"
-	                android:layout_alignBottom="@id/ins_title"
-	                android:background="@drawable/line_grey" />
-	        </RelativeLayout>
-	
-	        <TextView
-	            android:id="@+id/website"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:padding="10dp"
-	            android:textColor="@color/gray_color"
-	            android:textSize="14sp" />
-         </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dip" >
+
+                <TextView
+                    android:id="@+id/ins_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商家介绍"
+                    android:textColor="@color/black_color"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignBottom="@id/ins_title"
+                    android:background="@drawable/line_grey" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip"
+                android:textColor="@color/gray_color"
+                android:textSize="14sp" />
+        </LinearLayout>
     </com.yy.yyapp.view.PagerScrollView>
-    
-        <View 
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/gray_color"/>
-    
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray_color" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_gravity="bottom"
+        android:background="@color/white_color"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:background="@color/white_color" >
-        
-        <TextView 
+        android:orientation="horizontal" >
+
+        <TextView
             android:id="@+id/collect_btn"
             android:layout_width="150dp"
-            android:layout_marginTop="5dp"
             android:layout_height="35dp"
+            android:layout_marginTop="5dp"
             android:background="@color/home_menu_selected"
-            android:textColor="@color/white_color"
             android:gravity="center"
-            android:textSize="15sp"
-            android:text="收    藏"/>
+            android:text="收    藏"
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </LinearLayout>

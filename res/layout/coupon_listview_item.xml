@@ -36,7 +36,6 @@
             android:layout_height="match_parent"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="xxxxxx"
             android:textColor="@color/black_color"
             android:textSize="15sp" />
 
@@ -53,7 +52,7 @@
                 android:ellipsize="end"
                 android:textSize="12sp"
                 android:textColor="@color/gray_color"
-                android:text="品牌：XXXXXX"/>
+                android:text="品牌："/>
             <TextView 
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
@@ -62,8 +61,7 @@
                 android:textColor="@color/home_menu_selected"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textSize="13sp"
-                android:text="￥111"/>
+                android:textSize="13sp"/>
         </LinearLayout>
         
         <LinearLayout
@@ -72,24 +70,31 @@
             android:layout_marginTop="10dip"
             android:orientation="horizontal" >
             <TextView 
-                android:id="@+id/limit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textSize="12sp"
-                android:textColor="@color/gray_color"
-                android:text="已领：xxxxxxxxxx"/>
-            <TextView 
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:textColor="@color/gray_color"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textSize="13sp"
-                android:text="发行数量：xxxxxxxxxx"/>
+                android:textSize="13sp"/>
+            <!-- <TextView 
+                android:id="@+id/limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:textColor="@color/gray_color"/> -->
+            <TextView 
+                android:id="@+id/remain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:textColor="@color/gray_color"/>
         </LinearLayout>
     </LinearLayout>
 

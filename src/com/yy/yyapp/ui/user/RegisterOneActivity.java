@@ -59,7 +59,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
 {
     private LinearLayout back,scan;
     
-    private TextView title,agreement;
+    private TextView title,agreement,scan_name,scan_tips;
     
     private EditText phoneTxt, pwdTxt;
     
@@ -91,6 +91,9 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
         pwdTxt = (EditText)findViewById(R.id.pwd_txt);
         confirmBtn = (Button)findViewById(R.id.confirm_btn);
         scan = (LinearLayout)findViewById(R.id.scan);
+        
+        scan_name = (TextView)findViewById(R.id.scan_name);
+        scan_tips = (TextView)findViewById(R.id.scan_tips);
         
         agreement = (TextView)findViewById(R.id.agreement);
         
@@ -220,9 +223,12 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
             case Constants.REGISTER_BIND_CODE:
                 Bundle bundle1 = data.getExtras();
                 String result = bundle1.getString("id");
+                String name = bundle1.getString("name");
                 if(GeneralUtils.isNotNullOrZeroLenght(result))
                 {
                     scanResult = result.trim();
+                    scan_name.setText(name);
+                    scan_tips.setVisibility(View.GONE);
                 }
                 else
                 {
@@ -281,7 +287,7 @@ public class RegisterOneActivity extends BaseActivity implements OnClickListener
                     {
                         dialog.dismissDialog();
                     }
-                    ToastUtil.makeText(this, "很抱歉，注册失败");
+                    ToastUtil.makeText(this, bean.getString("content"));
                 }
             }
             catch (JSONException e)

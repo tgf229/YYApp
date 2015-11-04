@@ -31,22 +31,19 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="居委会"
             android:textColor="@color/black_color"
             android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/tel"
-            style="@style/home_central_list"
-            android:text="025-8323421" />
+            style="@style/home_central_list"/>
 
         <TextView
             android:id="@+id/address"
             style="@style/home_central_list"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textSize="12sp"
-            android:text="江8号万达楼C座11232131-2" />
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <LinearLayout

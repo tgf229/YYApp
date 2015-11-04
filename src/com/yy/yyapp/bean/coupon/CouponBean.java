@@ -29,7 +29,16 @@ public class CouponBean
     private String ticket_brand;
     private String ticket_content;
     private String ticket_limit;
+    private String ticket_remain;
     private String ticket_money;
+    public String getTicket_remain()
+    {
+        return ticket_remain;
+    }
+    public void setTicket_remain(String ticket_remain)
+    {
+        this.ticket_remain = ticket_remain;
+    }
     public String getTicket_id()
     {
         return ticket_id;

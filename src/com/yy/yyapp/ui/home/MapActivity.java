@@ -145,7 +145,7 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
         }
         else
         {
-            addMarkersToMap(mList);
+            //addMarkersToMap(mList);
         }
     }
     
@@ -210,8 +210,11 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
         Map<String, String> param = new HashMap<String, String>();
         if(myMarker != null)
         {
-            String str = String.valueOf(myMarker.longitude)+","+String.valueOf(myMarker.latitude);
-            param.put("current_position", str);
+            if(page != 0)
+            {
+                String str = String.valueOf(myMarker.longitude)+","+String.valueOf(myMarker.latitude);
+                param.put("current_position", str);
+            }
         }
         else
         {
@@ -392,11 +395,11 @@ public class MapActivity extends FragmentActivity implements LocationSource, AMa
             mListener.onLocationChanged(aLocation);// 显示系统小蓝点
             myMarker = new LatLng(aLocation.getLatitude(), aLocation.getLongitude());
             aMap.moveCamera(CameraUpdateFactory.changeLatLng(myMarker));
-            if(GeneralUtils.isNotNullOrZeroLenght(org_comm))
-            {
+//            if(GeneralUtils.isNotNullOrZeroLenght(org_comm))
+//            {
                 page = 0;
                 reqList();
-            }
+//            }
         }
     }
     

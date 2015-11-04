@@ -9,12 +9,14 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.jauker.widget.BadgeView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.viewpagerindicator.IconPagerAdapter;
@@ -61,7 +63,7 @@ public class GuidePagerAdapter extends PagerAdapter implements IconPagerAdapter
     @Override
     public Object instantiateItem(ViewGroup container, final int position)
     {
-        if(position == mPaths.size()-1)
+        if (position == mPaths.size() - 1)
         {
             Intent intent = new Intent(mContext, HomeFragmentActivity.class);
             mContext.startActivity(intent);
@@ -72,9 +74,20 @@ public class GuidePagerAdapter extends PagerAdapter implements IconPagerAdapter
         {
             View pageView = LayoutInflater.from(mContext).inflate(R.layout.home_banner_item, null);
             ImageView adImageView = (ImageView)pageView.findViewById(R.id.iv_banner);
-            adImageView.setBackground(new BitmapDrawable(mPaths.get(position)));
             
-            if (position == mPaths.size()-1)
+            BadgeView backgroundDrawableBadge = new BadgeView(mContext);
+            backgroundDrawableBadge.setBadgeCount(position + 1);
+            backgroundDrawableBadge.setBackgroundResource(R.drawable.skip);
+            backgroundDrawableBadge.setTargetView(adImageView);
+            
+            BadgeView backgroundDrawableBadge1 = new BadgeView(mContext);
+            backgroundDrawableBadge1.setBadgeCount(position+1);
+            backgroundDrawableBadge1.setBackgroundResource(R.drawable.badge_blue);
+            backgroundDrawableBadge1.setBadgeGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+            backgroundDrawableBadge1.setTargetView(adImageView);
+            
+            adImageView.setBackground(new BitmapDrawable(mPaths.get(position)));
+            if (position == mPaths.size() - 1)
             {
                 adImageView.setOnClickListener(new OnClickListener()
                 {
@@ -87,6 +100,17 @@ public class GuidePagerAdapter extends PagerAdapter implements IconPagerAdapter
                     }
                 });
             }
+            
+            backgroundDrawableBadge.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Intent intent = new Intent(mContext, HomeFragmentActivity.class);
+                    mContext.startActivity(intent);
+                    activity.finish();
+                }
+            });
             
             container.addView(pageView, 0);
             

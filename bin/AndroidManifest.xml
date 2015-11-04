@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yy.yyapp"
     android:versionCode="1"
-    android:versionName="1.12" >
+    android:versionName="1.17" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -31,9 +31,9 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_TASKS" >
+    </uses-permission>
 
-    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
-    
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -48,7 +48,7 @@
             android:value="7d01ec7ea75c2dd7483264b2d700cd17" />
         <!-- debug 8bb99c2844a1bf06092cc5e9d44e3dc1 -->
         <!-- dis   7d01ec7ea75c2dd7483264b2d700cd17 -->
-        
+
         <meta-data
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="e758a97c8a21a214720660ee3ff555da" />

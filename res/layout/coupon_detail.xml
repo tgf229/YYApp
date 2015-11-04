@@ -45,7 +45,6 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="飞利浦家园全自动洗衣机，仅限南京地"
                         android:textColor="@color/black_color"
                         android:textSize="14sp" />
 
@@ -54,7 +53,6 @@
                         android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="￥350.00"
                         android:textColor="@color/home_menu_selected"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -65,23 +63,30 @@
                     android:layout_weight="1" >
 
                     <TextView
+                        android:id="@+id/remain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dip"
+                        android:layout_alignParentRight="true"
+                        android:textSize="12sp" />
+                    
+                    <TextView
                         android:id="@+id/number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@id/remain"
                         android:layout_marginTop="5dip"
-                        android:text="发行数量  450"
                         android:textSize="12sp" />
-
-                    <TextView
+                    
+                   <!--  <TextView
                         android:id="@+id/limit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dip"
-                        android:layout_toLeftOf="@id/number"
-                        android:text="发行数量  450"
-                        android:textSize="12sp" />
+                        android:layout_toLeftOf="@id/remain"
+                        android:textSize="12sp" /> -->
                 </RelativeLayout>
             </LinearLayout>
 
@@ -132,7 +137,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="名称：Lxxx"
+                        android:text="名称："
                         android:textColor="@color/text_color" />
 
                     <TextView
@@ -142,7 +147,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="品牌：Lxxx"
+                        android:text="品牌："
                         android:textColor="@color/text_color" />
                 </LinearLayout>
 
@@ -160,7 +165,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="类型：Lxxx"
+                        android:text="类型："
                         android:textColor="@color/text_color" />
 
                     <TextView
@@ -170,7 +175,7 @@
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:text="面值：Lxxx"
+                        android:text="面值："
                         android:textColor="@color/text_color" />
                 </LinearLayout>
             </LinearLayout>
@@ -202,7 +207,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="XXXXXXXXXXXXXXXXX"
                 android:textColor="@color/gray_color"
                 android:textSize="14sp" />
         </LinearLayout>

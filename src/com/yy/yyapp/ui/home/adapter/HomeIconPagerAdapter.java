@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.yy.yyapp.ui.WebviewActivity;
 import com.yy.yyapp.ui.coupon.CouponActivity;
 import com.yy.yyapp.ui.coupon.CouponDetailActivity;
 import com.yy.yyapp.ui.home.LocationActivity;
+import com.yy.yyapp.ui.home.MapActivity;
 import com.yy.yyapp.ui.home.ShopCircleActivity;
 import com.yy.yyapp.ui.home.WaitingActivity;
 import com.yy.yyapp.ui.user.LoginActivity;
@@ -120,8 +122,11 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
                 @Override
                 public void onClick(View arg0)
                 {
-                    Intent intent = new Intent(mContext, LocationActivity.class);
+                    Intent intent = new Intent(mContext, MapActivity.class);
+                    intent.putExtra("list",  Constants.shopList);
                     mContext.startActivity(intent);
+//                    Intent intent = new Intent(mContext, LocationActivity.class);
+//                    mContext.startActivity(intent);
                 }
             });
         }
@@ -166,6 +171,21 @@ public class HomeIconPagerAdapter extends PagerAdapter implements IconPagerAdapt
                     Intent intent = new Intent(mContext, WebviewActivity.class);
                     intent.putExtra("url", "http://www.xenon.cn/yy/");
                     intent.putExtra("title", "智能家居");
+                    ((Activity)mContext).startActivity(intent);
+                }
+            });
+        }
+        else if (Constants.ICON_MOVIE.equals(title))
+        {
+            btn.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View arg0)
+                {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    Uri content_url = Uri.parse("http://www.baidu.com");
+                    intent.setData(content_url);
                     ((Activity)mContext).startActivity(intent);
                 }
             });
