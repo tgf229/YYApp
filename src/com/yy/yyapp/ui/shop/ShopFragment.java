@@ -210,6 +210,10 @@ public class ShopFragment extends BaseFragment implements OnClickListener, OnHea
                         getActivity().startActivityForResult(intent, Constants.CIRCLE_SUCCESS_CODE);
                         ((HomeFragmentActivity)getActivity()).setTabSelection(getString(R.string.home_tabbar_home));
                     }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 return true;
             }

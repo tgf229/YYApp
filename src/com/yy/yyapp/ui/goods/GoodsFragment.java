@@ -191,6 +191,10 @@ public class GoodsFragment extends BaseFragment implements OnClickListener, OnHe
                         hideSoftInput();
                     }
                 }
+                else if (keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    return false;
+                }
                 return true;
             }
         });
